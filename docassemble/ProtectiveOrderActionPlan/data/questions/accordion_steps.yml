@@ -1,0 +1,331 @@
+comment: |
+    last updated: 2025-10-02
+---
+generic object: ALDocumentBundle
+template: x.get_email_copy
+content: |
+  Email a copy of your Action Plan to yourself or someone else
+---
+generic object: ALDocumentBundle
+template: x.send_email_template
+subject: |
+  Your Protective Order Action Plan
+content: |
+  Thank you for using the Alaska Court System's Court Guide Action Plan.
+
+  Your Action Plan is attached.
+
+  Get [more information and a list of all the Court Guide Action Plans](https://ak-courts.info/ActionPlan).  
+  
+  [ak-courts.info/ActionPlan](https://ak-courts.info/ActionPlan).
+---
+id: final screen
+decoration: pen-to-square
+event: confirmation_and_download
+question: |
+  % if len(step_list) < 2:
+  Get more information or help
+  % else:
+  # <i class="fa-thin fa-list"></i>Your Action Plan is ready!
+  % endif
+subquestion: |
+  #### Your Protective Order Action Plan in ${ len(step_list) } steps
+ 
+  % if get_config("debug", False):
+  <button id="akc_expand_all" class="btn other stuff">Expand all</button>
+  <button id="akc_collapse_all" class="btn other stuff">Collapse all</button>
+  % endif  
+  
+  % for iteration_index, step_tuple in enumerate( step_list ):
+  ${ collapse_template(step_tuple[0], closed_icon="plus", open_icon="minus") }
+  % endfor
+  
+  ${ al_user_bundle.download_list_html() }
+  
+  &nbsp;
+
+  ${ al_user_bundle.send_button_html(show_editable_checkbox=False) }
+  
+  % if get_config("debug", False):
+  [get the docx file](${ docx_protective_order_action_plan_attachment.docx.url_for() })
+  % endif 
+   
+buttons:
+  - Start over: restart
+script: |
+  <script>
+  let expander = $("#akc_expand_all")
+  expander.on("click", function () {
+   Array.from(document.querySelectorAll('.al_collapse_template .collapse')).forEach((elem) => { elem.className += " show" })
+  })
+  
+  let collapser = $("#akc_collapse_all")
+  collapser.on("click", function () {
+      Array.from(document.querySelectorAll('.al_collapse_template .collapse')).forEach((elem) => { elem.className = elem.className.replace(" show", "" ) })
+  })
+  </script>
+---
+code: |
+  step_list = []
+  if len(step_list) >= 2:
+    pdf_pap_multistep_subtitle = True
+  images_list = []
+  distribution_certificate_list = []
+  reply_certificate_list = []
+  other_party_in_case  = ''
+  # case_type = 'custody case'  
+  type_of_response['ak custody case'] = False 
+  # distribution_certificate_list.append({'image': distrib_cert_custody_divorce_image, 'text': "Certificate of Distribution shows the date the court sent your order to you."})
+  # expect_after_motion is in what to expect step for filing motion for interim order w complaint, or answer/response, cannot use variable in docx template, must insert condition in what to expect step.
+  expect_after_motion = ''
+  file_motion_to_set_aside = ''
+  file_motion_to_enforce = ''
+  file_modify_filing_fee = ''
+  # reply_certificate_list.append({'image': service_cert_reply_image, 'text': "Certificate of Service at the bottom of the Reply form."})
+  # motion_type used in expect_after_motion_step "What to expect after you file a ${ motion_type }"
+  motion_type = 'motion or Answer'
+
+  
+  # if len(type_of_response.true_values()) > 1:
+  #   add_unique_step((pick_a_step_step, "pick_a_step_idx"), step_list)
+
+  if user_need == 'want po':
+    add_unique_step((stay_safe_step, "stay_safe_idx"), step_list)
+    if options_for_po['military']:
+      add_unique_step((military_po_info_step, "military_po_info_idx"), step_list)
+    if options_for_po['tribal']:
+      add_unique_step((tribal_po_info_step, "tribal_po_info_idx"), step_list)
+    if options_for_po['AK court']:
+      if who_needs_the_order == 'self':
+        if self_related_to_abuser['married']:
+          add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
+        if self_related_to_abuser['have child']:
+          if self_related_to_abuser.all_false('married', 'divorced'): 
+            add_unique_step((custody_case_step, "custody_case_idx"), step_list)
+          else:
+            add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
+        if self_related_to_abuser.any_true('married', 'divorced') and not self_related_to_abuser['have child']:
+          if child_w_abuser:
+            add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
+        if self_related_to_abuser.any_true():
+          if dv_crime:
+            add_unique_step((protective_order_info_step, "protective_order_info_idx"), step_list)
+        else:
+          no_qualifying_relationship = True
+          if po_choices['stalked']:
+            add_unique_step((stalking_step, "stalking_idx"), step_list)
+          if po_choices['sexual contact']:
+            add_unique_step((sa_step, "sa_idx"), step_list)
+          
+  
+       
+      if who_needs_the_order == 'child':
+        if petitioner_related_to_child in('parent', 'guardian', 'representative'):
+          if child_related_to_abuser['have child']:
+            add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
+          if child_related_to_abuser.any_true() or (child_related_to_abuser.all_false() and petitioner_related_to_child == 'parent' and parent_related_to_abuser.any_true()) or (child_related_to_abuser.all_false() and petitioner_related_to_child == 'parent' and parent_related_to_abuser.all_false() and other_parent_related_to_abuser.any_true()):
+            if dv_crime:
+              add_unique_step((protective_order_info_step, "protective_order_info_idx"), step_list)
+          else:
+            no_qualifying_relationship = True
+            if po_choices['stalked']:
+              add_unique_step((stalking_step, "stalking_idx"), step_list)
+            if po_choices['sexual contact']:
+              add_unique_step((sa_step, "sa_idx"), step_list)
+            
+          
+            
+          
+  
+  # if user_need == 'have po':
+  # if user_need == 'register po':
+  # if user_need == 'po defendant':
+
+  
+  #  add_unique_image({'image': service_cert_image, 'text': "Certificate of Service"}, images_list)
+  #  add_unique_step((cert_of_service_step, "cert_of_service_idx"), step_list)
+  #  add_unique_step((answer_file_and_serve_step, "answer_file_and_serve_idx"), step_list)
+
+    
+  
+   # add_unique_step((expect_after_answer_step, "expect_after_answer_idx"), step_list)
+
+   #if :
+   #  add_unique_step((learn_more_about_process_step, "learn_more_about_process_idx"), step_list)
+  
+  
+  
+  
+  add_unique_step((get_help, "get_help_idx"), step_list)
+    
+  for iter_idx, step_tuple in enumerate( step_list ):
+    define(step_tuple[ 1 ], iter_idx + 1)
+  get_steps = True
+---
+code: |
+  def add_unique_step(step, step_list):
+    is_unique = True
+    for chair in step_list:
+      if chair[1] == step[1]:
+        is_unique = False
+    if is_unique:
+      step_list.append(step)
+      
+  #if foo:
+  #  add_unique_step((file_step, "file_idx"), step_list)
+---
+code: |
+  def add_unique_image(new_image, image_list):
+    is_unique = True
+    for image in image_list:
+      if image['image'] == new_image['image']:
+        is_unique = False
+    if is_unique:
+      image_list.append(new_image)
+---
+template: stay_safe_step
+subject: |
+  Step ${stay_safe_idx}:
+  Stay safe step
+content: | 
+  Stay safe info and resources
+---
+template: military_po_info_step
+subject: |
+  Step ${military_po_info_idx}:
+  Military protective order info step
+content: |
+  military po info and resources
+---
+template: tribal_po_info_step
+subject: |
+  Step ${tribal_po_info_idx}:
+  Tribal protective order info step
+content: |
+  tribal po info and resources
+---
+template: divorce_po_info_step
+subject: |
+  Step ${divorce_po_info_idx}:
+  Divorce protective order info step
+content: |
+  divorce po info and resources
+---
+template: custody_case_step
+subject: |
+  Step ${custody_case_idx}:
+  Custody protective order info step
+content: |
+  custody po info and resources
+---
+template: child_w_other_side_step
+subject: |
+  Step ${child_w_other_side_idx}:
+  Protective Order info when child with other side step
+content: |
+  Protective Order info when person who needs order or their parent has a child with other side
+---
+template: protective_order_info_step
+subject: |
+  Step ${ protective_order_info_idx }:
+  Protective Order step
+content: |
+  Protective Order information
+---
+template: stalking_step
+subject: |
+  Step ${ stalking_idx }:
+  Stalking Protective Order step
+content: |
+  Stalking Protective Order information
+---
+template: sa_step
+subject: |
+  Step ${ sa_idx }:
+  Sexual Assault Protective Order step
+content: |
+  Sexual Assault Protective Order information
+---
+template: dont_qualify_placeholder_language
+content: |
+  % if no_qualifying_relationship:  
+  Based on your answers, a domestic violence protective order may not be appropriate if there was no domestic violence crime. 
+  % if who_needs_the_order == 'self':
+  You 
+  % elif who_needs_the_order == 'child':
+  % if petitioner_related_to_child == 'parent':
+  Your
+  % elif petitioner_related_to_child in('guardian', 'representative'):
+  The
+  % endif
+  child
+  % elif who_needs_the_order == 'self and child':
+  You or 
+  % if petitioner_related_to_child == 'parent':
+  your
+  % elif petitioner_related_to_child in('guardian', 'representative'):
+  the
+  % endif
+  child
+  % elif who_needs_the_order == 'children':
+  % if petitioner_related_to_child == 'parent':
+  Your
+  % elif petitioner_related_to_child in('guardian', 'representative'):
+  The
+  % endif
+  children
+  % elif who_needs_the_order == 'self and children':
+  You or 
+  % if petitioner_related_to_child == 'parent':
+  your
+  % elif petitioner_related_to_child in('guardian', 'representative'):
+  the 
+  % endif 
+  children
+  % endif 
+  may be experiencing domestic violence that may not be considered a crime under the law such as calling you names, making you feel like you shouldn't talk to friends or family, or limiting access to money. 
+  
+  If
+  % if who_needs_the_order == 'self':
+  you do not
+  % elif who_needs_the_order == 'child':
+  % if petitioner_related_to_child == 'parent':
+  your
+  % elif petitioner_related_to_child in('guardian', 'representative'):
+  the
+  % endif
+  child does not
+  % elif who_needs_the_order == 'self and child':
+  you and
+  % if petitioner_related_to_child == 'parent':
+  your
+  % elif petitioner_related_to_child in('guardian', 'representative'):
+  the
+  % endif
+  child do not
+  % elif who_needs_the_order == 'children':
+  % if petitioner_related_to_child == 'parent':
+  your
+  % elif petitioner_related_to_child in('guardian', 'representative'):
+  the
+  % endif
+  children do not
+  % elif who_needs_the_order == 'self and children':
+  you and 
+  % if petitioner_related_to_child == 'parent':
+  your
+  % elif petitioner_related_to_child in('guardian', 'representative'):
+  the 
+  % endif 
+  children do not
+  % endif 
+  qualify for a protective order you can take steps to 
+  % if who_needs_the_order in('child', 'children'):
+  keep them
+  % else:
+  stay 
+  % endif
+  safe. 
+  
+  Information about options and safety planning has been added to your Action Plan.
+  % endif

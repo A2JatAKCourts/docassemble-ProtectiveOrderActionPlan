@@ -1,0 +1,520 @@
+Comment: |
+  2025-10-02
+---
+include:
+  - docassemble.AssemblyLine:assembly_line.yml
+  - docassemble.AKA2JBranding:custom_organization.yml
+  - docassemble.AKA2JBranding:aka2j_templates.yml
+  - accordion_steps.yml
+---
+metadata:
+  title: >-
+    Protective Orders  - action plan
+  short title: >-
+    Protective Orders
+  description: |-
+    Action plan for asking for, changing, ending, extending, registering, or responding to a protective order and safety plan if you do not qualify for a protective order.
+  tags:
+    - "FA-04-00-00-00"
+    - "FA-07-07-00-00"
+    - "FA-07-01-00-00"
+    - "FA-07-03-00-00"
+    - "FA-07-11-00-00"
+  authors:
+    - Alaska Court System
+  help_page_url: >-
+    https://courts.alaska.gov/shc/dv
+  help_page_title: >-
+    Domestic Violence, Stalking or Sexual Assault
+  allowed_courts: []
+  typical_role: "defendant"
+  generated_on: "2024-03-05"
+---
+code: |
+  # This controls the default country and list of states in address field questions
+  AL_DEFAULT_COUNTRY = "US"
+---
+code: |
+  # This controls the default state in address field questions
+  AL_DEFAULT_STATE = "Alaska"
+---
+code: |
+  github_repo_name =  'ProtectiveOrderssues'
+---
+
+code: |
+  interview_short_title = "Protective Orders"
+---
+code: |
+  al_form_type = "other" 
+---
+objects:
+  - users: ALPeopleList
+  - type_of_response: DADict.using(auto_gather=False)
+---
+features:
+  css: 
+    - NoRedAsterisk.css
+# sections:
+#   - review_protective_order_action_plan: Review your answers
+---
+auto terms:
+  Assault: |
+      physically hurting someone including making someone afraid they are about to be hurt
+  Criminal mischief: |
+    damaging someone's property
+  Harassment: |
+    including repeated calls at extremely inconvenient times
+  Reckless endangerment: |
+    recklessly behaving in a way that risks serious injury to someone or creating a high risk of serious physical injury to another person.
+  Arson or Criminally Negligent Burning: |
+    starting a fire or explosion that damages someone else’s property or damages the person’s own property but scares someone
+  Burglary: |
+    being in a building illegally to commit a crime
+  Criminal trespass: |
+    being illegally on land, in a home, or in a vehicle
+  Cruelty to pets: |
+    kill or injures an animal that is a pet to intimidate, threaten, or terrorize another person
+  Custodial interference: |
+    taking a keeping a child without a legal right to do so, and planning to keep the child from their parent for a long time
+  Extortion or Coercion: |
+    commonly called blackmail, it is threatening someone to get them do give you something or do something they do not want to do.
+  Homicide: |
+    causing the death of someone else
+  Human trafficking: |
+    forcing someone to engage in sexual conduct, adult entertainment, or labor)
+  Kidnapping: |
+    holding a person against their will
+  # Reckless endangerment: |
+  #   creating a high risk of serious physical injury to another person.
+  Robbery: |
+    using force or threatening to use force to steal from someone)
+  Sexual offenses: |
+    sexual assault, sexual abuse of a minor, incest, and indecent exposure. Sexual assault can occur even if the parties are married. For purposes of a domestic violence protective order, crimes involving showing pornography are not included as domestic violence crimes. Crimes involving making pornography with minors, but not adults, are included.
+  Stalking: |
+    repeatedly contacting someone or their family member without consent in a way that caused them fear of physical injury or death to themself or a family member?
+  Terroristic threatening: |
+    scaring someone by lying and saying there's a life-threatening situation
+  Violating a protective order: |
+    doing something that the person was prohibited from doing by a domestic violence, stalking, or sexual assault protective order.
+
+---
+#################### Interview order #####################
+comment: |
+  Controls order and branching logic for questions specific to this form
+id: interview_order_protective_order_action_plan
+code: |
+  # Set the allowed courts for this interview
+  # allowed_courts = []
+  # nav.set_section("review_protective_order_action_plan")
+  # user_role = "defendant"
+  # user_ask_role = "defendant"
+  # user_need = 'protective orders' 
+  # type_of_response
+  # type_of_response['default']
+  # parents_agree_documents
+  # set_progress(25)
+  # domestic_violence
+  # paternity
+  get_steps
+  interview_order_protective_order_action_plan = True
+---
+###################### Main order ######################
+comment: |
+  This block includes the logic for standalone interviews.
+  Delete mandatory: True to include in another interview
+mandatory: True
+code: |
+  # al_intro_screen
+  protective_order_action_plan_intro
+  interview_order_protective_order_action_plan
+  # signature_date
+  # Store anonymous data for analytics / statistics
+  store_variables_snapshot(
+      persistent=True,
+      data={
+          "zip": showifdef("users[0].address.zip"),
+          "reached_interview_end": True,
+      },
+  )
+  # protective_order_action_plan_download
+  confirmation_and_download
+---
+comment: |
+  This question is used to introduce your interview. Please customize
+id: Protective Order Action Plan - intro 
+continue button field: protective_order_action_plan_intro
+question: |
+  If you or someone else is in immediate danger, call 911
+subquestion: |
+  This Court Guide asks you questions and uses your answers to build an Action Plan - a list of steps to ask the court for the kind of help you need. Your Action Plan will include information about the Alaska court process and other resources.
+fields:
+  - What is your situation?: user_need
+    datatype: radio
+    choices:
+      - "I want a protective order to protect myself or my child from another person.": want po
+      - "I have a protective order from Alaska. I want to change or end it, prepare for a hearing, report a violation, or respond to a request to change or end it.": have po
+      - "I have a protective order from another state or a tribal court. I want to register it with the Alaska Court System": register po
+      - "Someone has a protective order against me.": defendant
+under: |
+  #### <i class="fa-regular fa-lightbulb"></i> Learn more####
+  There are 3 types of protective orders available depending on your relationship with the other person and the other person's actions. They are: (1) domestic violence protective orders, (2) stalking protective orders, and (3) sexual assault protective orders.
+---
+id: military tribal or AK court
+question: |
+  What type of information do you want? 
+subquestion: |
+  This interview has information about civil protective orders from the Alaska Court System.
+  
+  You may have other options for protective orders.
+  
+  If any of the people involved are in the military, you may qualify for a protective order from the military.
+  
+  If any of the people involved are tribal members, you may qualify for a protective order from the Tribal Court.
+
+fields: 
+  - I want to learn about : options_for_po
+    datatype: checkboxes
+    choices: 
+      - "asking for a civil protective order from the Alaska Court System.": AK court
+      - "military protective orders.": military
+      - "Tribal Court protective orders.": tribal
+under: |
+  #### <i class="fa-regular fa-lightbulb"></i> Learn more####
+  There are 3 different lengths of time for a domestic violence protective order from the Alaska Court System. (1) A short-term domestic violence protective order starts right away and lasts 20 days. It is also called an ex parte protective order. The other side is not notified the order is being requested but if granted, law enforcement will give the other side a copy and explain what it says. (2) A long-term domestic violence protective order lasts 1 year. You can request a long-term protective order at the same time you ask for a short-term protective order. The other side is notified if you request this. The court schedules a hearing about 20 days after you ask for the long-term order and both sides can testify. If a short-term or long-term domestic violence protective order is granted, the court will prohibit the other side from committing domestic violence. (3) There is a third type of domestic violence protective order called an emergency domestic violence protective order. While uncommon, a law enforcement officer can request an emergency domestic violence protective order on behalf of a victim and if granted, it lasts for 72 hours.
+---
+id: Who is the protective order for?
+question: |
+  Who do you want the protective order for?
+fields:
+  Who is the order for?: who_needs_the_order
+  datatype: radio
+  choices:
+    - "Myself": self
+    - "My minor child": child
+    - "Myself and my minor child": self and child
+    - "More than one of my minor children": children
+    - "Myself and more than one of my minor children": self and children
+under: |
+  #### <i class="fa-regular fa-lightbulb"></i> Learn more####
+  If I get a protective order, does it include my child?
+
+  Your child can be included in your protective order or have their own protective order depending on what you ask for.
+
+  Ask for yourself: If you have children with the person you are asking for the protective order against, you can ask the judge to:
+
+    *	make some temporary orders about where the child will live;
+    *	order child support; and
+    *	order the other person to stay away from specific locations, including your child's school.
+
+  You can ask for these things even if the other person did not commit domestic violence against your child.
+
+  Ask for yourself and your child: You can ask for a protective order for yourself and your child, if your child meets all of the protective order requirements. For example, the other person must have committed domestic violence against your child. You can also ask the judge to:
+
+    *	make some temporary orders about where the child will live;
+    *	order child support; and
+    *	order the other person to stay away from specific locations, including your child's school.
+
+  You must decide before you fill out the court forms so you know which form to use. The court has 2 different forms to ask for a protective order. The forms are called a petition. One petition asks for a protective order for 1 person. The other petition asks for a protective order for more than 1 person.
+---
+---
+id: relationship to other party
+question: |
+  You may qualify for a domestic violence protective order in Alaska if you:
+subquestion: |
+
+  * have a certain relationship with the other person, and
+  * the other person committed a crime of domestic violence against you.
+
+  If you do not have a qualifying relationship, you may qualify for a stalking or sexual assault protective order if the other person stalked you or had sexual contact with you without consent.
+
+fields:
+  # SELF path
+  - "Your relationship with the other person": self_related_to_abuser
+    datatype: checkboxes
+    code: |
+      self_related_to_abuser_choices
+    none of the above: None of these relationships
+    show if:
+      code: |
+        who_needs_the_order == 'self'
+
+  # CHILD path — child’s relationship always first
+  - "Your child's relationship with the other person": child_related_to_abuser
+    datatype: checkboxes
+    code: |
+      child_related_to_abuser_choices
+    none of the above: None of these relationships
+    show if:
+      code: |
+        who_needs_the_order == 'child'
+
+  # CHILD path — petitioner's relationship (only if child picked None of these)
+  - "Your relationship with the other person": parent_related_to_abuser
+    datatype: checkboxes
+    code: |
+      parent_related_to_abuser_choices
+    none of the above: None of these relationships
+    show if:
+      code: |
+        who_needs_the_order == 'child'
+    js show if: |
+      val("child_related_to_abuser[nota]")
+      
+
+  # CHILD path — other parent's relationship (only if child == None and petitioner == None)
+  - "The other parent's relationship with the other person": other_parent_related_to_abuser
+    datatype: checkboxes
+    code: |
+      other_parent_related_to_abuser_choices
+    none of the above: None of these relationships
+    show if:
+       code: |
+         who_needs_the_order == 'child'
+    js show if: |
+      val('child_related_to_abuser[nota]') && val('parent_related_to_abuser[nota]')
+under: |
+  #### <i class="fa-regular fa-lightbulb"></i> Learn more####
+  % if who_needs_the_order == 'self':
+  Why does my relationship with the other person matter?
+
+  You need one of these relationships to receive a domestic violence protective order. If you do not have one of these relationships, you may qualify for a stalking or sexual assault protective order if the other person stalked you or had sexual contact with you without consent.
+  % elif who_needs_the_order == 'child':
+    
+    % if petitioner_related_to_child == 'parent': 
+    Why does my child's relationship with the other person matter?
+
+  Your child needs a certain type of relationship with the other person to receive a domestic violence protective order. If your child does not have one of these relationships, your child may still qualify for a domestic violence protective order if you or the child’s other parent have a qualifying relationship. You will be asked about that if needed.
+    % elif petitioner_related_to_child in('guardian', 'representative'):
+    Why does the child's relationship with the other person matter?
+
+  The child needs one of these relationships to receive a domestic violence protective order. If the child does not have one of these relationships, the child may qualify for a stalking or sexual assault protective order if the other person stalked the child or had sexual contact with the child without consent.
+    % elif petitioner_related_to_child == 'parent' and who_needs_po_related_to_abuser.all_false():
+    Why does my  relationship with the other person matter?
+
+    If your child does not have one of the qualifying relationships, your child may still qualify for a protective order if you have a qualifying relationship with the other person. For example, if you are asking for a protective order for your minor child against someone you are dating.
+    % endif
+  % endif
+  
+---
+code: |
+  self_related_to_abuser_choices = [
+      {'married': "Married to each other now"},
+      {'divorced': "Married to each other in the past"},
+      {'have child': "Have child together"},
+      {'dated': "In a dating or sexual relationship now or in past"},
+      {'cohabited': "Live together now or in past (roommates or romantic relationship)"},
+      {'marriage related': "Related by marriage now or in past (such as in-laws)"},
+      {'blood': "Blood relatives such as parents, siblings, children, grandchildren, aunts, uncles, nephews, nieces, and first cousins"}
+  ]
+---
+code: |
+  child_related_to_abuser_choices  = [
+      {'married': "Married to each other now or in the past"},
+      {'have child': "Have child together"},
+      {'dated': "In a dating or sexual relationship now or in past"},
+      {'cohabited': "Live together now or in past (roommates or romantic relationship)"},
+      {'marriage related': "Related by marriage now or in past (such as in-laws)"},
+      {'blood': "Blood relatives such as parents, siblings, children, grandchildren, aunts, uncles, nephews, nieces, and first cousins"}
+  ]
+---
+code: |
+  parent_related_to_abuser_choices  = [
+      {'married': "Married to each other now or in the past"},
+      {'have child': "Have child together"},
+      {'dated': "In a dating or sexual relationship now or in past"},
+      {'cohabited': "Live together now or in past (roommates or romantic relationship)"},
+      {'marriage related': "Related by marriage now or in past (such as in-laws)"},
+      {'blood': "Blood relatives such as parents, siblings, children, grandchildren, aunts, uncles, nephews, nieces, and first cousins"},
+      {'parent related to abuser': "One of their parents has one of the relationships listed above"}
+  ]
+---
+code: |
+  other_parent_related_to_abuser_choices  = [
+      {'married': "Married to each other now or in the past"},
+      {'have child': "Have child together"},
+      {'dated': "In a dating or sexual relationship now or in past"},
+      {'cohabited': "Live together now or in past (roommates or romantic relationship)"},
+      {'marriage related': "Related by marriage now or in past (such as in-laws)"},
+      {'blood': "Blood relatives such as parents, siblings, children, grandchildren, aunts, uncles, nephews, nieces, and first cousins"}
+  ]
+
+---
+id: child with other side
+question: |
+  Do you and the other person have any children together?
+yesno: child_w_abuser
+under: |
+  #### <i class="fa-regular fa-lightbulb"></i> Learn more####
+  Why does this matter?
+
+  If you and the other person have any children together, you can ask the court to make a parenting schedule and order child support as part of the protective order case.
+---
+id: dv - crime
+question: |
+  Did the other person commit a domestic violence crime against you?
+subquestion: |
+  To get a protective order, the other person must have committed a "domestic violence crime" against you. The list of these crimes is below. You don’t need to know the exact name or definition of the crime. But you need to tell the judge what happened. For example, if they hit you or made you scared they were going to hurt you, that’s a domestic violence crime.
+yesno: dv_crime
+under: |
+  #### <i class="fa-regular fa-lightbulb"></i> Learn more####
+  What are the domestic violence crimes?
+  
+  Assault, Criminal mischief, Harassment, Reckless endangerment, Arson or Criminally Negligent Burning, Burglary, Criminal trespass, Cruelty to pets, Custodial interference, Extortion or Coercion, Homicide, Human trafficking, Kidnapping, Reckless endangerment, Robbery, Sexual offenses, Stalking, Terroristic threatening, Violating a protective order.
+---
+comment: |
+  Thanks to Jonathan for giving me formatting for lengthy answer. 
+id: Other PO
+question: |
+  % if who_needs_the_order == 'self':
+  Do you 
+  % elif who_needs_the_order == 'child':
+  Does
+    % if petitioner_related_to_child == 'parent':
+      your
+    % elif petitioner_related_to_child in('guardian', 'representative'):
+      the
+    % endif
+  child
+  % elif who_needs_the_order == 'self and child':
+  Do you or 
+    % if petitioner_related_to_child == 'parent':
+    your
+    % elif petitioner_related_to_child in('guardian', 'representative'):
+    the
+    % endif
+  child
+  % elif who_needs_the_order == 'children':
+  Do
+    % if petitioner_related_to_child == 'parent':
+    your
+    % elif petitioner_related_to_child in('guardian', 'representative'):
+    the
+    % endif
+  children
+  % elif who_needs_the_order == 'self and children':
+  Do you and 
+    % if petitioner_related_to_child == 'parent':
+    your
+    % elif petitioner_related_to_child in('guardian', 'representative'):
+    the 
+    % endif 
+  children
+  % endif
+  qualify for another type of protective order?
+subquestion: |
+ Based on your answers, 
+  % if who_needs_the_order == 'self':
+  you 
+  % elif who_needs_the_order == 'child':
+  % if petitioner_related_to_child == 'parent':
+  your
+  % elif petitioner_related_to_child in('guardian', 'representative'):
+  the
+  % endif
+  child
+  % elif who_needs_the_order == 'self and child':
+  you or 
+  % if petitioner_related_to_child == 'parent':
+  your
+  % elif petitioner_related_to_child in('guardian', 'representative'):
+  the
+  % endif
+  child
+  % elif who_needs_the_order == 'children':
+  % if petitioner_related_to_child == 'parent':
+  your
+  % elif petitioner_related_to_child in('guardian', 'representative'):
+  the
+  % endif
+  children
+  % elif who_needs_the_order == 'self and children':
+  You or 
+  % if petitioner_related_to_child == 'parent':
+  your
+  % elif petitioner_related_to_child in('guardian', 'representative'):
+  the 
+  % endif 
+  children
+  % endif 
+  may not have the type of relationship needed to get a domestic violence protective order. Depending on the other person’s actions, a stalking protective order or a sexual assault protective order may be appropriate.
+fields:
+  - "Did the other person?": po_choices
+    datatype: checkboxes
+    code: |
+      other_po_choices
+    none of the above: |
+      The other person did not do either of these.
+under: |
+  #### <i class="fa-regular fa-lightbulb"></i> Learn more####
+
+  There are 2 different lengths of time for a stalking or sexual assault protective order?  (1) A short-term protective order starts right away and lasts 20 days.  It is also called an ex parte protective order.  The other side is not notified the order is being requested but if granted, law enforcement will give the other side a copy and explain what it says.  (2) A long-term protective order lasts 1 year.  You can request a long-term protective order at the same time you ask for a short-term protective order.   The other side is notified if you request this. The court schedules a hearing about 20 days after you ask for the long-term order and both sides can testify.  If a short-term or long-term protective order is granted, the court will prohibit the other side from contacting you.
+---
+code: |
+  if who_needs_the_order == 'self':
+    other_po_choices = [
+      {'stalked': "Stalk you by:\n\n1. repeatedly contacting you or a family member\n2. without consent\n3. in a way that caused you fear of physical injury or death to yourself or a family member?" },
+      {'sexual contact': "Have sexual contact with you without consent?"}
+                ]
+  if who_needs_the_order == 'child':
+    other_po_choices = [
+      {'stalked': "Stalk your child by:\n\n1. repeatedly contacting your child or one of your child's family members\n2. without consent\n3. in a way that caused your child fear of physical injury or death to themself or a family member?" },
+      {'sexual contact': "Have sexual contact with your child without consent?"}
+                ]
+  # if who_needs_the_order == 'self and child':
+  # if who_needs_the_order == 'children':
+  # if who_needs_the_order == 'self and children':
+---
+id: Petitioner's relationship to child
+question: |
+  What is your relationship to the child?
+subquestion: |
+fields:
+  no label: petitioner_related_to_child
+  datatype: radio
+  choices:
+    - "Parent": parent
+    - "Guardian": guardian
+    - "A representative appointed by the court": representative
+    - "Other": other
+under: |
+  #### <i class="fa-regular fa-lightbulb"></i> Learn more####
+
+  Why does the relationship matter?
+
+  Alaska law allows a parent, guardian, or representative appointed by the court to ask for a protective order for a child under age 18. 
+
+
+
+
+---
+# ALDocument objects specify the metadata for each template
+objects:
+  - protective_order_action_plan_attachment: ALDocument.using(title="Responding in your case to end your marriage - Action Plan", filename="protective_order_action_plan", enabled=True, has_addendum=False, suffix_to_append="")
+---
+# Bundles group the ALDocuments into separate downloads, such as for court and for the user
+objects:
+  - al_user_bundle: ALDocumentBundle.using(elements=[protective_order_action_plan_attachment], filename="protective_order_action_plan", title="All forms to download for your records", enabled=True)
+  # - al_court_bundle: ALDocumentBundle.using(elements=[protective_order_action_plan_attachment],  filename="protective_order_action_plan", title="All forms to deliver to court", enabled=True)
+---
+# Each attachment defines a key in an ALDocument. We use `i` as the placeholder here so the same template is 
+# used for "preview" and "final" keys, and logic in the template checks the value of 
+# `i` to show or hide the user's signature
+---
+attachment:
+  name: Protective Order Action Plan
+  filename: protective_order_action_plan
+  update references: True
+  variable name: protective_order_action_plan_attachment[i]
+  skip undefined: True
+  docx template file: dummy.docx
+  tagged pdf: True
+---
+attachment:
+  name: Protective Order Action Plan
+  filename: protective_order_action_plan
+  update references: True
+  variable name: docx_protective_order_action_plan_attachment
+  skip undefined: True
+  docx template file: dummy.docx
+  tagged pdf: True
