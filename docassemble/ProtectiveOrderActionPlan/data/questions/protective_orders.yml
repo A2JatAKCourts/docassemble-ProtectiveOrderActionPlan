@@ -305,7 +305,7 @@ fields:
   - "Your relationship with the other person": parent_related_to_abuser
     datatype: checkboxes
     code: |
-      parent_related_to_abuser_choices
+      self_related_to_abuser_choices
     none of the above: None of these relationships
     show if:
       code: |
@@ -325,6 +325,51 @@ fields:
          who_needs_the_order == 'child'
     js show if: |
       val('child_related_to_abuser[nota]') && val('parent_related_to_abuser[nota]')
+
+  # parent and child path — parent's relationship
+  - "Your relationship with the other person": parent_and_child_parent_related_to_abuser
+    datatype: checkboxes
+    code: |
+      self_related_to_abuser_choices
+    none of the above: None of these relationships
+    show if:
+      code: |
+        who_needs_the_order == 'self and child' and petitioner_related_to_child == 'parent'
+
+  # parent and child path — child's relationship
+  - "Your child's relationship with the other person": parent_and_child_child_related_to_abuser
+    datatype: checkboxes
+    code: |
+      self_related_to_abuser_choices
+    none of the above: None of these relationships
+    show if:
+      code: |
+        who_needs_the_order == 'self and child' and petitioner_related_to_child == 'parent'
+    js show if: |
+      val('parent_and_child_parent_related_to_abuser[nota]') 
+        
+
+  # guardian and child path — guardian's relationship
+  - "Your relationship with the other person": guardian_and_child_guardian_related_to_abuser
+    datatype: checkboxes
+    code: |
+      self_related_to_abuser_choices
+    none of the above: None of these relationships
+    show if:
+      code: |
+        who_needs_the_order == 'self and child' and petitioner_related_to_child in ('guardian', 'representative')
+
+  # guardian and child path — child's relationship
+  - "The child's relationship with the other person": guardian_and_child_child_related_to_abuser
+    datatype: checkboxes
+    code: |
+      child_related_to_abuser_choices
+    none of the above: None of these relationships
+    show if:
+      code: |
+        who_needs_the_order == 'self and child' and petitioner_related_to_child in ('guardian', 'representative')
+  
+      
 under: |
   #### <i class="fa-regular fa-lightbulb"></i> Learn more####
   % if who_needs_the_order == 'self':
@@ -370,16 +415,16 @@ code: |
       {'blood': "Blood relatives such as parents, siblings, children, grandchildren, aunts, uncles, nephews, nieces, and first cousins"}
   ]
 ---
-code: |
-  parent_related_to_abuser_choices  = [
-      {'married': "Married to each other now or in the past"},
-      {'have child': "Have child together"},
-      {'dated': "In a dating or sexual relationship now or in past"},
-      {'cohabited': "Live together now or in past (roommates or romantic relationship)"},
-      {'marriage related': "Related by marriage now or in past (such as in-laws)"},
-      {'blood': "Blood relatives such as parents, siblings, children, grandchildren, aunts, uncles, nephews, nieces, and first cousins"},
-      {'parent related to abuser': "One of their parents has one of the relationships listed above"}
-  ]
+# code: |
+#   parent_related_to_abuser_choices  = [
+#       {'married': "Married to each other now or in the past"},
+#       {'have child': "Have child together"},
+#       {'dated': "In a dating or sexual relationship now or in past"},
+#       {'cohabited': "Live together now or in past (roommates or romantic relationship)"},
+#       {'marriage related': "Related by marriage now or in past (such as in-laws)"},
+#       {'blood': "Blood relatives such as parents, siblings, children, grandchildren, aunts, uncles, nephews, nieces, and first cousins"},
+#       {'parent related to abuser': "One of their parents has one of the relationships listed above"}
+#   ]
 ---
 code: |
   other_parent_related_to_abuser_choices  = [
@@ -404,10 +449,160 @@ under: |
 ---
 id: dv - crime
 question: |
-  Did the other person commit a domestic violence crime against you?
+  Did the other person commit a domestic violence crime against 
+  % if who_needs_the_order == 'self':
+  you?
+  % elif who_needs_the_order == 'child':
+    % if petitioner_related_to_child == 'parent':
+    your 
+    % elif petitioner_related_to_child in('guardian', 'representative'):
+    the 
+    % endif
+  child?
+  % elif who_needs_the_order == 'self and child':
+  you and 
+    % if petitioner_related_to_child == 'parent':
+    your 
+    % elif petitioner_related_to_child in('guardian', 'representative'):
+    the
+    % endif
+  child?
+  % elif who_needs_the_order == 'children':
+    % if petitioner_related_to_child == 'parent':
+    your 
+    % elif petitioner_related_to_child in('guardian', 'representative'):
+    the
+    % endif
+  children?
+  % elif who_needs_the_order == 'self and children':
+    you and 
+    % if petitioner_related_to_child == 'parent':
+    your
+    % elif petitioner_related_to_child in('guardian', 'representative'):
+    the
+    % endif
+  children?
+  % endif
 subquestion: |
-  To get a protective order, the other person must have committed a "domestic violence crime" against you. The list of these crimes is below. You don’t need to know the exact name or definition of the crime. But you need to tell the judge what happened. For example, if they hit you or made you scared they were going to hurt you, that’s a domestic violence crime.
-yesno: dv_crime
+  To get a protective order, the other person must have committed a "domestic violence crime" against 
+  % if who_needs_the_order == 'self':
+  you.
+  % elif who_needs_the_order == 'child':
+    % if petitioner_related_to_child == 'parent':
+    your
+    % elif petitioner_related_to_child in('guardian', 'representative'):
+    the 
+    % endif
+  child.
+  % elif who_needs_the_order == 'self and child':
+  you and 
+    % if petitioner_related_to_child == 'parent':
+    your 
+    % elif petitioner_related_to_child in('guardian', 'representative'):
+    the
+    % endif
+  child.
+  % elif who_needs_the_order == 'children':
+    % if petitioner_related_to_child == 'parent':
+    your 
+    % elif petitioner_related_to_child in('guardian', 'representative'):
+    the
+    % endif
+  children.
+  % elif who_needs_the_order == 'self and children':
+  you and 
+    % if petitioner_related_to_child == 'parent':
+    your
+    % elif petitioner_related_to_child in('guardian', 'representative'):
+    the
+    % endif
+  children.
+  % endif
+  
+  The list of these crimes is below. You don’t need to know the exact name or definition of the crime. But you need to tell the judge what happened. 
+  
+  For example, if they hit 
+  % if who_needs_the_order == 'self':
+  you,
+  % elif who_needs_the_order == 'child':
+    % if petitioner_related_to_child == 'parent':
+    your
+    % elif petitioner_related_to_child in('guardian', 'representative'):
+    the 
+    % endif
+  child,
+  % elif who_needs_the_order == 'self and child':
+  you or 
+    % if petitioner_related_to_child == 'parent':
+    your 
+    % elif petitioner_related_to_child in('guardian', 'representative'):
+    the
+    % endif
+  child,
+  % elif who_needs_the_order == 'children':
+    % if petitioner_related_to_child == 'parent':
+    your 
+    % elif petitioner_related_to_child in('guardian', 'representative'):
+    the
+    % endif
+  children,
+  % elif who_needs_the_order == 'self and children':
+  you or 
+    % if petitioner_related_to_child == 'parent':
+    your
+    % elif petitioner_related_to_child in('guardian', 'representative'):
+    the
+    % endif
+  children,
+  % endif
+  or made 
+  % if who_needs_the_order == 'self':
+  you
+  % elif who_needs_the_order == 'child':
+    % if petitioner_related_to_child == 'parent':
+    your
+    % elif petitioner_related_to_child in('guardian', 'representative'):
+    the 
+    % endif
+  child
+  % elif who_needs_the_order == 'self and child':
+  you or
+    % if petitioner_related_to_child == 'parent':
+    your 
+    % elif petitioner_related_to_child in('guardian', 'representative'):
+    the
+    % endif
+  child
+  % elif who_needs_the_order == 'children':
+    % if petitioner_related_to_child == 'parent':
+    your 
+    % elif petitioner_related_to_child in('guardian', 'representative'):
+    the
+    % endif
+  children
+  % elif who_needs_the_order == 'self and children':
+  you or
+    % if petitioner_related_to_child == 'parent':
+    your
+    % elif petitioner_related_to_child in('guardian', 'representative'):
+    the
+    % endif
+  children
+  % endif
+  scared they were going to hurt
+  % if who_needs_the_order in('self', 'self and child'):
+  you,
+  % elif who_needs_the_order in('child', 'children'):
+  them,
+  % endif
+  that’s a domestic violence crime.
+  
+fields:
+  - "Did the other person commit a domestic violence crime?": dv_crime
+    datatype: radio
+    choices:
+      code: |
+        dv_crime_choices
 under: |
   #### <i class="fa-regular fa-lightbulb"></i> Learn more####
   What are the domestic violence crimes?
@@ -453,11 +648,44 @@ auto terms:
   Violating a protective order: |
     doing something that the person was prohibited from doing by a domestic violence, stalking, or sexual assault protective order.
 ---
+code: |
+  if who_needs_the_order in('self','child', 'children'):
+    dv_crime_choices = [
+      {'yes': "Yes"},
+      {'no': "No"}
+       ]
+  elif who_needs_the_order == 'self and child':
+    dv_crime_choices = [
+      {'yes both': "Yes, against both of us."},
+      {'yes one': "Yes, against one of us."},
+      {'no': "No. Neither of us."}
+       ]
+  elif who_needs_the_order == 'children':
+    dv_crime_choices = [
+      {'yes more': "Yes, against more than 1 child.."},
+      {'yes one': "Yes, against 1 child."},
+      {'no': "No. The other person did not commit a domestic violence crime against any of the children."}
+       ]
+  elif who_needs_the_order == 'self and children' and petitioner_related_to_child == 'parent':
+    dv_crime_choices = [
+      {'yes all': "Yes, against both of us."},
+      {'yes some': "Yes, against one of us."},
+      {'yes one': "Yes, against 1 child."},
+      {'no': "The other person did not commit a domestic violence crime against any of us?."}
+       ]
+  elif who_needs_the_order == 'self and children' and petitioner_related_to_child in('guardian', 'representative'):
+    dv_crime_choices = [
+      {'yes all': "Yes, against both of us."},
+      {'yes some': "Yes, against one of us."},
+      {'yes one': "Yes, against 1 child."},
+      {'no': "The other person did not commit a domestic violence crime against any of the children."}
+       ]
+---
 comment: |
   Thanks to Jonathan for giving me formatting for lengthy answer. 
 id: Other PO
 question: |
-  % if who_needs_the_order == 'self':
+  % if who_needs_the_order == 'self' or (who_needs_the_order == 'self and child' and petitioner_related_to_child == 'parent'):
   Do you 
   % elif who_needs_the_order == 'child':
   Does
@@ -467,14 +695,7 @@ question: |
       the
     % endif
   child
-  % elif who_needs_the_order == 'self and child':
-  Do you or 
-    % if petitioner_related_to_child == 'parent':
-    your
-    % elif petitioner_related_to_child in('guardian', 'representative'):
-    the
-    % endif
-  child
+  
   % elif who_needs_the_order == 'children':
   Do
     % if petitioner_related_to_child == 'parent':
@@ -494,18 +715,11 @@ question: |
   % endif
   qualify for another type of protective order?
 subquestion: |
- Based on your answers, 
+  % if who_needs_the_order != 'self and child':
+  Based on your answers, 
   % if who_needs_the_order == 'self':
   you 
   % elif who_needs_the_order == 'child':
-  % if petitioner_related_to_child == 'parent':
-  your
-  % elif petitioner_related_to_child in('guardian', 'representative'):
-  the
-  % endif
-  child
-  % elif who_needs_the_order == 'self and child':
-  you or 
   % if petitioner_related_to_child == 'parent':
   your
   % elif petitioner_related_to_child in('guardian', 'representative'):
@@ -529,8 +743,9 @@ subquestion: |
   children
   % endif 
   may not have the type of relationship needed to get a domestic violence protective order. Depending on the other person’s actions, a stalking protective order or a sexual assault protective order may be appropriate.
+  % endif 
 fields:
-  - "Did the other person?": po_choices
+  - "Did the other person?": other_po
     datatype: checkboxes
     code: |
       other_po_choices
@@ -543,7 +758,7 @@ under: |
 
 ---
 code: |
-  if who_needs_the_order == 'self':
+  if who_needs_the_order == 'self' or (who_needs_the_order == 'self and child' and petitioner_related_to_child == 'parent'):
     other_po_choices = [
       {'stalked': "Stalk you by:\n\n1. repeatedly contacting you or a family member\n2. without consent\n3. in a way that caused you fear of physical injury or death to yourself or a family member?" },
       {'sexual contact': "Have sexual contact with you without consent?"}
@@ -553,7 +768,11 @@ code: |
       {'stalked': "Stalk your child by:\n\n1. repeatedly contacting your child or one of your child's family members\n2. without consent\n3. in a way that caused your child fear of physical injury or death to themself or a family member?" },
       {'sexual contact': "Have sexual contact with your child without consent?"}
                 ]
-  # if who_needs_the_order == 'self and child':
+#  if who_needs_the_order == 'self and child':
+#    other_po_choices = [
+#      {'stalked': "Stalk your child by:\n\n1. repeatedly contacting your child or one of your child's family members\n2. without consent\n3. in a way that caused your child fear of physical injury or death to themself or a family member?" },
+#      {'sexual contact': "Have sexual contact with your child without consent?"}
+#                ]
   # if who_needs_the_order == 'children':
   # if who_needs_the_order == 'self and children':
 ---
@@ -595,17 +814,51 @@ id: What next
 question: |
   What do you want to do next?
 subquestion: |
+  % if petitioner_related_to_child == 'parent':
   Based on your answers, you may not have the type of relationship needed to get a domestic violence protective order.
-
+  
   Your child may have the type of relationship with the other person that qualifies for a domestic violence protective order.
-
+  
   You may qualify for a stalking or sexual assault protective order if the other person stalked you or had sexual contact with you without consent.
+  % else:
+  Based on your answers, you may have the type of relationship needed to get a domestic violence protective order, but the child may not.
+  % endif
 fields:
-  What next?: what_next
-  input type: radio
-  choices:
-    - Answer questions about if the other person stalked or sexually assaulted me to get an order for myself? This will end questions about your child: answer other po questions
-    - Answer questions about if my child has a relationship with the other person that would be appropriate for asking for a domestic violence protective order. This will end questions about my protective order.: answer child related to abuser questions
+  - What next?: what_next
+    datatype: radio
+    code: |
+      what_next_choices
+
+---
+code: |
+  if petitioner_related_to_child == 'parent':
+    what_next_choices = [
+        {'answer other po questions': "Answer questions about if the other person stalked or sexually assaulted me to get an order for myself? This will end questions about your child." },
+        {'answer child related to abuser questions': "Answer questions about if my child has a relationship with the other person that would be appropriate for asking for a domestic violence protective order. This will end questions about my protective order."}
+          ]
+  if petitioner_related_to_child in('guardian', 'representative'):
+    what_next_choices = [
+        {'stop for child': "Stop answering questions for the child. Answer questions about asking for a protective order for myself. " },
+        {'continue for both': "Continue to answer questions about asking for a protective order for myself and the child." },
+        {'stop for guardian': "Stop answering questions for myself. Answer questions about if the child qualifies for a stalking or sexual assault protective order if the other person stalked the child or had sexual contact with the child without consent. "}
+          ]
+  
+---
+id: What form want?
+question: |
+    Which form do you want to learn about?
+subquestion: |
+  The court has different forms for asking for a protective order. You can ask for a protective order for 1 person or for more than 1 person. 
+  
+  Based on your answers, only 1 person may have experienced the domestic violence behavior.
+fields:
+  - Which form?: which_po_form
+    datatype: radio
+    choices:
+      - Asking for a Domestic Violence Protective Order for 1 person: one person dv form
+      - Asking for a Domestic Violence Protective Order for more than 1 person: multi person dv form
+ 
+      
 ---
 # ALDocument objects specify the metadata for each template
 objects:

@@ -112,9 +112,9 @@ code: |
             add_unique_step((protective_order_info_step, "protective_order_info_idx"), step_list)
         else:
           no_qualifying_relationship = True
-          if po_choices['stalked']:
+          if other_po['stalked']:
             add_unique_step((stalking_step, "stalking_idx"), step_list)
-          if po_choices['sexual contact']:
+          if other_po['sexual contact']:
             add_unique_step((sa_step, "sa_idx"), step_list)
           
   
@@ -128,9 +128,9 @@ code: |
               add_unique_step((protective_order_info_step, "protective_order_info_idx"), step_list)
           else:
             no_qualifying_relationship = True
-            if po_choices['stalked']:
+            if other_po['stalked']:
               add_unique_step((stalking_step, "stalking_idx"), step_list)
-            if po_choices['sexual contact']:
+            if other_po['sexual contact']:
               add_unique_step((sa_step, "sa_idx"), step_list)
 
       if who_needs_the_order == 'self and child':
@@ -141,13 +141,79 @@ code: |
               add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
             if parent_related_parent == 'no':
               add_unique_step((custody_case_step, "custody_case_idx"), step_list)
-            if dv_crime:
+            if dv_crime in('yes one', 'yes both'):
               add_unique_step((protective_order_info_step, "protective_order_info_idx"), step_list)
+            else:
+              which_po_form
           else:
-            if self_related_to_abuser['married']:
+            if parent_and_child_parent_related_to_abuser['married']:
               add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
-            if self_related_to_abuser['have child']:
+            if parent_and_child_parent_related_to_abuser['have child']:
               add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
+            if parent_and_child_parent_related_to_abuser.any_true():
+              if dv_crime == 'yes both':
+                add_unique_step((protective_order_more_than_one_step, "protective_order_more_than_one_idx"), step_list)
+              if dv_crime == 'yes one':
+                if which_po_form == 'one person dv form':
+                  add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list)
+                else:
+                  add_unique_step((protective_order_more_than_one_step, "protective_order_more_than_one_idx"), step_list)
+            else:              
+              if what_next == 'answer other po questions':
+                  if other_po['stalked']:
+                    add_unique_step((stalking_step, "stalking_idx"), step_list)
+                  if other_po['sexual contact']:
+                    add_unique_step((sa_step, "sa_idx"), step_list)
+              else:
+                if parent_and_child_child_related_to_abuser['have child']:
+                  add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
+                if parent_and_child_child_related_to_abuser.any_true():
+                  if dv_crime:
+                    add_unique_step((protective_order_info_step, "protective_order_info_idx"), step_list)
+                else:
+                  no_qualifying_relationship = True
+                  if other_po['stalked']:
+                    add_unique_step((stalking_step, "stalking_idx"), step_list)
+                  if other_po['sexual contact']:
+                    add_unique_step((sa_step, "sa_idx"), step_list)
+  
+        if petitioner_related_to_child in('guardian', 'representative'):
+          if guardian_and_child_guardian_related_to_abuser['married']:
+            add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
+          if guardian_and_child_guardian_related_to_abuser['have child']:
+            add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
+          if guardian_and_child_guardian_related_to_abuser.any_true():
+            if guardian_and_child_child_related_to_abuser['married']:
+              add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
+            if guardian_and_child_child_related_to_abuser['have child']:
+              add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
+            if guardian_and_child_child_related_to_abuser.any_true():
+              if dv_crime == 'yes both':
+                add_unique_step((protective_order_more_than_one_step, "protective_order_more_than_one_idx"), step_list)
+              if dv_crime == 'yes one':
+                if which_po_form == 'one person dv form':
+                  add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list)
+                else:
+                  add_unique_step((protective_order_more_than_one_step, "protective_order_more_than_one_idx"), step_list)
+            else:              
+              if what_next == 'answer other po questions':
+                  if other_po['stalked']:
+                    add_unique_step((stalking_step, "stalking_idx"), step_list)
+                  if other_po['sexual contact']:
+                    add_unique_step((sa_step, "sa_idx"), step_list)
+
+
+  
+          if guardian_and_child_guardian_related_to_abuser.all_false(): 
+            if what_next == 'answer other po questions':
+                if other_po['stalked']:
+                  add_unique_step((stalking_step, "stalking_idx"), step_list)
+                if other_po['sexual contact']:
+                  add_unique_step((sa_step, "sa_idx"), step_list)
+          
+  
+               
+  
 
       
             
@@ -249,6 +315,22 @@ subject: |
   Protective Order step
 content: |
   Protective Order information
+---
+template: protective_order_more_than_one_step
+subject: |
+  Step ${ protective_order_more_than_one_idx }:
+  Protective Order information for more than one person
+content: |
+  Learn about the [Petition for Domestic Violence Protective Orders (Multiple Petitioners)](https://public.courts.alaska.gov/web/forms/docs/dv-100-127-multi.pdf)
+---
+template: protective_order_for_one_step
+subject: |
+  Step ${ protective_order_for_one_idx }:
+  Protective Order information for one person
+content: |
+  Learn about the [Petition for Domestic Violence Protective Orders (One Petitioner)](https://public.courts.alaska.gov/web/forms/docs/dv-100-127-one.pdf)
+
+  Or you can use "[Petition wizard](http://www.courts.alaska.gov/forms/cipo/)" to help you complete this form online.
 ---
 template: stalking_step
 subject: |
