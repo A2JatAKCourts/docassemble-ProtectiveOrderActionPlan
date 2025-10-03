@@ -132,9 +132,27 @@ code: |
               add_unique_step((stalking_step, "stalking_idx"), step_list)
             if po_choices['sexual contact']:
               add_unique_step((sa_step, "sa_idx"), step_list)
+
+      if who_needs_the_order == 'self and child':
+        if petitioner_related_to_child == 'parent': 
+          if po_against_other_parent:
+            add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
+            if parent_related_parent == 'married':
+              add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
+            if parent_related_parent == 'no':
+              add_unique_step((custody_case_step, "custody_case_idx"), step_list)
+            if dv_crime:
+              add_unique_step((protective_order_info_step, "protective_order_info_idx"), step_list)
+          else:
+            if self_related_to_abuser['married']:
+              add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
+            if self_related_to_abuser['have child']:
+              add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
+
+      
             
-          
-            
+
+       
           
   
   # if user_need == 'have po':

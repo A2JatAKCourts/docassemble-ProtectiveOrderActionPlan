@@ -58,45 +58,7 @@ features:
 # sections:
 #   - review_protective_order_action_plan: Review your answers
 ---
-auto terms:
-  Assault: |
-      physically hurting someone including making someone afraid they are about to be hurt
-  Criminal mischief: |
-    damaging someone's property
-  Harassment: |
-    including repeated calls at extremely inconvenient times
-  Reckless endangerment: |
-    recklessly behaving in a way that risks serious injury to someone or creating a high risk of serious physical injury to another person.
-  Arson or Criminally Negligent Burning: |
-    starting a fire or explosion that damages someone else’s property or damages the person’s own property but scares someone
-  Burglary: |
-    being in a building illegally to commit a crime
-  Criminal trespass: |
-    being illegally on land, in a home, or in a vehicle
-  Cruelty to pets: |
-    kill or injures an animal that is a pet to intimidate, threaten, or terrorize another person
-  Custodial interference: |
-    taking a keeping a child without a legal right to do so, and planning to keep the child from their parent for a long time
-  Extortion or Coercion: |
-    commonly called blackmail, it is threatening someone to get them do give you something or do something they do not want to do.
-  Homicide: |
-    causing the death of someone else
-  Human trafficking: |
-    forcing someone to engage in sexual conduct, adult entertainment, or labor)
-  Kidnapping: |
-    holding a person against their will
-  # Reckless endangerment: |
-  #   creating a high risk of serious physical injury to another person.
-  Robbery: |
-    using force or threatening to use force to steal from someone)
-  Sexual offenses: |
-    sexual assault, sexual abuse of a minor, incest, and indecent exposure. Sexual assault can occur even if the parties are married. For purposes of a domestic violence protective order, crimes involving showing pornography are not included as domestic violence crimes. Crimes involving making pornography with minors, but not adults, are included.
-  Stalking: |
-    repeatedly contacting someone or their family member without consent in a way that caused them fear of physical injury or death to themself or a family member?
-  Terroristic threatening: |
-    scaring someone by lying and saying there's a life-threatening situation
-  Violating a protective order: |
-    doing something that the person was prohibited from doing by a domestic violence, stalking, or sexual assault protective order.
+
 
 ---
 #################### Interview order #####################
@@ -220,13 +182,103 @@ under: |
 ---
 id: relationship to other party
 question: |
-  You may qualify for a domestic violence protective order in Alaska if you:
+  % if who_needs_the_order == 'self':
+  You
+  
+  % elif who_needs_the_order == 'child':
+  % if petitioner_related_to_child == 'parent':
+  Your
+  % elif petitioner_related_to_child in('guardian', 'representative'):
+  The 
+  % endif 
+  child
+  
+  % elif who_needs_the_order == 'self and child':
+  You and 
+  % if petitioner_related_to_child == 'parent':
+  your
+  % elif petitioner_related_to_child in('guardian', 'representative'):
+  the
+  % endif
+  child
+  
+  % elif who_needs_the_order == 'children':
+  % if petitioner_related_to_child == 'parent':
+  Your
+  % elif petitioner_related_to_child in('guardian', 'representative'):
+  The 
+  % endif
+  children:
+  % elif who_needs_the_order == 'self and children':
+  You and 
+  % if petitioner_related_to_child == 'parent':
+  your
+  % elif petitioner_related_to_child in('guardian', 'representative'):
+  the
+  % endif
+  children
+  % endif
+  may qualify for a domestic violence protective order in Alaska if:  
 subquestion: |
-
-  * have a certain relationship with the other person, and
-  * the other person committed a crime of domestic violence against you.
+  
+  % if who_needs_the_order == 'self':
+  
+    * you have a certain relationship with the other person, and
+    * the other person committed a crime of domestic violence against you.
 
   If you do not have a qualifying relationship, you may qualify for a stalking or sexual assault protective order if the other person stalked you or had sexual contact with you without consent.
+  
+  % elif who_needs_the_order == 'child':
+  % if petitioner_related_to_child == 'parent':
+  
+    * your child has a certain relationship with the other person, and
+    * the other person committed a crime of domestic violence against your child.
+
+  If your child does not have a qualifying relationship, they may qualify for a stalking or sexual assault protective order if the other person stalked your child or had sexual contact with your child without consent.
+  % elif petitioner_related_to_child in('guardian', 'representative'):
+  
+    * the child has a certain relationship with the other person, and
+    * the other person committed a crime of domestic violence against the child.
+
+  If the child does not have a qualifying relationship, they may qualify for a stalking or sexual assault protective order if the other person stalked the child or had sexual contact with the child without consent.
+  % endif
+  
+  % elif who_needs_the_order == 'self and child':
+  % if petitioner_related_to_child == 'parent':
+
+    * you and your child have a certain relationship with the other person, and
+    * the other person committed a crime of domestic violence against both of you.
+
+  When you ask for a domestic violence protective order for more than 1 person, each person you are asking for must have the relationship and have experienced the behavior.
+  % elif petitioner_related_to_child in('guardian', 'representative'):
+
+    * you and the child have a certain relationship with the other person, and
+    * the other person committed a crime of domestic violence against both of you.
+
+  If the child does not have a qualifying relationship, they may qualify for a stalking or sexual assault protective order if the other person stalked the child or had sexual contact with the child without consent.
+  % endif
+  
+  % elif who_needs_the_order == 'children':
+  % if petitioner_related_to_child == 'parent':
+  
+    * your children have a certain relationship with the other person, and
+    *	the other person committed a crime of domestic violence against each of your children.
+
+  When you ask for a domestic violence protective order for more than 1 child, each child you are asking for must have the relationship and have experienced the behavior.
+  % elif petitioner_related_to_child in('guardian', 'representative'):
+  
+    * the children have a certain relationship with the other person, and
+    * the other person committed a crime of domestic violence against each of your children.
+
+  When you ask for a domestic violence protective order for more than 1 child, each child you are asking for must have the relationship and have experienced the behavior.
+  % endif
+  
+  % elif who_needs_the_order == 'self and children':
+  
+    * you all have a certain relationship with the other person, and
+    *	the other person committed a crime of domestic violence against all of you.
+
+  % endif 
 
 fields:
   # SELF path
@@ -361,6 +413,45 @@ under: |
   What are the domestic violence crimes?
   
   Assault, Criminal mischief, Harassment, Reckless endangerment, Arson or Criminally Negligent Burning, Burglary, Criminal trespass, Cruelty to pets, Custodial interference, Extortion or Coercion, Homicide, Human trafficking, Kidnapping, Reckless endangerment, Robbery, Sexual offenses, Stalking, Terroristic threatening, Violating a protective order.
+auto terms:
+  Assault: |
+      physically hurting someone including making someone afraid they are about to be hurt
+  Criminal mischief: |
+    damaging someone's property
+  Harassment: |
+    including repeated calls at extremely inconvenient times
+  Reckless endangerment: |
+    recklessly behaving in a way that risks serious injury to someone or creating a high risk of serious physical injury to another person.
+  Arson or Criminally Negligent Burning: |
+    starting a fire or explosion that damages someone else’s property or damages the person’s own property but scares someone
+  Burglary: |
+    being in a building illegally to commit a crime
+  Criminal trespass: |
+    being illegally on land, in a home, or in a vehicle
+  Cruelty to pets: |
+    kill or injures an animal that is a pet to intimidate, threaten, or terrorize another person
+  Custodial interference: |
+    taking a keeping a child without a legal right to do so, and planning to keep the child from their parent for a long time
+  Extortion or Coercion: |
+    commonly called blackmail, it is threatening someone to get them do give you something or do something they do not want to do.
+  Homicide: |
+    causing the death of someone else
+  Human trafficking: |
+    forcing someone to engage in sexual conduct, adult entertainment, or labor)
+  Kidnapping: |
+    holding a person against their will
+  # Reckless endangerment: |
+  #   creating a high risk of serious physical injury to another person.
+  Robbery: |
+    using force or threatening to use force to steal from someone)
+  Sexual offenses: |
+    sexual assault, sexual abuse of a minor, incest, and indecent exposure. Sexual assault can occur even if the parties are married. For purposes of a domestic violence protective order, crimes involving showing pornography are not included as domestic violence crimes. Crimes involving making pornography with minors, but not adults, are included.
+  Stalking: |
+    repeatedly contacting someone or their family member without consent in a way that caused them fear of physical injury or death to themself or a family member?
+  Terroristic threatening: |
+    scaring someone by lying and saying there's a life-threatening situation
+  Violating a protective order: |
+    doing something that the person was prohibited from doing by a domestic violence, stalking, or sexual assault protective order.
 ---
 comment: |
   Thanks to Jonathan for giving me formatting for lengthy answer. 
@@ -449,6 +540,7 @@ under: |
   #### <i class="fa-regular fa-lightbulb"></i> Learn more####
 
   There are 2 different lengths of time for a stalking or sexual assault protective order?  (1) A short-term protective order starts right away and lasts 20 days.  It is also called an ex parte protective order.  The other side is not notified the order is being requested but if granted, law enforcement will give the other side a copy and explain what it says.  (2) A long-term protective order lasts 1 year.  You can request a long-term protective order at the same time you ask for a short-term protective order.   The other side is notified if you request this. The court schedules a hearing about 20 days after you ask for the long-term order and both sides can testify.  If a short-term or long-term protective order is granted, the court will prohibit the other side from contacting you.
+
 ---
 code: |
   if who_needs_the_order == 'self':
@@ -482,11 +574,38 @@ under: |
 
   Why does the relationship matter?
 
-  Alaska law allows a parent, guardian, or representative appointed by the court to ask for a protective order for a child under age 18. 
+  Alaska law allows a parent, guardian, or representative appointed by the court to ask for a protective order for a child under age 18.
+---
+id: asking for PO against other parent?
+question: |
+  Are you asking for a protective order against the child’s other parent?
+fields:
+  - "Are you asking for a protective order against the child’s other parent?": po_against_other_parent
+    datatype: yesnoradio
+  - "Did you marry the other parent?": parent_related_parent    
+    input type: radio
+    choices:
+      - Yes, and we are married to each other now.: married
+      - Yes, but we are divorced.: divorce
+      - No: no
+    js show if: |
+      val('po_against_other_parent') == true
+---
+id: What next
+question: |
+  What do you want to do next?
+subquestion: |
+  Based on your answers, you may not have the type of relationship needed to get a domestic violence protective order.
 
+  Your child may have the type of relationship with the other person that qualifies for a domestic violence protective order.
 
-
-
+  You may qualify for a stalking or sexual assault protective order if the other person stalked you or had sexual contact with you without consent.
+fields:
+  What next?: what_next
+  input type: radio
+  choices:
+    - Answer questions about if the other person stalked or sexually assaulted me to get an order for myself? This will end questions about your child: answer other po questions
+    - Answer questions about if my child has a relationship with the other person that would be appropriate for asking for a domestic violence protective order. This will end questions about my protective order.: answer child related to abuser questions
 ---
 # ALDocument objects specify the metadata for each template
 objects:
