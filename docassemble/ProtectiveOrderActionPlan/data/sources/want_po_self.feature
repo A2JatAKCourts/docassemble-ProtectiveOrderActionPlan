@@ -539,7 +539,7 @@ Scenario: Row #38
     | self_related_to_abuser['marriage related'] | True    |         | 
     | self_related_to_abuser['have child']       | False   |         | 
     | child_w_abuser                             | True    |         | 
-    | dv_crime                                   | True    |         | 
+    | dv_crime                                   | yes     |         | 
     And I take a screenshot
 
 @row39
@@ -553,7 +553,7 @@ Scenario: Row #39
     | self_related_to_abuser['marriage related'] | True    |         | 
     | self_related_to_abuser['have child']       | False   |         | 
     | child_w_abuser                             | True    |         | 
-    | dv_crime                                   | False   |         | 
+    | dv_crime                                   | no      |         | 
     | other_po['stalked']                        | True    |         | 
     And I take a screenshot
 
@@ -568,7 +568,7 @@ Scenario: Row #40
     | self_related_to_abuser['marriage related'] | True    |         | 
     | self_related_to_abuser['have child']       | False   |         | 
     | child_w_abuser                             | True    |         | 
-    | dv_crime                                   | False   |         | 
+    | dv_crime                                   | no      |         | 
     | other_po['sexual contact']                 | True    |         | 
     And I take a screenshot
 
@@ -583,7 +583,7 @@ Scenario: Row #41
     | self_related_to_abuser['marriage related'] | True    |         | 
     | self_related_to_abuser['have child']       | False   |         | 
     | child_w_abuser                             | True    |         | 
-    | dv_crime                                   | False   |         | 
+    | dv_crime                                   | no      |         | 
     | other_po['None']                           | True    |         | 
     And I take a screenshot
 
@@ -598,7 +598,7 @@ Scenario: Row #42
     | self_related_to_abuser['marriage related'] | True    |         | 
     | self_related_to_abuser['have child']       | False   |         | 
     | child_w_abuser                             | False   |         | 
-    | dv_crime                                   | True    |         | 
+    | dv_crime                                   | yes     |         | 
     And I take a screenshot
 
 @row43
@@ -612,7 +612,7 @@ Scenario: Row #43
     | self_related_to_abuser['marriage related'] | True    |         | 
     | self_related_to_abuser['have child']       | False   |         | 
     | child_w_abuser                             | False   |         | 
-    | dv_crime                                   | False   |         | 
+    | dv_crime                                   | no      |         | 
     | other_po['stalked']                        | True    |         | 
     And I take a screenshot
 
@@ -627,7 +627,7 @@ Scenario: Row #44
     | self_related_to_abuser['marriage related'] | True    |         | 
     | self_related_to_abuser['have child']       | False   |         | 
     | child_w_abuser                             | False   |         | 
-    | dv_crime                                   | False   |         | 
+    | dv_crime                                   | no      |         | 
     | other_po['sexual contact']                 | True    |         | 
     And I take a screenshot
 
@@ -642,7 +642,7 @@ Scenario: Row #45
     | self_related_to_abuser['marriage related'] | True    |         | 
     | self_related_to_abuser['have child']       | False   |         | 
     | child_w_abuser                             | False   |         | 
-    | dv_crime                                   | False   |         | 
+    | dv_crime                                   | no      |         | 
     | other_po['None']                           | True    |         | 
     And I take a screenshot
 
