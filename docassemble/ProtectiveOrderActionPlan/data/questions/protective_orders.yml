@@ -299,7 +299,7 @@ fields:
     none of the above: None of these relationships
     show if:
       code: |
-        who_needs_the_order == 'child'
+        who_needs_the_order == 'child' and petitioner_related_to_child == 'parent'
 
   # CHILD path — petitioner's relationship (only if child picked None of these)
   - "Your relationship with the other person": parent_related_to_abuser
@@ -309,7 +309,7 @@ fields:
     none of the above: None of these relationships
     show if:
       code: |
-        who_needs_the_order == 'child'
+        who_needs_the_order == 'child' and petitioner_related_to_child == 'parent'
     js show if: |
       val("child_related_to_abuser[nota]")
       
@@ -322,9 +322,20 @@ fields:
     none of the above: None of these relationships
     show if:
        code: |
-         who_needs_the_order == 'child'
+         who_needs_the_order == 'child'and petitioner_related_to_child == 'parent'
     js show if: |
       val('child_related_to_abuser[nota]') && val('parent_related_to_abuser[nota]')
+      
+  # CHILD path — child's relationship (if petitioner == guardian or representative)
+  - "The child's relationship with the other person": guardian_for_child_related_to_abuser
+    datatype: checkboxes
+    code: |
+      guardian_for_child_related_to_abuser_choices
+    none of the above: None of these relationships
+    show if:
+       code: |
+         who_needs_the_order == 'child' and petitioner_related_to_child in('guardian', 'representative')
+      
 
   # parent and child path — parent's relationship
   - "Your relationship with the other person": parent_and_child_parent_related_to_abuser
@@ -363,7 +374,7 @@ fields:
   - "The child's relationship with the other person": guardian_and_child_child_related_to_abuser
     datatype: checkboxes
     code: |
-      child_related_to_abuser_choices
+      guardian_for_child_related_to_abuser_choices
     none of the above: None of these relationships
     show if:
       code: |
@@ -415,16 +426,16 @@ code: |
       {'blood': "Blood relatives such as parents, siblings, children, grandchildren, aunts, uncles, nephews, nieces, and first cousins"}
   ]
 ---
-# code: |
-#   parent_related_to_abuser_choices  = [
-#       {'married': "Married to each other now or in the past"},
-#       {'have child': "Have child together"},
-#       {'dated': "In a dating or sexual relationship now or in past"},
-#       {'cohabited': "Live together now or in past (roommates or romantic relationship)"},
-#       {'marriage related': "Related by marriage now or in past (such as in-laws)"},
-#       {'blood': "Blood relatives such as parents, siblings, children, grandchildren, aunts, uncles, nephews, nieces, and first cousins"},
-#       {'parent related to abuser': "One of their parents has one of the relationships listed above"}
-#   ]
+ code: |
+   guardian_for_child_related_to_abuser_choices  = [
+       {'married': "Married to each other now or in the past"},
+       {'have child': "Have child together"},
+       {'dated': "In a dating or sexual relationship now or in past"},
+       {'cohabited': "Live together now or in past (roommates or romantic relationship)"},
+       {'marriage related': "Related by marriage now or in past (such as in-laws)"},
+       {'blood': "Blood relatives such as parents, siblings, children, grandchildren, aunts, uncles, nephews, nieces, and first cousins"},
+       {'parent related to abuser': "One of their parents has one of the relationships listed above"}
+   ]
 ---
 code: |
   other_parent_related_to_abuser_choices  = [
