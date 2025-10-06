@@ -1,0 +1,78 @@
+---
+mandatory: True
+id: relationship to other party
+question: Some question
+fields:
+  - "What is your child's/the child's relationship with the other person?": child_related_to_abuser
+    datatype: checkboxes
+    code: |
+        child_related_to_abuser_choices
+    none of the above: |
+      None of these relationships
+    show if:
+      code: not_yet_asked
+  - "What is your relationship with the other person?": self_related_to_abuser
+    datatype: checkboxes
+    code: |
+        self_related_to_abuser_choices
+    none of the above: |
+      None of these relationships
+    show if:
+      code: who_related != 'child'
+  - "What is the other parent's relationship with the other person?": other_related_to_abuser
+    datatype: checkboxes
+    code: |
+        other_related_to_abuser_choices
+    none of the above: |
+      None of these relationships
+    show if:
+      code: who_related != 'child' and who_related != 'self'
+---
+code: |
+  not_yet_asked = True
+  who_related = None
+  if child_related_to_abuser:
+    not_yet_asked = False
+    who_related = 'child'
+  else:
+    not_yet_asked = False
+    if not self_related_to_abuser:
+      who_related = 'self'
+    else:
+      if other_related_to_abuser:
+        who_related = 'other'
+---
+code: |
+  child_related_to_abuser_choices = [
+      {'married': "Married to each other now"},
+      {'divorced': "Married to each other in the past"},
+      {'have child': "Have child together"},
+      {'dated': "In a dating or sexual relationship now or in past"},
+      {'cohabited': "Live together now or in past (roommates or romantic relationship)"},
+      {'marriage related': "Related by marriage now or in past (such as in-laws)"},
+      {'blood': "Blood relatives such as parents, siblings, children, grandchildren, aunts, uncles, nephews, nieces, and first cousins"},
+      {'parent related to abuser': "One of their parents has one of the relationships listed above "}
+                ] # choices code for child
+---
+code: |
+  self_related_to_abuser_choices = [
+      {'married': "Married to each other now"},
+      {'divorced': "Married to each other in the past"},
+      {'have child': "Have child together"},
+      {'dated': "In a dating or sexual relationship now or in past"},
+      {'cohabited': "Live together now or in past (roommates or romantic relationship)"},
+      {'marriage related': "Related by marriage now or in past (such as in-laws)"},
+      {'blood': "Blood relatives such as parents, siblings, children, grandchildren, aunts, uncles, nephews, nieces, and first cousins"}
+  ] # choices code for self
+---
+code: |
+  other_related_to_abuser_choices = [
+      {'married': "Married to each other now or in the past"},
+      {'have child': "Have child together"},
+      {'dated': "In a dating or sexual relationship now or in past"},
+      {'cohabited': "Live together now or in past (roommates or romantic relationship)"},
+      {'marriage related': "Related by marriage now or in past (such as in-laws)"},
+      {'blood': "Blood relatives such as parents, siblings, children, grandchildren, aunts, uncles, nephews, nieces, and first cousins"},
+      {'parent related to abuser': "One of their parents has one of the relationships listed above "}
+                ] # choices code for other
+---

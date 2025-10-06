@@ -1,0 +1,38 @@
+code: |
+  who_needs_the_order == 'self'
+---
+mandatory: True
+id: Other PO
+question: |
+  Do you qualify for another type of protective order?
+subquestion: |
+  Based on your answers, you may not have the type of relationship needed to get a domestic violence protective order. Depending on the other person’s actions, a stalking protective order or a sexual assault protective order may be appropriate.
+fields:
+  - "Did the other person?": po_choices
+    datatype: checkboxes
+    code: |
+      other_po_choices
+    none of the above: |
+      The other person did not do either of these.
+under: |
+  #### <i class="fa-regular fa-lightbulb"></i> Learn more####
+    
+---
+code: |
+  if who_needs_the_order == 'self':
+    other_po_choices = [
+      {'stalked': "Stalk you by:\n\n1. repeatedly contacting you or a family member\n2. without consent\n3. in a way that caused you fear of physical injury or death to yourself or a family member?" },
+      {'sexual contact': "Have sexual contact with you without consent?"}
+                ]
+  if who_needs_the_order == 'child':
+    other_po_choices = [
+      {'stalked': "Stalk your child by:\n\n1. repeatedly contacting child or one of your child's family members\n2. without consent\n3. in a way that caused your child fear of physical injury or death to themself or a family member?" },
+      {'sexual contact': "Have sexual contact with your child without consent?"}
+                ]
+  # if who_needs_the_order == 'self and child':
+  # if who_needs_the_order == 'children':
+  # if who_needs_the_order == 'self and children':
+
+---
+code: |
+  who_needs_the_order = 'child'
