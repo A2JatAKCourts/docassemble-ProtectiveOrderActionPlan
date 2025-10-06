@@ -805,7 +805,7 @@ fields:
     input type: radio
     choices:
       - Yes, and we are married to each other now.: married
-      - Yes, but we are divorced.: divorce
+      - Yes, but we are divorced.: divorced
       - No: no
     js show if: |
       val('po_against_other_parent') == true
