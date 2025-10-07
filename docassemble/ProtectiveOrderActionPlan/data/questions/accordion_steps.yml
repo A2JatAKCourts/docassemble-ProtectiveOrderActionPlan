@@ -108,7 +108,7 @@ code: |
           if child_w_abuser:
             add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
         if self_related_to_abuser.any_true():
-          if dv_crime:
+          if dv_crime == 'yes':
             add_unique_step((protective_order_info_step, "protective_order_info_idx"), step_list)
         else:
           no_qualifying_relationship = True
@@ -120,14 +120,24 @@ code: |
   
        
       if who_needs_the_order == 'child':
-        if petitioner_related_to_child in('parent', 'guardian', 'representative'):
+        if petitioner_related_to_child == 'parent':
           if child_related_to_abuser['have child']:
             add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
           if child_related_to_abuser.any_true() or (child_related_to_abuser.all_false() and petitioner_related_to_child == 'parent' and parent_related_to_abuser.any_true()) or (child_related_to_abuser.all_false() and petitioner_related_to_child == 'parent' and parent_related_to_abuser.all_false() and other_parent_related_to_abuser.any_true()):
-            if dv_crime:
+            if dv_crime == 'yes':
               add_unique_step((protective_order_info_step, "protective_order_info_idx"), step_list)
           else:
-            no_qualifying_relationship = True
+            if other_po['stalked']:
+              add_unique_step((stalking_step, "stalking_idx"), step_list)
+            if other_po['sexual contact']:
+              add_unique_step((sa_step, "sa_idx"), step_list)
+        elif petitioner_related_to_child in('guardian', 'representative'):
+          if guardian_for_child_related_to_abuser['have child']:
+            add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
+          if guardian_for_child_related_to_abuser.any_true():
+            if dv_crime == 'yes':
+              add_unique_step((protective_order_info_step, "protective_order_info_idx"), step_list)
+          else:
             if other_po['stalked']:
               add_unique_step((stalking_step, "stalking_idx"), step_list)
             if other_po['sexual contact']:
@@ -158,20 +168,21 @@ code: |
                   add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list)
                 else:
                   add_unique_step((protective_order_more_than_one_step, "protective_order_more_than_one_idx"), step_list)
-            else:              
+            
+            else:
               if what_next == 'answer other po questions':
-                  if other_po['stalked']:
-                    add_unique_step((stalking_step, "stalking_idx"), step_list)
-                  if other_po['sexual contact']:
-                    add_unique_step((sa_step, "sa_idx"), step_list)
-              else:
+                if other_po['stalked']:
+                  add_unique_step((stalking_step, "stalking_idx"), step_list)
+                if other_po['sexual contact']:
+                  add_unique_step((sa_step, "sa_idx"), step_list)
+  
+              if what_next == 'answer child related to abuser questions':
                 if parent_and_child_child_related_to_abuser['have child']:
                   add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
                 if parent_and_child_child_related_to_abuser.any_true():
-                  if dv_crime:
+                  if dv_crime == 'yes':
                     add_unique_step((protective_order_info_step, "protective_order_info_idx"), step_list)
-                else:
-                  no_qualifying_relationship = True
+                else: 
                   if other_po['stalked']:
                     add_unique_step((stalking_step, "stalking_idx"), step_list)
                   if other_po['sexual contact']:

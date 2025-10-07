@@ -351,13 +351,26 @@ fields:
   - "Your child's relationship with the other person": parent_and_child_child_related_to_abuser
     datatype: checkboxes
     code: |
-      self_related_to_abuser_choices
+      child_related_to_abuser_choices
     none of the above: None of these relationships
     show if:
       code: |
         who_needs_the_order == 'self and child' and petitioner_related_to_child == 'parent'
     js show if: |
       val('parent_and_child_parent_related_to_abuser[nota]') 
+
+  # parent and child path — other parent's relationship
+  - "Your child's relationship with the other person": parent_and_child_other_parent_related_to_abuser
+    datatype: checkboxes
+    code: |
+      other_parent_related_to_abuser_choices
+    none of the above: None of these relationships
+    show if:
+      code: |
+        who_needs_the_order == 'self and child' and petitioner_related_to_child == 'parent'
+    js show if: |
+      val('parent_and_child_parent_related_to_abuser[nota]') && val('parent_and_child_child_related_to_abuser[nota]')
+        
         
 
   # guardian and child path — guardian's relationship
@@ -471,7 +484,9 @@ question: |
     % endif
   child?
   % elif who_needs_the_order == 'self and child':
+  % if ((petitioner_related_to_child == 'parent' and (po_against_other_parent or parent_and_child_parent_related_to_abuser.any_true())) or (petitioner_related_to_child in('guardian','representative') and guardian_and_child_guardian_related_to_abuser.all_false())):
   you and 
+  % endif
     % if petitioner_related_to_child == 'parent':
     your 
     % elif petitioner_related_to_child in('guardian', 'representative'):
@@ -506,7 +521,9 @@ subquestion: |
     % endif
   child.
   % elif who_needs_the_order == 'self and child':
+  % if ((petitioner_related_to_child == 'parent' and (po_against_other_parent or parent_and_child_parent_related_to_abuser.any_true())) or (petitioner_related_to_child in('guardian','representative') and guardian_and_child_guardian_related_to_abuser.all_false())):
   you and 
+  % endif
     % if petitioner_related_to_child == 'parent':
     your 
     % elif petitioner_related_to_child in('guardian', 'representative'):
@@ -543,7 +560,9 @@ subquestion: |
     % endif
   child,
   % elif who_needs_the_order == 'self and child':
+  % if ((petitioner_related_to_child == 'parent' and (po_against_other_parent or parent_and_child_parent_related_to_abuser.any_true())) or (petitioner_related_to_child in('guardian','representative') and guardian_and_child_guardian_related_to_abuser.all_false())):
   you or 
+  % endif
     % if petitioner_related_to_child == 'parent':
     your 
     % elif petitioner_related_to_child in('guardian', 'representative'):
@@ -577,7 +596,9 @@ subquestion: |
     % endif
   child
   % elif who_needs_the_order == 'self and child':
+  % if ((petitioner_related_to_child == 'parent' and (po_against_other_parent or parent_and_child_parent_related_to_abuser.any_true())) or (petitioner_related_to_child in('guardian','representative') and guardian_and_child_guardian_related_to_abuser.all_false())):
   you or
+  % endif
     % if petitioner_related_to_child == 'parent':
     your 
     % elif petitioner_related_to_child in('guardian', 'representative'):
@@ -601,7 +622,7 @@ subquestion: |
   children
   % endif
   scared they were going to hurt
-  % if who_needs_the_order in('self', 'self and child'):
+  % if who_needs_the_order == 'self' or (who_needs_the_order == 'self and child' and ((petitioner_related_to_child == 'parent' and (po_against_other_parent or parent_and_child_parent_related_to_abuser.any_true())) or (petitioner_related_to_child in('guardian','representative') and guardian_and_child_guardian_related_to_abuser.all_false()))):
   you,
   % elif who_needs_the_order in('child', 'children'):
   them,
