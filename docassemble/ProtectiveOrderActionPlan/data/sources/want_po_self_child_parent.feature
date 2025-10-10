@@ -41,8 +41,7 @@ Scenario: Row #83
     | petitioner_related_to_child | parent             |         | 
     | po_against_other_parent     | True               |         | 
     | parent_related_parent       | divorced           |         | 
-    | dv_crime                    | yes one            |         | 
-    | which_po_form               | one person dv form |         | 
+    | dv_crime                    | yes one            |         |
     And I take a screenshot
 
 @row84

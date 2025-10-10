@@ -492,7 +492,7 @@ question: |
     % endif
   child?
   % elif who_needs_the_order == 'self and child':
-  % if ((petitioner_related_to_child == 'parent' and (po_against_other_parent or self_related_to_abuser.any_true())) or (petitioner_related_to_child in('guardian','representative') and guardian_and_child_guardian_related_to_abuser.all_false())):
+  % if ((petitioner_related_to_child == 'parent' and (po_against_other_parent or (not po_against_other_parent and self_related_to_abuser.any_true()))) or (petitioner_related_to_child in('guardian','representative') and guardian_and_child_guardian_related_to_abuser.all_false())):
   you and 
   % endif
     % if petitioner_related_to_child == 'parent':
@@ -529,7 +529,7 @@ subquestion: |
     % endif
   child.
   % elif who_needs_the_order == 'self and child':
-  % if ((petitioner_related_to_child == 'parent' and (po_against_other_parent or self_related_to_abuser.any_true())) or (petitioner_related_to_child in('guardian','representative') and guardian_and_child_guardian_related_to_abuser.all_false())):
+  % if ((petitioner_related_to_child == 'parent' and (po_against_other_parent or (not po_against_other_parent and self_related_to_abuser.any_true()))) or (petitioner_related_to_child in('guardian','representative') and guardian_and_child_guardian_related_to_abuser.all_false())):
   you and 
   % endif
     % if petitioner_related_to_child == 'parent':
@@ -568,7 +568,7 @@ subquestion: |
     % endif
   child,
   % elif who_needs_the_order == 'self and child':
-  % if ((petitioner_related_to_child == 'parent' and (po_against_other_parent or self_related_to_abuser.any_true())) or (petitioner_related_to_child in('guardian','representative') and guardian_and_child_guardian_related_to_abuser.all_false())):
+  % if ((petitioner_related_to_child == 'parent' and (po_against_other_parent or (not po_against_other_parent and self_related_to_abuser.any_true()))) or (petitioner_related_to_child in('guardian','representative') and guardian_and_child_guardian_related_to_abuser.all_false())):
   you or 
   % endif
     % if petitioner_related_to_child == 'parent':
@@ -604,7 +604,7 @@ subquestion: |
     % endif
   child
   % elif who_needs_the_order == 'self and child':
-  % if ((petitioner_related_to_child == 'parent' and (po_against_other_parent or self_related_to_abuser.any_true())) or (petitioner_related_to_child in('guardian','representative') and guardian_and_child_guardian_related_to_abuser.all_false())):
+  % if ((petitioner_related_to_child == 'parent' and (po_against_other_parent or (not po_against_other_parent and self_related_to_abuser.any_true()))) or (petitioner_related_to_child in('guardian','representative') and guardian_and_child_guardian_related_to_abuser.all_false())):
   you or
   % endif
     % if petitioner_related_to_child == 'parent':
@@ -630,7 +630,7 @@ subquestion: |
   children
   % endif
   scared they were going to hurt
-  % if who_needs_the_order == 'self' or (who_needs_the_order == 'self and child' and ((petitioner_related_to_child == 'parent' and (po_against_other_parent or self_related_to_abuser.any_true())) or (petitioner_related_to_child in('guardian','representative') and guardian_and_child_guardian_related_to_abuser.all_false()))):
+  % if who_needs_the_order == 'self' or (who_needs_the_order == 'self and child' and ((petitioner_related_to_child == 'parent' and (po_against_other_parent or (not po_against_other_parent and self_related_to_abuser.any_true()))) or (petitioner_related_to_child in('guardian','representative') and guardian_and_child_guardian_related_to_abuser.all_false()))):
   you,
   % elif who_needs_the_order in('child', 'children'):
   them,
@@ -689,7 +689,7 @@ auto terms:
     doing something that the person was prohibited from doing by a domestic violence, stalking, or sexual assault protective order.
 ---
 code: |
-  if who_needs_the_order in('self','child', 'children') or (who_needs_the_order == 'self and child' and self_related_to_abuser.all_false() and (child_related_to_abuser.any_true() or (child_related_to_abuser.all_false() and filing_parent_does_not_qualify_other_parent_related_to_abuser.any_true()))):
+  if who_needs_the_order in('self','child', 'children') or (who_needs_the_order == 'self and child' and petitioner_related_to_child == 'parent' and not po_against_other_parent and self_related_to_abuser.all_false() and (child_related_to_abuser.any_true() or (child_related_to_abuser.all_false() and filing_parent_does_not_qualify_other_parent_related_to_abuser.any_true()))):
     dv_crime_choices = [
       {'yes': "Yes"},
       {'no': "No"}
@@ -702,7 +702,7 @@ code: |
        ]
   elif who_needs_the_order == 'children':
     dv_crime_choices = [
-      {'yes more': "Yes, against more than 1 child.."},
+      {'yes more': "Yes, against more than 1 child."},
       {'yes one': "Yes, against 1 child."},
       {'no': "No. The other person did not commit a domestic violence crime against any of the children."}
        ]
