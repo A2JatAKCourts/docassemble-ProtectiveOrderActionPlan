@@ -523,7 +523,7 @@ subquestion: |
     you and ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } child.
     % endif
   % elif who_needs_the_order == 'self and children':
-  you and ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } 
+  you and ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } children
     % endif
 
   The list of these crimes is below. You do not need to know the exact name or definition of the crime. But you need to tell the judge what happened. 
@@ -552,6 +552,8 @@ subquestion: |
   % elif who_needs_the_order == 'self and child':
   % if (petitioner_related_to_child == 'parent' and (po_against_other_parent or (not po_against_other_parent and self_related_to_abuser.any_true()))) or (petitioner_related_to_child in('guardian', 'representative') and self_related_to_abuser.any_true() and guardian_and_child_child_related_to_abuser.any_true()):
   you or ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } child
+  % elif petitioner_related_to_child in('guardian', 'representative') and self_related_to_abuser.any_true() and guardian_and_child_child_related_to_abuser.all_false() and what_next == 'stop for child':
+  you
   % endif
   % endif
   scared they were going to hurt
@@ -659,7 +661,7 @@ comment: |
   Thanks to Jonathan for giving me formatting for lengthy answer. 
 id: Other PO
 question: |
-  % if who_needs_the_order == 'self' or (who_needs_the_order == 'self and child' and what_next == 'other po for me'):
+  % if who_needs_the_order == 'self' or (who_needs_the_order == 'self and child' and (what_next == 'other po for me') or (what_next == 'stop for child')):
   Do you
   % elif who_needs_the_order == 'child' or (who_needs_the_order == 'self and child' and what_next == 'stop for me'):
   Does
@@ -699,7 +701,7 @@ subquestion: |
       the
       % endif
     child
-  % elif what_next == 'other po for me':
+  % elif what_next in('other po for me', 'stop for child'):
     you
   % endif
   % endif

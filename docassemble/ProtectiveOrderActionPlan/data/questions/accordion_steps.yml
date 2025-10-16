@@ -1,5 +1,5 @@
 comment: |
-    last updated: 2025-10-02
+    last updated: 2025-10-15
 ---
 generic object: ALDocumentBundle
 template: x.get_email_copy
@@ -202,7 +202,7 @@ code: |
               if what_next == 'stop for child':
                   if dv_crime == 'yes':
                     add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list)
-              if what_next == 'continue for both':
+              elif what_next == 'continue for both':
                 if dv_crime == 'yes both':
                   add_unique_step((protective_order_more_than_one_step, "protective_order_more_than_one_idx"), step_list)
                 if dv_crime == 'yes one':
