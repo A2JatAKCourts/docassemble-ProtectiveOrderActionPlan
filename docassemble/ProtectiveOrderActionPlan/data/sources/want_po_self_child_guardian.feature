@@ -1,5 +1,5 @@
 @want_po_self_child_guardian
-# 2025-10-15
+# 2025-10-16
 
 Feature: User paths
 
@@ -174,16 +174,16 @@ Scenario: Row #138
 Scenario: Row #139
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
-    | var                                                | value          | trigger | 
-    | user_need                                          | want po        |         | 
-    | options_for_po['AK court']                         | True           |         | 
-    | who_needs_the_order                                | self and child |         | 
-    | petitioner_related_to_child                        | representative |         | 
-    | self_related_to_abuser['cohabited']                | True           |         | 
-    | guardian_and_child_child_related_to_abuser['None'] | True           |         | 
-    | what_next                                          | stop for me    |         | 
-    | guardian_for_child_related_to_abuser['married']    | True           |         | 
-    | dv_crime                                           | no             |         | 
+    | var                                                | value             | trigger | 
+    | user_need                                          | want po           |         | 
+    | options_for_po['AK court']                         | True              |         | 
+    | who_needs_the_order                                | self and child    |         | 
+    | petitioner_related_to_child                        | representative    |         | 
+    | self_related_to_abuser['cohabited']                | True              |         | 
+    | guardian_and_child_child_related_to_abuser['None'] | True              |         | 
+    | what_next                                          | continue for both |         | 
+    | guardian_for_child_related_to_abuser['married']    | True              |         | 
+    | dv_crime                                           | no                |         | 
     And I take a screenshot
 
 @row140
