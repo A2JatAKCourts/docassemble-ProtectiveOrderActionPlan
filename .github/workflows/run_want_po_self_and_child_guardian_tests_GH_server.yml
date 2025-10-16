@@ -51,5 +51,5 @@ jobs:
           INSTALL_METHOD: "server"
           # To learn more about these optional inputs, see
           # https://assemblyline.suffolklitlab.org/docs/alkiln/writing/#optional-inputs
-          # ALKILN_TAG_EXPRESSION: "@want_po_self_child_guardian"
+          ALKILN_TAG_EXPRESSION: "@want_po_self_child_guardian"
           # ALKILN_VERSION: ""
