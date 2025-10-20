@@ -1,4 +1,5 @@
 @want_po_self_child_parent
+# 2025-10-14
 
 Feature: User paths 
 
@@ -554,7 +555,7 @@ Scenario: Row #117
     | petitioner_related_to_child        | parent          |         | 
     | po_against_other_parent            | False           |         | 
     | self_related_to_abuser['None']     | True            |         | 
-    | what_next                          | stop for parent |         | 
+    | what_next                          | stop for me |         | 
     | child_related_to_abuser['married'] | True            |         | 
     | dv_crime                           | yes             |         | 
     And I take a screenshot
@@ -570,7 +571,7 @@ Scenario: Row #118
     | petitioner_related_to_child      | parent          |         | 
     | po_against_other_parent          | False           |         | 
     | self_related_to_abuser['None']   | True            |         | 
-    | what_next                        | stop for parent |         | 
+    | what_next                        | stop for me |         | 
     | child_related_to_abuser['dated'] | True            |         | 
     | dv_crime                         | no              |         | 
     And I take a screenshot
@@ -586,7 +587,7 @@ Scenario: Row #119
     | petitioner_related_to_child          | parent          |         | 
     | po_against_other_parent              | False           |         | 
     | self_related_to_abuser['None']       | True            |         | 
-    | what_next                            | stop for parent |         | 
+    | what_next                            | stop for me |         | 
     | child_related_to_abuser['cohabited'] | True            |         | 
     | child_related_to_abuser['married']   | True            |         | 
     | dv_crime                             | yes             |         | 
@@ -603,7 +604,7 @@ Scenario: Row #120
     | petitioner_related_to_child                 | parent          |         | 
     | po_against_other_parent                     | False           |         | 
     | self_related_to_abuser['None']              | True            |         | 
-    | what_next                                   | stop for parent |         | 
+    | what_next                                   | stop for me |         | 
     | child_related_to_abuser['marriage related'] | True            |         | 
     | child_related_to_abuser['dated']            | True            |         | 
     | dv_crime                                    | no              |         | 
@@ -620,7 +621,7 @@ Scenario: Row #121
     | petitioner_related_to_child          | parent          |         | 
     | po_against_other_parent              | False           |         | 
     | self_related_to_abuser['None']       | True            |         | 
-    | what_next                            | stop for parent |         | 
+    | what_next                            | stop for me |         | 
     | child_related_to_abuser['blood']     | True            |         | 
     | child_related_to_abuser['cohabited'] | True            |         | 
     | dv_crime                             | yes             |         | 
@@ -637,7 +638,7 @@ Scenario: Row #122
     | petitioner_related_to_child                 | parent          |         | 
     | po_against_other_parent                     | False           |         | 
     | self_related_to_abuser['None']              | True            |         | 
-    | what_next                                   | stop for parent |         | 
+    | what_next                                   | stop for me |         | 
     | child_related_to_abuser['have child']       | True            |         | 
     | child_related_to_abuser['marriage related'] | True            |         | 
     | dv_crime                                    | no              |         | 
@@ -654,7 +655,7 @@ Scenario: Row #1232
     | petitioner_related_to_child                                                 | parent          |         | 
     | po_against_other_parent                                                     | False           |         | 
     | self_related_to_abuser['None']                                              | True            |         | 
-    | what_next                                                                   | stop for parent |         | 
+    | what_next                                                                   | stop for me |         | 
     | child_related_to_abuser['None']                                             | True            |         | 
     | filing_parent_does_not_qualify_other_parent_related_to_abuser['have child'] | True            |         | 
     | dv_crime                                                                    | yes             |         | 
@@ -671,7 +672,7 @@ Scenario: Row #124
     | petitioner_related_to_child                                            | parent          |         | 
     | po_against_other_parent                                                | False           |         | 
     | self_related_to_abuser['None']                                         | True            |         | 
-    | what_next                                                              | stop for parent |         | 
+    | what_next                                                              | stop for me |         | 
     | child_related_to_abuser['None']                                        | True            |         | 
     | filing_parent_does_not_qualify_other_parent_related_to_abuser['dated'] | True            |         | 
     | dv_crime                                                               | no              |         | 
@@ -688,7 +689,7 @@ Scenario: Row #125
     | petitioner_related_to_child                                           | parent          |         | 
     | po_against_other_parent                                               | False           |         | 
     | self_related_to_abuser['None']                                        | True            |         | 
-    | what_next                                                             | stop for parent |         | 
+    | what_next                                                             | stop for me |         | 
     | child_related_to_abuser['None']                                       | True            |         | 
     | filing_parent_does_not_qualify_other_parent_related_to_abuser['None'] | True            |         | 
     | other_po['sexual contact']                                            | True            |         | 
@@ -705,7 +706,7 @@ Scenario: Row #126
     | petitioner_related_to_child                                           | parent          |         | 
     | po_against_other_parent                                               | False           |         | 
     | self_related_to_abuser['None']                                        | True            |         | 
-    | what_next                                                             | stop for parent |         | 
+    | what_next                                                             | stop for me |         | 
     | child_related_to_abuser['None']                                       | True            |         | 
     | filing_parent_does_not_qualify_other_parent_related_to_abuser['None'] | True            |         | 
     | other_po['stalked']                                                   | True            |         | 
@@ -723,7 +724,7 @@ Scenario: Row #127
     | petitioner_related_to_child                                           | parent          |         | 
     | po_against_other_parent                                               | False           |         | 
     | self_related_to_abuser['None']                                        | True            |         | 
-    | what_next                                                             | stop for parent |         | 
+    | what_next                                                             | stop for me |         | 
     | child_related_to_abuser['None']                                       | True            |         | 
     | filing_parent_does_not_qualify_other_parent_related_to_abuser['None'] | True            |         | 
     | other_po['None']                                                      | True            |         | 
