@@ -604,7 +604,7 @@ subquestion: |
       you.
       % elif self_related_to_abuser.any_true():
       you.
-      % elif self_related_to_abuser.all_false() and what_next == 'stop for me' and (guardian_for_child_related_to_abuser.any_true() or (guardian_for_child_related_to_abuser.all_false() and filing_parent_does_not_qualify_other_parent_related_to_abuser.any_true())):
+      % elif self_related_to_abuser.all_false() and what_next == 'stop for me' and (child_related_to_abuser.any_true() or (child_related_to_abuser.all_false() and filing_parent_does_not_qualify_other_parent_related_to_abuser.any_true())):
       your child.
       % endif
     % elif petitioner_related_to_child in('guardian', 'representative'):
