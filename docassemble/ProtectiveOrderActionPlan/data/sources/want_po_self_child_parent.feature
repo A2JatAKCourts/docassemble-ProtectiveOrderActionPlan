@@ -6,16 +6,16 @@ Feature: User paths
 Background: 
   Given the maximum seconds for each Step is 90
 
-# @row81
-# Scenario: Row #81
-#   Given I start the interview at "protective_orders.yml"
-#     And I get to the question id "final screen" with this data:
-#     | var                         | value          | trigger | 
-#     | user_need                   | want po        |         | 
-#     | options_for_po['AK court']  | True           |         | 
-#     | who_needs_the_order         | self and child |         | 
-#     | petitioner_related_to_child | other          |         | 
-#     And I take a screenshot
+@row81
+Scenario: Row #81
+  Given I start the interview at "protective_orders.yml"
+    And I get to the question id "final screen" with this data:
+    | var                         | value          | trigger | 
+    | user_need                   | want po        |         | 
+    | options_for_po['AK court']  | True           |         | 
+    | who_needs_the_order         | self and child |         | 
+    | petitioner_related_to_child | other          |         | 
+    And I take a screenshot
 
 @row82
 Scenario: Row #82
