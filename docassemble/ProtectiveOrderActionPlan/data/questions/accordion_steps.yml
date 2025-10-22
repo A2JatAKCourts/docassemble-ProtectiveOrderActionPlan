@@ -1,5 +1,6 @@
 comment: |
-    last updated: 2025-10-15
+  2025-10-22
+    added logic and interview order for user asking for protective order for children
 ---
 generic object: ALDocumentBundle
 template: x.get_email_copy
@@ -227,6 +228,36 @@ code: |
                   add_unique_step((stalking_step, "stalking_idx"), step_list)
                 if other_po['sexual contact']:
                   add_unique_step((sa_step, "sa_idx"), step_list)
+
+      if who_needs_the_order == 'children':   
+        if petitioner_related_to_children != 'other':
+          if domestic_violence_po_criteria:
+            if children_related_to_abuser == 'all':
+              if dv_crime == 'yes more':
+                add_unique_step((protective_order_more_than_one_step, "protective_order_more_than_one_idx"), step_list)
+              if dv_crime == 'yes one':
+                  add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list) 
+            elif children_related_to_abuser in('one', 'some'):
+              if what_next == 'order for one':
+                if dv_crime == 'yes':
+                  add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list) 
+              if what_next == 'order for more':
+                if dv_crime == 'yes more':
+                  add_unique_step((protective_order_more_than_one_step, "protective_order_more_than_one_idx"), step_list)
+                elif dv_crime == 'yes one':
+                  add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list) 
+              if what_next == 'stop':
+                if other_po['stalked']:
+                  add_unique_step((stalking_step, "stalking_idx"), step_list)
+                if other_po['sexual contact']:
+                  add_unique_step((sa_step, "sa_idx"), step_list)
+            else:
+                if other_po['stalked']:
+                  add_unique_step((stalking_step, "stalking_idx"), step_list)
+                if other_po['sexual contact']:
+                  add_unique_step((sa_step, "sa_idx"), step_list)
+    
+            
           
   
                

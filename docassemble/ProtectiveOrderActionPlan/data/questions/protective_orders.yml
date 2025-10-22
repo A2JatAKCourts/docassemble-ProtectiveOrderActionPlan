@@ -1,5 +1,5 @@
 Comment: |
-  2025-10-20 - cursor fixed (not po against other parent and self related to abuser) with elifs !! Who knew?! Getting rid of 7 unnecessary if defined('self_related_to_abuser')s
+  2025-10-22  added children questions and edited other questions for user asking for protective order for children
 ---
 include:
   - docassemble.AssemblyLine:assembly_line.yml
@@ -115,8 +115,8 @@ fields:
     datatype: radio
     choices:
       - "I want a protective order to protect myself or my child from another person.": want po
-      - "I have a protective order from Alaska. I want to change or end it, prepare for a hearing, report a violation, or respond to a request to change or end it.": have po
-      - "I have a protective order from another state or a tribal court. I want to register it with the Alaska Court System": register po
+      - "I have a protective order from Alaska against someone else. I want to change or end it, prepare for a long-term hearing, report a violation, or respond to a request to change or end it.": have po
+      - "I have a protective order from another state or a tribal court against someone else. I want to register it with the Alaska Court System": register po
       - "Someone has a protective order against me.": defendant
 under: |
   #### <i class="fa-regular fa-lightbulb"></i> Learn more####
@@ -481,6 +481,94 @@ under: |
 
   If you and the other person have any children together, you can ask the court to make a parenting schedule and order child support as part of the protective order case.
 ---
+id: children or self and children may qualify
+question: |
+  % if who_needs_the_order == 'children':
+  ${ 'Your' if petitioner_related_to_children == 'parent' else 'the' } children 
+  % else:
+  You and  ${ 'your' if petitioner_related_to_children == 'parent' else 'the' } children 
+  % endif
+  may qualify for a domestic violence protective order in Alaska if
+   % if who_needs_the_order == 'children':
+  ${ 'your' if petitioner_related_to_children == 'parent' else 'the' } 
+  % else:
+  you and  ${ 'your' if petitioner_related_to_children == 'parent' else 'the' }
+  % endif
+   children:
+subquestion: |
+    
+    * Have a certain relationship with the other person, and
+    * the other person committed a crime of domestic violence against
+    % if who_needs_the_order == 'self and children':
+    all of you.
+    % else:
+    each of ${ 'your' if petitioner_related_to_children == 'parent' else 'the' } children.
+    % endif
+    
+    When you ask for a domestic violence protective order for more than 1 child, each child you are asking for must have the relationship and have experienced the behavior.
+
+continue button field: domestic_violence_po_criteria
+---
+id: more than one child has a relationship with abuser
+question: |
+  Does each child have 1 of these relationships with the other person?
+subquestion: |
+  &nbsp;
+  
+    * Married to each other now or in the past.
+    * Have a child together.
+    * In a dating or sexual relationship now or in past.
+    * Live together now or in past (roommates or romantic relationship).
+    * Related by marriage now or in past (such as in-laws).
+    * Blood relatives such as parents, siblings, children, grandchildren, aunts, uncles, nephews, nieces, and first cousins.
+  % if who_needs_the_order == 'children' and petitioner_related_to_children == 'parent':
+    * You or the other parent has one of the relationships listed above.
+  % else: 
+    * One of their parents has one of the relationships listed above.
+  % endif
+
+  This applies if 
+  % if who_needs_the_order == 'children' and petitioner_related_to_children == 'parent':
+  you or the children’s other parent
+  % else:
+  either of the children’s parents 
+  % endif
+  has one of these relationships with the other person:
+  
+    * Married to each other now or in the past
+    * Have child together
+    * In a dating or sexual relationship now or in past
+    * Live together now or in past (roommates or romantic relationship)
+    * Related by marriage now or in past (such as in-laws)
+    * Blood relatives such as parents, siblings, children, grandchildren, aunts, uncles, nephews, nieces, and first cousins
+  
+fields:
+  - no label: children_related_to_abuser  
+    datatype: radio
+    choices:
+      code: |
+        children_related_to_abuser_choices
+under: |
+  #### <i class="fa-regular fa-lightbulb"></i> Learn more####
+  Why does the number of people with the relationship matter?
+
+  The court has forms to ask for a protective order for one person or for more than one person. Your answers help decide which form you need.
+---
+code: |
+  if who_needs_the_order == 'children':
+    children_related_to_abuser_choices = [
+      {'all': "All of the children have a listed relationship."},
+      {'one': "Only 1 child has a listed relationship."},
+      {'some': "Some of the children, but not all of the children, have a listed relationship."},
+      {'none': "None of the children have a listed relationship."}
+    ] 
+  else:
+    children_related_to_abuser_choices = [
+      {'yes all': "Yes. All the children have a listed relationship."},
+      {'yes one': "Yes. One or more children, but not all of the children, have a listed relationship."},
+      {'no': "No. None of the children have a listed relationship."}
+    ] 
+---
 id: dv - crime
 question: |
   Did the other person commit a domestic violence crime against 
@@ -489,7 +577,7 @@ question: |
   % elif who_needs_the_order == 'child':
   ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } child?
   % elif who_needs_the_order == 'children':
-  ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } children?
+  ${ 'your' if petitioner_related_to_children == 'parent' else 'the' } children?
   % elif who_needs_the_order == 'self and child':
     % if petitioner_related_to_child == 'parent':
       % if po_against_other_parent:
@@ -509,7 +597,7 @@ question: |
       % endif
     % endif
   % elif who_needs_the_order == 'self and children':
-  you and ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } children?
+  you and ${ 'your' if petitioner_related_to_children == 'parent' else 'the' } children?
   % endif
 subquestion: |
   To get a protective order, the other person must have committed a "domestic violence crime" against 
@@ -519,7 +607,7 @@ subquestion: |
   ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } 
   child.
   % elif who_needs_the_order == 'children':
-  ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } children.
+  ${ 'your' if petitioner_related_to_children == 'parent' else 'the' } children.
   % elif who_needs_the_order == 'self and child':
     % if petitioner_related_to_child == 'parent':
       % if po_against_other_parent:
@@ -539,7 +627,7 @@ subquestion: |
       % endif
     % endif
   % elif who_needs_the_order == 'self and children':
-  you and ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } children.
+  you and ${ 'your' if petitioner_related_to_children == 'parent' else 'the' } children.
   % endif
 
   The list of these crimes is below. You do not need to know the exact name or definition of the crime. But you need to tell the judge what happened. 
@@ -570,6 +658,8 @@ subquestion: |
       you
       % endif
     % endif
+  % elif who_needs_the_order == 'children':
+  ${ 'your' if petitioner_related_to_children == 'parent' else 'the' } children 
   % endif
   or made 
   % if who_needs_the_order == 'self':
@@ -590,14 +680,14 @@ subquestion: |
       you
       % endif
     % endif
+  % elif who_needs_the_order == 'children':
+    ${ 'your' if petitioner_related_to_children == 'parent' else 'the' } children 
   % endif
   scared they were going to hurt
   % if who_needs_the_order == 'self':
   you.
   % elif who_needs_the_order == 'child':
   ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } child.
-  % elif who_needs_the_order == 'children':
-  ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } children.
   % elif who_needs_the_order == 'self and child':
     % if petitioner_related_to_child == 'parent':
       % if po_against_other_parent:
@@ -616,6 +706,8 @@ subquestion: |
       the child.
       % endif
     % endif
+  % elif who_needs_the_order == 'children':
+   them.
   % elif who_needs_the_order == 'self and children':
   you.
   % endif
@@ -673,7 +765,7 @@ auto terms:
 ---
 code: |
   # Simple yes/no choices for single person cases
-  if who_needs_the_order in('self','child', 'children'):
+  if who_needs_the_order in('self','child'):
     dv_crime_choices = [
       {'yes': "Yes"},
       {'no': "No"}
@@ -703,14 +795,14 @@ code: |
       {'yes one': "Yes, against 1 child."},
       {'no': "No. The other person did not commit a domestic violence crime against any of the children."}
        ]
-  elif who_needs_the_order == 'self and children' and petitioner_related_to_child == 'parent':
+  elif who_needs_the_order == 'self and children' and petitioner_related_to_children == 'parent':
     dv_crime_choices = [
       {'yes all': "Yes, against both of us."},
       {'yes some': "Yes, against one of us."},
       {'yes one': "Yes, against 1 child."},
       {'no': "The other person did not commit a domestic violence crime against any of us?."}
        ]
-  elif who_needs_the_order == 'self and children' and petitioner_related_to_child in('guardian', 'representative'):
+  elif who_needs_the_order == 'self and children' and petitioner_related_to_children in('guardian', 'representative'):
     dv_crime_choices = [
       {'yes all': "Yes, against both of us."},
       {'yes some': "Yes, against one of us."},
@@ -732,6 +824,8 @@ question: |
   the
   % endif
   child
+  % elif who_needs_the_order == 'children':
+  Do ${ 'your' if petitioner_related_to_children == 'parent' else 'the' } children
   % endif 
   qualify for another type of protective order?
 subquestion: |
@@ -747,12 +841,7 @@ subquestion: |
       % endif
     child
     % elif who_needs_the_order == 'children':
-      % if petitioner_related_to_child == 'parent':
-      your
-      % elif petitioner_related_to_child in('guardian', 'representative'):
-      the
-      % endif
-    children
+       ${ 'your' if petitioner_related_to_children == 'parent' else 'the' } children
     % endif
   % elif who_needs_the_order == 'self and child':
     % if what_next == 'stop for me':
@@ -805,18 +894,34 @@ code: |
   # if who_needs_the_order == 'children':
   # if who_needs_the_order == 'self and children':
 ---
-id: Petitioner's relationship to child
+id: Petitioner's relationship to child or children
 question: |
-  What is your relationship to the child?
+  What is your relationship to the 
+  ${ 'child' if who_needs_the_order in('child', 'self and child') else 'children' }?
 subquestion: |
 fields:
-  no label: petitioner_related_to_child
-  datatype: radio
-  choices:
-    - "Parent": parent
-    - "Guardian": guardian
-    - "A representative appointed by the court": representative
-    - "Other": other
+  - no label: petitioner_related_to_child
+    datatype: radio
+    choices:
+      - "Parent": parent
+      - "Guardian": guardian
+      - "A representative appointed by the court": representative
+      - "Other": other
+    show if:
+       code: |
+         who_needs_the_order in('child', 'self and child')
+  
+  - no label: petitioner_related_to_children
+    datatype: radio
+    choices:
+      - "Parent of all the children.": parent
+      - "Guardian or representative appointed by the court for all the children. ": guardian
+      - "A combination – a parent of one or more children and guardian or representative of one or more children. ": combination
+      - "Other": other
+    show if:
+       code: |
+         who_needs_the_order in('children', 'self and children')
+    
 under: |
   #### <i class="fa-regular fa-lightbulb"></i> Learn more####
 
@@ -824,11 +929,12 @@ under: |
 
   Alaska law allows a parent, guardian, or representative appointed by the court to ask for a protective order for a child under age 18.
 ---
+---
 id: asking for PO against other parent?
 question: |
-  Are you asking for a protective order against the child’s other parent?
+  Are you asking for a protective order against ${ 'child' if who_needs_the_order in('child', 'self and child') else 'children' } other parent?
 fields:
-  - "Are you asking for a protective order against the child’s other parent?": po_against_other_parent
+  - "Are you asking for a protective order against ${ 'child' if who_needs_the_order in('child', 'self and child') else 'children' } other parent?": po_against_other_parent
     datatype: yesnoradio
   - "Did you marry the other parent?": parent_related_parent    
     input type: radio
