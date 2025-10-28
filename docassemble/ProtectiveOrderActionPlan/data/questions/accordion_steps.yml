@@ -1,5 +1,5 @@
 comment: |
-    last updated: 2025-10-15
+    last updated: 2025-10-27
 ---
 generic object: ALDocumentBundle
 template: x.get_email_copy
@@ -525,17 +525,17 @@ content: |
   % endif
   child
   % elif who_needs_the_order == 'children':
-  % if petitioner_related_to_child == 'parent':
+  % if petitioner_related_to_children == 'parent':
   Your
-  % elif petitioner_related_to_child in('guardian', 'representative'):
+  % elif petitioner_related_to_children in('guardian', 'representative'):
   The
   % endif
   children
   % elif who_needs_the_order == 'self and children':
   You or 
-  % if petitioner_related_to_child == 'parent':
+  % if petitioner_related_to_children == 'parent':
   your
-  % elif petitioner_related_to_child in('guardian', 'representative'):
+  % elif petitioner_related_to_children in('guardian', 'representative'):
   the 
   % endif 
   children
@@ -561,17 +561,17 @@ content: |
   % endif
   child do not
   % elif who_needs_the_order == 'children':
-  % if petitioner_related_to_child == 'parent':
+  % if petitioner_related_to_children == 'parent':
   your
-  % elif petitioner_related_to_child in('guardian', 'representative'):
+  % elif petitioner_related_to_children in('guardian', 'representative'):
   the
   % endif
   children do not
   % elif who_needs_the_order == 'self and children':
   you and 
-  % if petitioner_related_to_child == 'parent':
+  % if petitioner_related_to_children == 'parent':
   your
-  % elif petitioner_related_to_child in('guardian', 'representative'):
+  % elif petitioner_related_to_children in('guardian', 'representative'):
   the 
   % endif 
   children do not
