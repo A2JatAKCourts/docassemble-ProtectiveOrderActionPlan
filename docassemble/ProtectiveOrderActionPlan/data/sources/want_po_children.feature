@@ -297,7 +297,7 @@ Scenario: Row #207
     | who_needs_the_order            | children      |         | 
     | petitioner_related_to_children | combination   |         | 
     | domestic_violence_po_criteria  | True          |         | 
-    | children_related_to_abuser     | none          |         | 
+    | children_related_to_abuser     | some          |         | 
     | what_next                      | order for one |         | 
     | dv_crime                       | yes one       |         | 
     And I take a screenshot

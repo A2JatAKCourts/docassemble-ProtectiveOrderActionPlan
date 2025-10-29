@@ -995,9 +995,9 @@ under: |
 ---
 id: asking for PO against other parent?
 question: |
-  Are you asking for a protective order against ${ 'child' if who_needs_the_order in('child', 'self and child') else 'children' } other parent?
+  Are you asking for a protective order against your ${ "child's" if who_needs_the_order in('child', 'self and child') else "children's" } other parent?
 fields:
-  - "Are you asking for a protective order against ${ 'child' if who_needs_the_order in('child', 'self and child') else 'children' } other parent?": po_against_other_parent
+  - Are you asking for a protective order against your ${ "child's" if who_needs_the_order in('child', 'self and child') else "children's" } other parent?: po_against_other_parent
     datatype: yesnoradio
   - "Did you marry the other parent?": parent_related_parent    
     input type: radio
