@@ -28,7 +28,7 @@ Scenario: Row #152
     | petitioner_related_to_children | parent   |         | 
     | domestic_violence_po_criteria  | True     |         | 
     | children_related_to_abuser     | all      |         | 
-    | dv_crime                       | yes      |         | 
+    | dv_crime                       | yes more |         | 
     And I take a screenshot
 
 @row155
@@ -106,8 +106,8 @@ Scenario: Row #167
     | dv_crime                       | no             |         | 
     And I take a screenshot
 
-@row170
-Scenario: Row #170
+@row168
+Scenario: Row #168
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                            | value    | trigger | 
@@ -121,8 +121,8 @@ Scenario: Row #170
     | other_po['stalked']            | True     |         | 
     And I take a screenshot
 
-@row173
-Scenario: Row #173
+@row170
+Scenario: Row #170
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                            | value    | trigger | 
@@ -133,7 +133,7 @@ Scenario: Row #173
     | domestic_violence_po_criteria  | True     |         | 
     | children_related_to_abuser     | some     |         | 
     | what_next                      | stop     |         | 
-    | other_po['none']               | True     |         | 
+    | other_po['None']               | True     |         | 
     And I take a screenshot
 
 @row175
@@ -192,7 +192,7 @@ Scenario: Row #184
     | domestic_violence_po_criteria  | True     |         | 
     | children_related_to_abuser     | one      |         | 
     | what_next                      | stop     |         | 
-    | other_po['none']               | True     |         | 
+    | other_po['None']               | True     |         | 
     And I take a screenshot
 
 @row187
