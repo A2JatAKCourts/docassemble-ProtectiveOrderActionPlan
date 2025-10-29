@@ -299,7 +299,7 @@ Scenario: Row #207
     | domestic_violence_po_criteria  | True          |         | 
     | children_related_to_abuser     | some          |         | 
     | what_next                      | order for one |         | 
-    | dv_crime                       | yes one       |         | 
+    | dv_crime                       | yes           |         | 
     And I take a screenshot
 
 @row210

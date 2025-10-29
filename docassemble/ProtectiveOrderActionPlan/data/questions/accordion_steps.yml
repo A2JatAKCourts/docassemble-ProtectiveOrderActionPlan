@@ -269,50 +269,50 @@ code: |
                 add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list)
               elif dv_crime in('yes all', 'yes some'):
                 add_unique_step((protective_order_more_than_one_step, "protective_order_more_than_one_idx"), step_list)
-          else:
-            if self_related_to_abuser['married']:
-              add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
-            if self_related_to_abuser['have child']:
-              add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
-            if self_related_to_abuser.any_true():
-              if dv_crime in('yes all', 'yes some'):
-                add_unique_step((protective_order_more_than_one_step, "protective_order_more_than_one_idx"), step_list)
-              if dv_crime == 'yes one':
-                  add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list)
-            
             else:
-              if what_next == 'other po for me':
-                if other_po['stalked']:
-                  add_unique_step((stalking_step, "stalking_idx"), step_list)
-                if other_po['sexual contact']:
-                  add_unique_step((sa_step, "sa_idx"), step_list)
-  
-              elif what_next == 'stop for me':
-                if children_related_to_abuser == 'all':
-                  if dv_crime == 'yes more':
-                    add_unique_step((protective_order_more_than_one_step, "protective_order_more_than_one_idx"), step_list)
-                  elif dv_crime == 'yes one':
+              if self_related_to_abuser['married']:
+                add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
+              if self_related_to_abuser['have child']:
+                add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
+              if self_related_to_abuser.any_true():
+                if dv_crime in('yes all', 'yes some'):
+                  add_unique_step((protective_order_more_than_one_step, "protective_order_more_than_one_idx"), step_list)
+                if dv_crime == 'yes one':
                     add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list)
-                elif children_related_to_abuser in('one', 'some'):
-                  if what_next == 'order for one':
-                    if dv_crime == 'yes':
-                      add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list)
-                  elif what_next == 'order for more':
-                    if dv_crime == 'yes more':
-                      add_unique_step((protective_order_more_than_one_step, "protective_order_more_than_one_idx"), step_list)
-                    elif dv_crime == 'yes one':
-                      add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list)
-                  elif what_next == 'stop':
-                    if other_po['stalked']:
-                      add_unique_step((stalking_step, "stalking_idx"), step_list)
-                    if other_po['sexual contact']:
-                      add_unique_step((sa_step, "sa_idx"), step_list)  
-  
-                elif children_related_to_abuser == 'none':
+              
+              else:
+                if what_next == 'other po for me':
                   if other_po['stalked']:
                     add_unique_step((stalking_step, "stalking_idx"), step_list)
                   if other_po['sexual contact']:
                     add_unique_step((sa_step, "sa_idx"), step_list)
+    
+                elif what_next == 'stop for me':
+                  if children_related_to_abuser == 'all':
+                    if dv_crime == 'yes more':
+                      add_unique_step((protective_order_more_than_one_step, "protective_order_more_than_one_idx"), step_list)
+                    elif dv_crime == 'yes one':
+                      add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list)
+                  elif children_related_to_abuser in('one', 'some'):
+                    if what_next == 'order for one':
+                      if dv_crime == 'yes':
+                        add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list)
+                    elif what_next == 'order for more':
+                      if dv_crime == 'yes more':
+                        add_unique_step((protective_order_more_than_one_step, "protective_order_more_than_one_idx"), step_list)
+                      elif dv_crime == 'yes one':
+                        add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list)
+                    elif what_next == 'stop':
+                      if other_po['stalked']:
+                        add_unique_step((stalking_step, "stalking_idx"), step_list)
+                      if other_po['sexual contact']:
+                        add_unique_step((sa_step, "sa_idx"), step_list)  
+    
+                  elif children_related_to_abuser == 'none':
+                    if other_po['stalked']:
+                      add_unique_step((stalking_step, "stalking_idx"), step_list)
+                    if other_po['sexual contact']:
+                      add_unique_step((sa_step, "sa_idx"), step_list)
   
   
      

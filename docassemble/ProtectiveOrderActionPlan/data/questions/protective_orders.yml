@@ -1071,9 +1071,17 @@ code: |
         'help': "The stalking and sexual assault forms only have space to ask for an order for one person at a time. If you want to ask for a stalking or sexual assault order against more than 1 child, you will have to fill out more than 1 form."}
           ]
 
+  ###Step 5 q.5
+  if who_needs_the_order == 'self and children' and self_related_to_abuser.all_false():
+    what_next_choices = [
+        {'other po for me': "Stop answering questions for the children. Answer questions about asking for a protective order for myself." },
+        {'continue for both': "Continue to answer questions about asking for a protective order for myself and the children." },
+        {'stop for me': "Answer questions about if my children have a relationship with the other person that would be appropriate for asking for a domestic violence protective order. This will end questions about my protective order."}
+          ]
+    
 
   ###Step 5 q.9
-  if who_needs_the_order == 'self and children' and petitioner_related_to_child in('guardian', 'representative') and self_related_to_abuser.any_true() and guardian_and_child_child_related_to_abuser.all_false():
+  if who_needs_the_order == 'self and children' and petitioner_related_to_children in('guardian', 'representative') and self_related_to_abuser.any_true() and guardian_and_child_child_related_to_abuser.all_false():
     what_next_choices = [
         {'stop for child': "Stop answering questions for the children. Answer questions about asking for a protective order for myself." },
         {'continue for both': "Continue to answer questions about asking for a protective order for myself and the children." },
