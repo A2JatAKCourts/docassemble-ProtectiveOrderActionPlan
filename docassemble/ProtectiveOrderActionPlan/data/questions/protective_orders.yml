@@ -5,7 +5,7 @@ include:
   - docassemble.AssemblyLine:assembly_line.yml
   - docassemble.AKA2JBranding:custom_organization.yml
   - docassemble.AKA2JBranding:aka2j_templates.yml
-  - accordion_steps_refactoring_petitioner_to_children.yml
+  - accordion_steps.yml
 ---
 default screen parts:
   post: |
