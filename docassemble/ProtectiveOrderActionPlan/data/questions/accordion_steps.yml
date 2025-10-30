@@ -1,5 +1,5 @@
 comment: |
-    last updated: 2025-10-27
+    last updated: 2025-10-30 refactored petitioner_related_to_children to petitioner_related_to_child
 ---
 generic object: ALDocumentBundle
 template: x.get_email_copy
@@ -229,7 +229,7 @@ code: |
                   add_unique_step((sa_step, "sa_idx"), step_list)
 
       if who_needs_the_order == 'children':   
-        if petitioner_related_to_children != 'other':
+        if petitioner_related_to_child != 'other':
           if domestic_violence_po_criteria:
             if children_related_to_abuser == 'all':
               if dv_crime == 'yes more':
@@ -237,15 +237,15 @@ code: |
               if dv_crime == 'yes one':
                   add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list) 
             elif children_related_to_abuser in('one', 'some'):
-              if what_next == 'order for one':
+              if what_next_for_children == 'order for one':
                 if dv_crime == 'yes':
                   add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list) 
-              if what_next == 'order for more':
+              if what_next_for_children == 'order for more':
                 if dv_crime == 'yes more':
                   add_unique_step((protective_order_more_than_one_step, "protective_order_more_than_one_idx"), step_list)
                 elif dv_crime == 'yes one':
                   add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list) 
-              if what_next == 'stop':
+              if what_next_for_children == 'stop':
                 if other_po['stalked']:
                   add_unique_step((stalking_step, "stalking_idx"), step_list)
                 if other_po['sexual contact']:
@@ -257,7 +257,7 @@ code: |
                   add_unique_step((sa_step, "sa_idx"), step_list)
 
       if who_needs_the_order == 'self and children':   
-        if petitioner_related_to_children == 'parent':
+        if petitioner_related_to_child == 'parent':
           if domestic_violence_po_criteria:
             if po_against_other_parent:
               add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
@@ -288,21 +288,21 @@ code: |
                     add_unique_step((sa_step, "sa_idx"), step_list)
     
                 elif what_next == 'stop for me':
-                  if children_related_to_abuser == 'all':
+                  if children_related_to_abuser == 'yes all':
                     if dv_crime == 'yes more':
                       add_unique_step((protective_order_more_than_one_step, "protective_order_more_than_one_idx"), step_list)
                     elif dv_crime == 'yes one':
                       add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list)
-                  elif children_related_to_abuser in('one', 'some'):
-                    if what_next == 'order for one':
+                  elif children_related_to_abuser == 'yes one':
+                    if what_next_for_children == 'order for one':
                       if dv_crime == 'yes':
                         add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list)
-                    elif what_next == 'order for more':
+                    elif what_next_for_children == 'order for more':
                       if dv_crime == 'yes more':
                         add_unique_step((protective_order_more_than_one_step, "protective_order_more_than_one_idx"), step_list)
                       elif dv_crime == 'yes one':
                         add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list)
-                    elif what_next == 'stop':
+                    elif what_next_for_children == 'stop':
                       if other_po['stalked']:
                         add_unique_step((stalking_step, "stalking_idx"), step_list)
                       if other_po['sexual contact']:
@@ -316,7 +316,7 @@ code: |
   
   
      
-        if petitioner_related_to_children in('guardian', 'combination'):
+        if petitioner_related_to_child in('guardian', 'combination'):
           if domestic_violence_po_criteria:
             if self_related_to_abuser['married']:
               add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
@@ -358,15 +358,15 @@ code: |
                   elif dv_crime == 'yes one':
                     add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list)
                 elif children_related_to_abuser in('one', 'some'):
-                  if what_next == 'order for one':
+                  if what_next_for_children == 'order for one':
                     if dv_crime == 'yes':
                       add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list)
-                  elif what_next == 'order for more':
+                  elif what_next_for_children == 'order for more':
                     if dv_crime == 'yes more':
                       add_unique_step((protective_order_more_than_one_step, "protective_order_more_than_one_idx"), step_list)
                     elif dv_crime == 'yes one':
                       add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list)
-                  elif what_next == 'stop':
+                  elif what_next_for_children == 'stop':
                     if other_po['stalked']:
                       add_unique_step((stalking_step, "stalking_idx"), step_list)
                     if other_po['sexual contact']:
@@ -525,17 +525,17 @@ content: |
   % endif
   child
   % elif who_needs_the_order == 'children':
-  % if petitioner_related_to_children == 'parent':
+  % if petitioner_related_to_child == 'parent':
   Your
-  % elif petitioner_related_to_children in('guardian', 'representative'):
+  % elif petitioner_related_to_child in('guardian', 'representative'):
   The
   % endif
   children
   % elif who_needs_the_order == 'self and children':
   You or 
-  % if petitioner_related_to_children == 'parent':
+  % if petitioner_related_to_child == 'parent':
   your
-  % elif petitioner_related_to_children in('guardian', 'representative'):
+  % elif petitioner_related_to_child in('guardian', 'representative'):
   the 
   % endif 
   children
@@ -561,17 +561,17 @@ content: |
   % endif
   child do not
   % elif who_needs_the_order == 'children':
-  % if petitioner_related_to_children == 'parent':
+  % if petitioner_related_to_child == 'parent':
   your
-  % elif petitioner_related_to_children in('guardian', 'representative'):
+  % elif petitioner_related_to_child in('guardian', 'representative'):
   the
   % endif
   children do not
   % elif who_needs_the_order == 'self and children':
   you and 
-  % if petitioner_related_to_children == 'parent':
+  % if petitioner_related_to_child == 'parent':
   your
-  % elif petitioner_related_to_children in('guardian', 'representative'):
+  % elif petitioner_related_to_child in('guardian', 'representative'):
   the 
   % endif 
   children do not
