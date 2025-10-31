@@ -1,5 +1,5 @@
 @want_po_children
-# 2025-10-30
+# 2025-10-31
 
 Feature: User paths 
 
@@ -42,7 +42,7 @@ Scenario: Row #155
     | petitioner_related_to_child   | parent        |         | 
     | domestic_violence_po_criteria | True          |         | 
     | children_related_to_abuser    | one           |         | 
-    | what_next                     | order for one |         | 
+    | what_next_for_children        | order for one |         | 
     | dv_crime                      | yes           |         | 
     And I take a screenshot
 
@@ -57,7 +57,7 @@ Scenario: Row #158
     | petitioner_related_to_child   | parent         |         | 
     | domestic_violence_po_criteria | True           |         | 
     | children_related_to_abuser    | one            |         | 
-    | what_next                     | order for more |         | 
+    | what_next_for_children        | order for more |         | 
     | dv_crime                      | yes one        |         | 
     And I take a screenshot
 
@@ -72,7 +72,7 @@ Scenario: Row #161
     | petitioner_related_to_child   | parent   |         | 
     | domestic_violence_po_criteria | True     |         | 
     | children_related_to_abuser    | one      |         | 
-    | what_next                     | stop     |         | 
+    | what_next_for_children        | stop     |         | 
     | other_po['sexual contact']    | True     |         | 
     And I take a screenshot
 
@@ -87,7 +87,7 @@ Scenario: Row #164
     | petitioner_related_to_child   | parent        |         | 
     | domestic_violence_po_criteria | True          |         | 
     | children_related_to_abuser    | some          |         | 
-    | what_next                     | order for one |         | 
+    | what_next_for_children        | order for one |         | 
     | dv_crime                      | yes           |         | 
     And I take a screenshot
 
@@ -102,7 +102,7 @@ Scenario: Row #167
     | petitioner_related_to_child   | parent         |         | 
     | domestic_violence_po_criteria | True           |         | 
     | children_related_to_abuser    | some           |         | 
-    | what_next                     | order for more |         | 
+    | what_next_for_children        | order for more |         | 
     | dv_crime                      | no             |         | 
     And I take a screenshot
 
@@ -117,7 +117,7 @@ Scenario: Row #168
     | petitioner_related_to_child   | parent   |         | 
     | domestic_violence_po_criteria | True     |         | 
     | children_related_to_abuser    | some     |         | 
-    | what_next                     | stop     |         | 
+    | what_next_for_children        | stop     |         | 
     | other_po['stalked']           | True     |         | 
     And I take a screenshot
 
@@ -132,7 +132,7 @@ Scenario: Row #170
     | petitioner_related_to_child   | parent   |         | 
     | domestic_violence_po_criteria | True     |         | 
     | children_related_to_abuser    | some     |         | 
-    | what_next                     | stop     |         | 
+    | what_next_for_children        | stop     |         | 
     | other_po['None']              | True     |         | 
     And I take a screenshot
 
@@ -161,7 +161,7 @@ Scenario: Row #178
     | petitioner_related_to_child   | guardian      |         | 
     | domestic_violence_po_criteria | True          |         | 
     | children_related_to_abuser    | one           |         | 
-    | what_next                     | order for one |         | 
+    | what_next_for_children        | order for one |         | 
     | dv_crime                      | no            |         | 
     And I take a screenshot
 
@@ -176,7 +176,7 @@ Scenario: Row #181
     | petitioner_related_to_child   | guardian       |         | 
     | domestic_violence_po_criteria | True           |         | 
     | children_related_to_abuser    | one            |         | 
-    | what_next                     | order for more |         | 
+    | what_next_for_children        | order for more |         | 
     | dv_crime                      | no             |         | 
     And I take a screenshot
 
@@ -191,7 +191,7 @@ Scenario: Row #184
     | petitioner_related_to_child   | guardian |         | 
     | domestic_violence_po_criteria | True     |         | 
     | children_related_to_abuser    | one      |         | 
-    | what_next                     | stop     |         | 
+    | what_next_for_children        | stop     |         | 
     | other_po['None']              | True     |         | 
     And I take a screenshot
 
@@ -206,7 +206,7 @@ Scenario: Row #187
     | petitioner_related_to_child   | guardian       |         | 
     | domestic_violence_po_criteria | True           |         | 
     | children_related_to_abuser    | some           |         | 
-    | what_next                     | order for more |         | 
+    | what_next_for_children        | order for more |         | 
     | dv_crime                      | no             |         | 
     | dv_crime                      | yes more       |         | 
     And I take a screenshot
@@ -222,7 +222,7 @@ Scenario: Row #190
     | petitioner_related_to_child   | guardian |         | 
     | domestic_violence_po_criteria | True     |         | 
     | children_related_to_abuser    | some     |         | 
-    | what_next                     | stop     |         | 
+    | what_next_for_children        | stop     |         | 
     | other_po['stalked']           | True     |         | 
     | other_po['sexual contact']    | True     |         | 
     And I take a screenshot
@@ -267,7 +267,7 @@ Scenario: Row #201
     | petitioner_related_to_child   | combination    |         | 
     | domestic_violence_po_criteria | True           |         | 
     | children_related_to_abuser    | one            |         | 
-    | what_next                     | order for more |         | 
+    | what_next_for_children        | order for more |         | 
     | dv_crime                      | yes more       |         | 
     And I take a screenshot
 
@@ -282,7 +282,7 @@ Scenario: Row #204
     | petitioner_related_to_child   | combination |         | 
     | domestic_violence_po_criteria | True        |         | 
     | children_related_to_abuser    | one         |         | 
-    | what_next                     | stop        |         | 
+    | what_next_for_children        | stop        |         | 
     | other_po['stalked']           | True        |         | 
     | other_po['sexual contact']    | True        |         | 
     And I take a screenshot
@@ -298,7 +298,7 @@ Scenario: Row #207
     | petitioner_related_to_child   | combination   |         | 
     | domestic_violence_po_criteria | True          |         | 
     | children_related_to_abuser    | some          |         | 
-    | what_next                     | order for one |         | 
+    | what_next_for_children        | order for one |         | 
     | dv_crime                      | yes           |         | 
     And I take a screenshot
 
@@ -313,7 +313,7 @@ Scenario: Row #210
     | petitioner_related_to_child   | combination    |         | 
     | domestic_violence_po_criteria | True           |         | 
     | children_related_to_abuser    | some           |         | 
-    | what_next                     | order for more |         | 
+    | what_next_for_children        | order for more |         | 
     | dv_crime                      | yes one        |         | 
     And I take a screenshot
 
@@ -328,7 +328,7 @@ Scenario: Row #213
     | petitioner_related_to_child   | combination |         | 
     | domestic_violence_po_criteria | True        |         | 
     | children_related_to_abuser    | some        |         | 
-    | what_next                     | stop        |         | 
+    | what_next_for_children        | stop        |         | 
     | other_po['sexual contact']    | True        |         | 
     And I take a screenshot
 
