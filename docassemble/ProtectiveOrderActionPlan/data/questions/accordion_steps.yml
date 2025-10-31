@@ -288,12 +288,12 @@ code: |
                     add_unique_step((sa_step, "sa_idx"), step_list)
     
                 elif what_next == 'stop for me':
-                  if children_related_to_abuser == 'yes all':
+                  if children_related_to_abuser == 'all':
                     if dv_crime == 'yes more':
                       add_unique_step((protective_order_more_than_one_step, "protective_order_more_than_one_idx"), step_list)
                     elif dv_crime == 'yes one':
                       add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list)
-                  elif children_related_to_abuser == 'yes one':
+                  elif children_related_to_abuser == 'one':
                     if what_next_for_children == 'order for one':
                       if dv_crime == 'yes':
                         add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list)
