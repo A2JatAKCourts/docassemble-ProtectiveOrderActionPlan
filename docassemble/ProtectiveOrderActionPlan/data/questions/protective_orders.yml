@@ -1,5 +1,5 @@
 Comment: |
-  2025-10-30  added children questions and edited other questions for user asking for protective order for children and refactored petitioner_related_to_children to child
+  2025-10-31  added children questions and edited other questions for user asking for protective order for children and refactored petitioner_related_to_children to child
 ---
 include:
   - docassemble.AssemblyLine:assembly_line.yml
@@ -1007,8 +1007,8 @@ code: |
   if who_needs_the_order in('children', 'self and children'):
     petitioner_related_to_child_choices = [
       {'parent': "Parent of all the children."},
-      {'combination': "Guardian or representative appointed by the court for all the children."},
-      {'representative': "A combination – a parent of one or more children and guardian or representative of one or more children."},
+      {'guardian': "Guardian or representative appointed by the court for all the children."},
+      {'combination': "A combination – a parent of one or more children and guardian or representative of one or more children."},
       {'other': "Other"}
        ]
   
