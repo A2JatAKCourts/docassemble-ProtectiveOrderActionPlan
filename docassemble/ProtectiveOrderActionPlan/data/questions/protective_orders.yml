@@ -1,5 +1,5 @@
 Comment: |
-  2025-10-31  added children questions and edited other questions for user asking for protective order for children and refactored petitioner_related_to_children to child
+  2025-11-03  added children questions and edited other questions for user asking for protective order for children and refactored petitioner_related_to_children to child
 ---
 include:
   - docassemble.AssemblyLine:assembly_line.yml
@@ -741,7 +741,6 @@ subquestion: |
   you and ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } children
   % endif
   % endif
-  
   or made 
   % if who_needs_the_order == 'self':
   you
@@ -895,12 +894,12 @@ code: |
       {'yes one': "Yes, against 1 child."},
       {'no': "No. The other person did not commit a domestic violence crime against any of the children."}
        ]
-  elif who_needs_the_order == 'self and children' and (petitioner_related_to_child == 'parent' and (po_against_other_parent or (not po_against_other_parent and self_related_to_abuser.any_true())) or (petitioner_related_to_child in('guardian', 'representative') and self_related_to_abuser.any_true() and children_related_to_abuser in('all', 'some'))):
+  elif who_needs_the_order == 'self and children' and (petitioner_related_to_child == 'parent' and (po_against_other_parent or (not po_against_other_parent and self_related_to_abuser.any_true())) or (petitioner_related_to_child in('guardian', 'representative') and self_related_to_abuser.any_true() and children_related_to_abuser in('all', 'one'))):
     dv_crime_choices = [
       {'yes all': "Yes, against all of us."},
       {'yes some': "Yes, against some of us."},
       {'yes one': "Yes, against one of us."},
-      {'no': "The other person did not commit a domestic violence crime against any of us?."}
+      {'no': "The other person did not commit a domestic violence crime against any of us."}
        ]
   #  elif who_needs_the_order == 'self and children' and :
   #    dv_crime_choices = [

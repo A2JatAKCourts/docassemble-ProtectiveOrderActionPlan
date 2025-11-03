@@ -1,5 +1,5 @@
 comment: |
-    last updated: 2025-10-30 refactored petitioner_related_to_children to petitioner_related_to_child
+    last updated: 2025-11-03
 ---
 generic object: ALDocumentBundle
 template: x.get_email_copy
@@ -324,7 +324,7 @@ code: |
               add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
             if self_related_to_abuser.any_true():
               if children_related_to_abuser in('all', 'one'):
-                if dv_crime == 'yes more':
+                if dv_crime in('yes all', 'yes some'):
                   add_unique_step((protective_order_more_than_one_step, "protective_order_more_than_one_idx"), step_list)
                 elif dv_crime == 'yes one':
                   add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list)
