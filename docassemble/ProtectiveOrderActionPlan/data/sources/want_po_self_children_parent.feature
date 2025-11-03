@@ -789,7 +789,7 @@ Scenario: Row #242
     | po_against_other_parent        | False             |         | 
     | self_related_to_abuser['None'] | True              |         | 
     | what_next                      | stop for me       |         | 
-    | children_related_to_abuser     | no                |         | 
+    | children_related_to_abuser     | none              |         | 
     | other_po['stalked']            | True              |         | 
     And I take a screenshot
 
@@ -806,7 +806,7 @@ Scenario: Row #243
     | po_against_other_parent        | False             |         | 
     | self_related_to_abuser['None'] | True              |         | 
     | what_next                      | stop for me       |         | 
-    | children_related_to_abuser     | no                |         | 
+    | children_related_to_abuser     | none              |         | 
     | other_po['sexual contact']     | True              |         | 
     And I take a screenshot
 
@@ -823,7 +823,7 @@ Scenario: Row #244
     | po_against_other_parent        | False             |         | 
     | self_related_to_abuser['None'] | True              |         | 
     | what_next                      | stop for me       |         | 
-    | child_related_to_abuser        | no                |         | 
+    | children_related_to_abuser     | none              |         | 
     | other_po['None']               | True              |         | 
     And I take a screenshot    
 
