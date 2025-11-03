@@ -641,8 +641,12 @@ question: |
       % endif
     % endif
   % elif who_needs_the_order == 'self and children':
-   % if petitioner_related_to_child == 'parent' and not po_against_other_parent and self_related_to_abuser.all_false() and what_next == 'stop for me' and children_related_to_abuser == 'one' and what_next_for_children == 'order for one':
-  your child?
+   % if petitioner_related_to_child == 'parent' and not po_against_other_parent and self_related_to_abuser.all_false() and what_next == 'stop for me':
+  % if children_related_to_abuser == 'one' and what_next_for_children == 'order for one':
+  ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } child?
+  % elif children_related_to_abuser == 'all':
+  ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } children?
+  % endif
   % else:
   you and ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } children?
   % endif
@@ -680,8 +684,12 @@ subquestion: |
       % endif
     % endif
   % elif who_needs_the_order == 'self and children':
-   % if petitioner_related_to_child == 'parent' and not po_against_other_parent and self_related_to_abuser.all_false() and what_next == 'stop for me' and children_related_to_abuser == 'one' and what_next_for_children == 'order for one':
-  your child.
+   % if petitioner_related_to_child == 'parent' and not po_against_other_parent and self_related_to_abuser.all_false():
+  % if children_related_to_abuser == 'one' and what_next_for_children == 'order for one':
+  ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } child.
+  % elif children_related_to_abuser == 'all':
+  ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } children.
+  % endif
   % else:
   you and ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } children.
   % endif
@@ -723,12 +731,17 @@ subquestion: |
   children
   % endif
   % elif who_needs_the_order == 'self and children':
-   % if petitioner_related_to_child == 'parent' and not po_against_other_parent and self_related_to_abuser.all_false() and what_next == 'stop for me' and children_related_to_abuser == 'one' and what_next_for_children == 'order for one':
+   % if petitioner_related_to_child == 'parent' and not po_against_other_parent and self_related_to_abuser.all_false() and what_next == 'stop for me': 
+  % if children_related_to_abuser == 'one' and what_next_for_children == 'order for one':
   ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } child
+  % elif children_related_to_abuser == 'all':
+  ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } children
+  % endif
   % else:
   you and ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } children
   % endif
   % endif
+  
   or made 
   % if who_needs_the_order == 'self':
   you
@@ -756,8 +769,12 @@ subquestion: |
   children
   % endif
   % elif who_needs_the_order == 'self and children':
-   % if petitioner_related_to_child == 'parent' and not po_against_other_parent and self_related_to_abuser.all_false() and what_next == 'stop for me' and children_related_to_abuser == 'one' and what_next_for_children == 'order for one':
+   % if petitioner_related_to_child == 'parent' and not po_against_other_parent and self_related_to_abuser.all_false() and what_next == 'stop for me':
+  % if children_related_to_abuser == 'one' and what_next_for_children == 'order for one':
   ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } child
+  % elif children_related_to_abuser == 'all':
+  ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } children
+  % endif
   % else:
   you and ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } children
   % endif
@@ -788,7 +805,7 @@ subquestion: |
   % elif who_needs_the_order == 'children':
    them,
   % elif who_needs_the_order == 'self and children':
-   % if petitioner_related_to_child == 'parent' and not po_against_other_parent and self_related_to_abuser.all_false() and what_next == 'stop for me' and children_related_to_abuser == 'one' and what_next_for_children == 'order for one':
+   % if petitioner_related_to_child == 'parent' and not po_against_other_parent and self_related_to_abuser.all_false():
   them,
   % else:
   you,
@@ -872,26 +889,26 @@ code: |
       {'yes one': "Yes, against one of us."},
       {'no': "No. Neither of us."}
        ]
-  elif who_needs_the_order == 'children':
+  elif who_needs_the_order == 'children' or (who_needs_the_order == 'self and children' and petitioner_related_to_child == 'parent' and not po_against_other_parent and self_related_to_abuser.all_false() and (children_related_to_abuser == 'all' or (children_related_to_abuser == 'one' and what_next_for_children ==  'order for more'))):
     dv_crime_choices = [
       {'yes more': "Yes, against more than 1 child."},
       {'yes one': "Yes, against 1 child."},
       {'no': "No. The other person did not commit a domestic violence crime against any of the children."}
        ]
-  elif who_needs_the_order == 'self and children' and petitioner_related_to_child == 'parent':
+  elif who_needs_the_order == 'self and children' and (petitioner_related_to_child == 'parent' and (po_against_other_parent or (not po_against_other_parent and self_related_to_abuser.any_true())) or (petitioner_related_to_child in('guardian', 'representative') and self_related_to_abuser.any_true() and children_related_to_abuser in('all', 'some'))):
     dv_crime_choices = [
-      {'yes all': "Yes, against both of us."},
-      {'yes some': "Yes, against one of us."},
-      {'yes one': "Yes, against 1 child."},
+      {'yes all': "Yes, against all of us."},
+      {'yes some': "Yes, against some of us."},
+      {'yes one': "Yes, against one of us."},
       {'no': "The other person did not commit a domestic violence crime against any of us?."}
        ]
-  elif who_needs_the_order == 'self and children' and petitioner_related_to_child in('guardian', 'representative'):
-    dv_crime_choices = [
-      {'yes all': "Yes, against both of us."},
-      {'yes some': "Yes, against one of us."},
-      {'yes one': "Yes, against 1 child."},
-      {'no': "The other person did not commit a domestic violence crime against any of the children."}
-       ]
+  #  elif who_needs_the_order == 'self and children' and :
+  #    dv_crime_choices = [
+  #      {'yes all': "Yes, against both of us."},
+  #      {'yes some': "Yes, against one of us."},
+  #      {'yes one': "Yes, against 1 child."},
+  #      {'no': "The other person did not commit a domestic violence crime against any of the children."}
+  #       ]
 ---
 comment: |
   Thanks to Jonathan for giving me formatting for lengthy answer. 
