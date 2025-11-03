@@ -278,7 +278,7 @@ fields:
     none of the above: None of these relationships
     show if:
       code: |
-        who_needs_the_order == 'self'  or (((who_needs_the_order == 'self and child' and petitioner_related_to_child == 'parent') or (who_needs_the_order == 'self and children' and petitioner_related_to_child == 'parent')) and not po_against_other_parent) or (who_needs_the_order == 'self and child' and petitioner_related_to_child in ('guardian', 'representative')) or (who_needs_the_order == 'self and children' and petitioner_related_to_child in ('guardian', 'representative'))
+        who_needs_the_order == 'self'  or (((who_needs_the_order == 'self and child' and petitioner_related_to_child == 'parent') or (who_needs_the_order == 'self and children' and petitioner_related_to_child == 'parent')) and not po_against_other_parent) or (who_needs_the_order == 'self and child' and petitioner_related_to_child in ('guardian', 'representative')) or (who_needs_the_order == 'self and children' and petitioner_related_to_child in ('guardian', 'combination'))
 
   # guardian and child path — child's relationship
   - "The child's relationship with the other person": guardian_and_child_child_related_to_abuser
@@ -322,7 +322,7 @@ question: |
   % if who_needs_the_order in ('child', 'self and child','children','self and children'):
   % if petitioner_related_to_child == 'parent':
   Your
-  % elif petitioner_related_to_child in('guardian', 'representative'):
+  % elif petitioner_related_to_child in('guardian', 'representative', 'combination'):
   The 
   % endif 
   % if who_needs_the_order in('child', 'self and child'):
@@ -894,7 +894,7 @@ code: |
       {'yes one': "Yes, against 1 child."},
       {'no': "No. The other person did not commit a domestic violence crime against any of the children."}
        ]
-  elif who_needs_the_order == 'self and children' and (petitioner_related_to_child == 'parent' and (po_against_other_parent or (not po_against_other_parent and self_related_to_abuser.any_true())) or (petitioner_related_to_child in('guardian', 'representative') and self_related_to_abuser.any_true() and children_related_to_abuser in('all', 'one'))):
+  elif who_needs_the_order == 'self and children' and (petitioner_related_to_child == 'parent' and (po_against_other_parent or (not po_against_other_parent and self_related_to_abuser.any_true())) or (petitioner_related_to_child in('guardian', 'combination') and self_related_to_abuser.any_true() and children_related_to_abuser in('all', 'one'))):
     dv_crime_choices = [
       {'yes all': "Yes, against all of us."},
       {'yes some': "Yes, against some of us."},
@@ -1113,7 +1113,7 @@ code: |
     ]
 
   ### Step 5 q.9
-  if who_needs_the_order == 'self and children' and petitioner_related_to_child in ('guardian', 'representative') and self_related_to_abuser.any_true() and guardian_and_child_child_related_to_abuser.all_false():
+  if who_needs_the_order == 'self and children' and petitioner_related_to_child in ('guardian', 'combination') and self_related_to_abuser.any_true() and guardian_and_child_child_related_to_abuser.all_false():
     what_next_choices = [
       {'stop for child': "Stop answering questions for the children. Answer questions about asking for a protective order for myself."},
       {'continue for both': "Continue to answer questions about asking for a protective order for myself and the children."},
