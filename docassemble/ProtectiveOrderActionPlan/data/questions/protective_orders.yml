@@ -1,5 +1,6 @@
 Comment: |
-  2025-11-03  added children questions and edited other questions for user asking for protective order for children and refactored petitioner_related_to_children to child
+  2025-11-04  
+  fixed maybe other_po_choices
 ---
 include:
   - docassemble.AssemblyLine:assembly_line.yml
@@ -923,10 +924,10 @@ code: |
        ]
 ---
 comment: |
-  Thanks to Jonathan for giving me formatting for lengthy answer. 
-id: Other PO
+  Thanks to Jonathan for giving me formatting for lengthy answer.   
+id: Other protective order
 question: |
-  % if who_needs_the_order == 'self' or (who_needs_the_order == 'self and child' and what_next == 'other po for me'):
+ % if who_needs_the_order == 'self' or (who_needs_the_order in('self and child', 'self and children') and what_next == 'other po for me'):
   Do you
   % elif who_needs_the_order == 'child' or (who_needs_the_order == 'self and child' and what_next == 'stop for me'):
   Does ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } child
@@ -936,31 +937,13 @@ question: |
   qualify for another type of protective order?
 subquestion: |
   Based on your answers,
-  % if who_needs_the_order != 'self and child':
-    % if who_needs_the_order == 'self':
-    you 
-    % elif who_needs_the_order == 'child':
-      % if petitioner_related_to_child == 'parent':
-      your
-      % elif petitioner_related_to_child in('guardian', 'representative'):
-      the
-      % endif
-    child
-    % elif who_needs_the_order == 'children' or (who_needs_the_order == 'self and children' and self_related_to_abuser.any_true and children_related_to_abuser == 'none' and what_next == 'stop for me'):
-       ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } children
-    % endif
-  % elif who_needs_the_order == 'self and child':
-    % if what_next == 'stop for me':
-      % if petitioner_related_to_child == 'parent':
-      your
-      % elif petitioner_related_to_child in('guardian', 'representative'):
-      the
-      % endif
-    child
-  % elif what_next == 'other po for me':
-    you
-  % endif
-  % endif
+  % if who_needs_the_order == 'self' or (who_needs_the_order in('self and child', 'self and children') and what_next == 'other po for me'):
+  you
+  % elif who_needs_the_order == 'child' or (who_needs_the_order == 'self and child' and what_next == 'stop for me'):
+   ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } child
+  % elif who_needs_the_order == 'children' or (who_needs_the_order == 'self and children' and self_related_to_abuser.any_true and children_related_to_abuser == 'none' and what_next == 'stop for me'):
+  ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } children
+  % endif 
   may not have the type of relationship needed to get a domestic violence protective order. 
   
   Depending on the other person’s actions, a Stalking Protective Order or a Sexual Assault Protective order may be appropriate.
@@ -978,24 +961,29 @@ under: |
 
 ---
 code: |
-  if who_needs_the_order == 'self' or (who_needs_the_order == 'self and child' and what_next == 'other po for me'):
+  if who_needs_the_order == 'self' or (who_needs_the_order in('self and child', 'self and children') and what_next == 'other po for me'):
     other_po_choices = [
       {'stalked': "Stalk you by:\n\n1. repeatedly contacting you or a family member\n2. without consent\n3. in a way that caused you fear of physical injury or death to yourself or a family member?" },
       {'sexual contact': "Have sexual contact with you without consent?"}
                 ]
-  elif (who_needs_the_order == 'child' and petitioner_related_to_child == 'parent') or (who_needs_the_order == 'self and child' and petitioner_related_to_child == 'parent' and what_next == 'stop for me'):
+  elif (who_needs_the_order == 'child' or (who_needs_the_order == 'self and child' and what_next == 'stop for me')) and petitioner_related_to_child == 'parent':
     other_po_choices = [
       {'stalked': "Stalk your child by:\n\n1. repeatedly contacting your child or one of your child's family members\n2. without consent\n3. in a way that caused your child fear of physical injury or death to themself or a family member?" },
       {'sexual contact': "Have sexual contact with your child without consent?"}
                 ]
-  elif (who_needs_the_order == 'child' and petitioner_related_to_child in('guardian', 'representative')) or (who_needs_the_order == 'self and child' and petitioner_related_to_child in('guardian', 'representative')  and what_next == 'stop for me'):
+  elif (who_needs_the_order == 'child' or (who_needs_the_order == 'self and child' and what_next == 'stop for me')) and petitioner_related_to_child in('guardian', 'representative'):
     other_po_choices = [
       {'stalked': "Stalk the child by:\n\n1. repeatedly contacting the child or one of the child's family members\n2. without consent\n3. in a way that caused the child fear of physical injury or death to themself or a family member?" },
       {'sexual contact': "Have sexual contact with the child without consent?"}
                 ]
-  elif (who_needs_the_order == 'children' and petitioner_related_to_child in('guardian', 'representative')) or (who_needs_the_order == 'self and children' and petitioner_related_to_child in('guardian', 'combination')  and what_next == 'stop for me'):
+  elif (who_needs_the_order == 'children' or (who_needs_the_order == 'self and children' and what_next == 'stop for me')) and petitioner_related_to_child == 'parent' :
     other_po_choices = [
-      {'stalked': "Stalk the childen by:\n\n1. repeatedly contacting the children or one of the children's family members\n2. without consent\n3. in a way that caused the children fear of physical injury or death to themself or a family member?" },
+      {'stalked': "Stalk your children by:\n\n1. repeatedly contacting your children or one of your children's family members\n2. without consent\n3. in a way that caused your children fear of physical injury or death to themself or a family member?" },
+      {'sexual contact': "Have sexual contact with your children without consent?"}
+                ]
+  elif (who_needs_the_order == 'children' or (who_needs_the_order == 'self and children' and  what_next == 'stop for me')) and petitioner_related_to_child in('guardian', 'representative'):
+    other_po_choices = [
+      {'stalked': "Stalk the children by:\n\n1. repeatedly contacting the children or one of the children's family members\n2. without consent\n3. in a way that caused the children fear of physical injury or death to themself or a family member?" },
       {'sexual contact': "Have sexual contact with the children without consent?"}
                 ]
   else:
