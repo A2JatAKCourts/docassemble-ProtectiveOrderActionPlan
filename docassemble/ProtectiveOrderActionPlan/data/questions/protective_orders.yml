@@ -902,7 +902,13 @@ code: |
       {'yes one': "Yes, against one of us."},
       {'no': "No. Neither of us."}
        ]
-  elif who_needs_the_order == 'children' or (who_needs_the_order == 'self and children' and ((petitioner_related_to_child == 'parent' and not po_against_other_parent) or petitioner_related_to_child in('guardian', 'combination')) and self_related_to_abuser.all_false() and (children_related_to_abuser == 'all' or (children_related_to_abuser == 'one' and what_next_for_children ==  'order for more'))):
+  elif who_needs_the_order == 'children' or (who_needs_the_order == 'self and children' and petitioner_related_to_child == 'parent' and not po_against_other_parent and self_related_to_abuser.all_false() and what_next == 'stop for me' and (children_related_to_abuser == 'all' or (children_related_to_abuser == 'one' and what_next_for_children ==  'order for more'))):
+    dv_crime_choices = [
+      {'yes more': "Yes, against more than 1 child."},
+      {'yes one': "Yes, against 1 child."},
+      {'no': "No. The other person did not commit a domestic violence crime against any of the children."}
+       ]
+  elif who_needs_the_order == 'self and children' and petitioner_related_to_child in('guardian', 'combination') and self_related_to_abuser.all_false() and what_next == 'stop for me' and children_related_to_abuser in('all', 'one'):
     dv_crime_choices = [
       {'yes more': "Yes, against more than 1 child."},
       {'yes one': "Yes, against 1 child."},
