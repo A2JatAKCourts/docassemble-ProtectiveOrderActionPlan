@@ -295,7 +295,7 @@ Scenario: Row #287
     | self_related_to_abuser['married']    | True              |         | 
     | children_related_to_abuser           | none              |         | 
     | what_next                            | continue for both |         | 
-    | dv_crime                             | none              |         | 
+    | dv_crime                             | no                |         | 
     And I take a screenshot
 
 @row289
