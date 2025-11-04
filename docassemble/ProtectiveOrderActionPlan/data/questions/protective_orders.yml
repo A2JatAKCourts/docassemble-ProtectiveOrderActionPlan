@@ -1107,12 +1107,20 @@ code: |
     ]
 
   ### Step 5 q.5
-  if who_needs_the_order == 'self and children' and petitioner_related_to_child == 'parent' and not po_against_other_parent and self_related_to_abuser.all_false():
+  if who_needs_the_order == 'self and children' and ((petitioner_related_to_child == 'parent' and not po_against_other_parent) or petitioner_related_to_child in('guardian', 'combination')) and self_related_to_abuser.all_false():
     possessive_word = 'my' if petitioner_related_to_child == 'parent' else 'the'
     what_next_choices = [
-      {'other po for me': "Answer questions about if the other person stalked or sexually assaulted me to get an order for myself? This will end questions about your children."},
+      {'other po for me': "Answer questions about if the other person stalked or sexually assaulted me to get an order for myself? This will end questions about the children."},
       {'stop for me': f"Answer questions about if {possessive_word} children have a relationship with the other person that would be appropriate for asking for a domestic violence protective order. This will end questions about my protective order."}
     ]
+
+  #  ### Step 5 q.5
+  #  if who_needs_the_order == 'self and children' and petitioner_related_to_child in('guardian', 'combination') and self_related_to_abuser.all_false():
+  #    possessive_word = 'my' if petitioner_related_to_child == 'parent' else 'the'
+  #    what_next_choices = [
+  #      {'other po for me': "Answer questions about if the other person stalked or sexually assaulted me to get an order for myself? This will end questions about your children."},
+  #      {'stop for me': f"Answer questions about if {possessive_word} children have a relationship with the other person that would be appropriate for asking for a domestic violence protective order. This will end questions about my protective order."}
+  #    ]
 
   ### Step 5 q.9
   if who_needs_the_order == 'self and children' and petitioner_related_to_child in ('guardian', 'combination') and self_related_to_abuser.any_true() and children_related_to_abuser == 'none':
