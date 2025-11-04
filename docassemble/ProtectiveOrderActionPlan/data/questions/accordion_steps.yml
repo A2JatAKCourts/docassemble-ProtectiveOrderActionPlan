@@ -95,7 +95,7 @@ code: |
       add_unique_step((military_po_info_step, "military_po_info_idx"), step_list)
     if options_for_po['tribal']:
       add_unique_step((tribal_po_info_step, "tribal_po_info_idx"), step_list)
-    if options_for_po['AK court']:
+    if options_for_po['AK court'] or (options_for_po.any_true('military', 'tribal') and options_for_po.all_false('AK court') and court_info_also):
       if who_needs_the_order == 'self':
         if self_related_to_abuser['married']:
           add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
