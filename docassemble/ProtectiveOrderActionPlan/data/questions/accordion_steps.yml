@@ -1,5 +1,5 @@
 comment: |
-    last updated: 2025-10-30 refactored petitioner_related_to_children to petitioner_related_to_child
+    last updated: 2025-11-03
 ---
 generic object: ALDocumentBundle
 template: x.get_email_copy
@@ -95,7 +95,7 @@ code: |
       add_unique_step((military_po_info_step, "military_po_info_idx"), step_list)
     if options_for_po['tribal']:
       add_unique_step((tribal_po_info_step, "tribal_po_info_idx"), step_list)
-    if options_for_po['AK court']:
+    if options_for_po['AK court'] or (options_for_po.any_true('military', 'tribal') and options_for_po.all_false('AK court') and court_info_also):
       if who_needs_the_order == 'self':
         if self_related_to_abuser['married']:
           add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
@@ -324,7 +324,7 @@ code: |
               add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
             if self_related_to_abuser.any_true():
               if children_related_to_abuser in('all', 'one'):
-                if dv_crime == 'yes more':
+                if dv_crime in('yes all', 'yes some'):
                   add_unique_step((protective_order_more_than_one_step, "protective_order_more_than_one_idx"), step_list)
                 elif dv_crime == 'yes one':
                   add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list)
@@ -352,25 +352,25 @@ code: |
                   add_unique_step((sa_step, "sa_idx"), step_list)
   
               elif what_next == 'stop for me':
-                if children_related_to_abuser == 'all':
+                if children_related_to_abuser in('all', 'one'):
                   if dv_crime == 'yes more':
                     add_unique_step((protective_order_more_than_one_step, "protective_order_more_than_one_idx"), step_list)
                   elif dv_crime == 'yes one':
                     add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list)
-                elif children_related_to_abuser in('one', 'some'):
-                  if what_next_for_children == 'order for one':
-                    if dv_crime == 'yes':
-                      add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list)
-                  elif what_next_for_children == 'order for more':
-                    if dv_crime == 'yes more':
-                      add_unique_step((protective_order_more_than_one_step, "protective_order_more_than_one_idx"), step_list)
-                    elif dv_crime == 'yes one':
-                      add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list)
-                  elif what_next_for_children == 'stop':
-                    if other_po['stalked']:
-                      add_unique_step((stalking_step, "stalking_idx"), step_list)
-                    if other_po['sexual contact']:
-                      add_unique_step((sa_step, "sa_idx"), step_list)  
+                #  elif children_related_to_abuser in('one', 'some'):
+                #    if what_next_for_children == 'order for one':
+                #      if dv_crime == 'yes':
+                #        add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list)
+                #    elif what_next_for_children == 'order for more':
+                #      if dv_crime == 'yes more':
+                #        add_unique_step((protective_order_more_than_one_step, "protective_order_more_than_one_idx"), step_list)
+                #      elif dv_crime == 'yes one':
+                #        add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list)
+                #    elif what_next_for_children == 'stop':
+                #      if other_po['stalked']:
+                #        add_unique_step((stalking_step, "stalking_idx"), step_list)
+                #      if other_po['sexual contact']:
+                #        add_unique_step((sa_step, "sa_idx"), step_list)  
   
                 elif children_related_to_abuser == 'none':
                   if other_po['stalked']:
