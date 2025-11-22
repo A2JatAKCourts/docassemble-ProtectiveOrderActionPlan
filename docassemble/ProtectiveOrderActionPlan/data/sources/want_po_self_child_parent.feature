@@ -1,5 +1,5 @@
 @want_po_self_child_parent
-# 2025-10-14
+# 2025-11-19
 
 Feature: User paths 
 
@@ -27,7 +27,7 @@ Scenario: Row #82
     | who_needs_the_order         | self and child |         | 
     | petitioner_related_to_child | parent         |         | 
     | po_against_other_parent     | True           |         | 
-    | parent_related_parent       | married        |         | 
+    | parent_married_parent       | married        |         | 
     | dv_crime                    | yes both       |         | 
     And I take a screenshot
 
@@ -41,7 +41,7 @@ Scenario: Row #83
     | who_needs_the_order         | self and child     |         | 
     | petitioner_related_to_child | parent             |         | 
     | po_against_other_parent     | True               |         | 
-    | parent_related_parent       | divorced           |         | 
+    | parent_married_parent       | divorced           |         | 
     | dv_crime                    | yes one            |         |
     And I take a screenshot
 
@@ -55,7 +55,7 @@ Scenario: Row #84
     | who_needs_the_order         | self and child       |         | 
     | petitioner_related_to_child | parent               |         | 
     | po_against_other_parent     | True                 |         | 
-    | parent_related_parent       | no                   |         | 
+    | parent_married_parent       | no                   |         | 
     | dv_crime                    | yes one              |         | 
     | which_po_form               | multi person dv form |         | 
     And I take a screenshot
@@ -70,7 +70,7 @@ Scenario: Row #85
     | who_needs_the_order         | self and child |         | 
     | petitioner_related_to_child | parent         |         | 
     | po_against_other_parent     | True           |         | 
-    | parent_related_parent       | married        |         | 
+    | parent_married_parent       | married        |         | 
     | dv_crime                    | no             |         | 
     And I take a screenshot
 

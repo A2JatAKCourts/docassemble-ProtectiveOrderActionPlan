@@ -1,6 +1,5 @@
 Comment: |
-  2025-11-04  
-  fixed maybe other_po_choices
+  2025-11-19 
 ---
 include:
   - docassemble.AssemblyLine:assembly_line.yml
@@ -140,7 +139,7 @@ fields:
       - "I want a protective order to protect myself or my child from another person.": want po
       - "I have a protective order from Alaska against someone else. I want to change or end it, prepare for a long-term hearing, report a violation, or respond to a request to change or end it.": have po
       - "I have a protective order from another state or a tribal court against someone else. I want to register it with the Alaska Court System": register po
-      - "Someone has a protective order against me.": defendant
+      - "Someone has a protective order against me.": po defendant
 under: |
   #### <i class="fa-regular fa-lightbulb"></i> Learn more####
   There are 3 types of protective orders available depending on your relationship with the other person and the other person's actions. They are: (1) domestic violence protective orders, (2) stalking protective orders, and (3) sexual assault protective orders.
@@ -1043,7 +1042,7 @@ question: |
 fields:
   - Are you asking for a protective order against your ${ "child's" if who_needs_the_order in('child', 'self and child') else "children's" } other parent?: po_against_other_parent
     datatype: yesnoradio
-  - "Did you marry the other parent?": parent_related_parent    
+  - "Did you marry the other parent?": parent_married_parent    
     input type: radio
     choices:
       - Yes, and we are married to each other now.: married

@@ -1,5 +1,5 @@
 comment: |
-    last updated: 2025-11-03
+    last updated: 2025-11-19
 ---
 generic object: ALDocumentBundle
 template: x.get_email_copy
@@ -84,12 +84,11 @@ code: |
   # reply_certificate_list.append({'image': service_cert_reply_image, 'text': "Certificate of Service at the bottom of the Reply form."})
   # motion_type used in expect_after_motion_step "What to expect after you file a ${ motion_type }"
   motion_type = 'motion or Answer'
-
-  
+    
   # if len(type_of_response.true_values()) > 1:
   #   add_unique_step((pick_a_step_step, "pick_a_step_idx"), step_list)
 
-  if user_need == 'want po':
+  if user_need == 'want po' or has_expired:
     add_unique_step((stay_safe_step, "stay_safe_idx"), step_list)
     if options_for_po['military']:
       add_unique_step((military_po_info_step, "military_po_info_idx"), step_list)
@@ -116,8 +115,6 @@ code: |
             add_unique_step((stalking_step, "stalking_idx"), step_list)
           if other_po['sexual contact']:
             add_unique_step((sa_step, "sa_idx"), step_list)
-          
-  
        
       if who_needs_the_order == 'child':
         if petitioner_related_to_child == 'parent':
@@ -138,6 +135,7 @@ code: |
             if dv_crime == 'yes':
               add_unique_step((protective_order_info_step, "protective_order_info_idx"), step_list)
           else:
+            no_qualifying_relationship = True
             if other_po['stalked']:
               add_unique_step((stalking_step, "stalking_idx"), step_list)
             if other_po['sexual contact']:
@@ -147,9 +145,9 @@ code: |
         if petitioner_related_to_child == 'parent': 
           if po_against_other_parent:
             add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
-            if parent_related_parent == 'married':
+            if parent_married_parent == 'married':
               add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
-            if parent_related_parent == 'no':
+            if parent_married_parent == 'no':
               add_unique_step((custody_case_step, "custody_case_idx"), step_list)
             if dv_crime in('yes one', 'yes both'):
               add_unique_step((protective_order_info_step, "protective_order_info_idx"), step_list)
@@ -166,6 +164,7 @@ code: |
             
             else:
               if what_next == 'other po for me':
+                no_qualifying_relationship = True
                 if other_po['stalked']:
                   add_unique_step((stalking_step, "stalking_idx"), step_list)
                 if other_po['sexual contact']:
@@ -178,6 +177,7 @@ code: |
                   if dv_crime == 'yes':
                     add_unique_step((protective_order_info_step, "protective_order_info_idx"), step_list)
                 else: 
+                  no_qualifying_relationship = True
                   if other_po['stalked']:
                     add_unique_step((stalking_step, "stalking_idx"), step_list)
                   if other_po['sexual contact']:
@@ -208,10 +208,11 @@ code: |
                 if dv_crime == 'yes one':
                   add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list)
               else: ## what_next == 'stop for me'
-                  if other_po['stalked']:
-                    add_unique_step((stalking_step, "stalking_idx"), step_list)
-                  if other_po['sexual contact']:
-                    add_unique_step((sa_step, "sa_idx"), step_list)
+                no_qualifying_relationship = True
+                if other_po['stalked']:
+                  add_unique_step((stalking_step, "stalking_idx"), step_list)
+                if other_po['sexual contact']:
+                  add_unique_step((sa_step, "sa_idx"), step_list)
   
           if self_related_to_abuser.all_false(): 
             if what_next == 'stop for me': 
@@ -223,6 +224,7 @@ code: |
                 if dv_crime == 'yes':
                   add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list) 
             if what_next == 'other po for me':
+                no_qualifying_relationship = True
                 if other_po['stalked']:
                   add_unique_step((stalking_step, "stalking_idx"), step_list)
                 if other_po['sexual contact']:
@@ -235,7 +237,7 @@ code: |
               if dv_crime == 'yes more':
                 add_unique_step((protective_order_more_than_one_step, "protective_order_more_than_one_idx"), step_list)
               if dv_crime == 'yes one':
-                  add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list) 
+                add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list) 
             elif children_related_to_abuser in('one', 'some'):
               if what_next_for_children == 'order for one':
                 if dv_crime == 'yes':
@@ -246,24 +248,26 @@ code: |
                 elif dv_crime == 'yes one':
                   add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list) 
               if what_next_for_children == 'stop':
+                no_qualifying_relationship = True
                 if other_po['stalked']:
                   add_unique_step((stalking_step, "stalking_idx"), step_list)
                 if other_po['sexual contact']:
                   add_unique_step((sa_step, "sa_idx"), step_list)
             else:
-                if other_po['stalked']:
-                  add_unique_step((stalking_step, "stalking_idx"), step_list)
-                if other_po['sexual contact']:
-                  add_unique_step((sa_step, "sa_idx"), step_list)
+              no_qualifying_relationship = True
+              if other_po['stalked']:
+                add_unique_step((stalking_step, "stalking_idx"), step_list)
+              if other_po['sexual contact']:
+                add_unique_step((sa_step, "sa_idx"), step_list)
 
       if who_needs_the_order == 'self and children':   
         if petitioner_related_to_child == 'parent':
           if domestic_violence_po_criteria:
             if po_against_other_parent:
               add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
-              if parent_related_parent == 'married':
+              if parent_married_parent == 'married':
                 add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
-              if parent_related_parent == 'no':
+              if parent_married_parent == 'no':
                 add_unique_step((custody_case_step, "custody_case_idx"), step_list)
               if dv_crime == 'yes one':
                 add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list)
@@ -282,12 +286,14 @@ code: |
               
               else:
                 if what_next == 'other po for me':
+                  no_qualifying_relationship = True
                   if other_po['stalked']:
                     add_unique_step((stalking_step, "stalking_idx"), step_list)
                   if other_po['sexual contact']:
                     add_unique_step((sa_step, "sa_idx"), step_list)
     
                 elif what_next == 'stop for me':
+                  no_qualifying_relationship = True
                   if children_related_to_abuser == 'all':
                     if dv_crime == 'yes more':
                       add_unique_step((protective_order_more_than_one_step, "protective_order_more_than_one_idx"), step_list)
@@ -309,6 +315,7 @@ code: |
                         add_unique_step((sa_step, "sa_idx"), step_list)  
     
                   elif children_related_to_abuser == 'none':
+                    no_qualifying_relationship = True
                     if other_po['stalked']:
                       add_unique_step((stalking_step, "stalking_idx"), step_list)
                     if other_po['sexual contact']:
@@ -338,6 +345,7 @@ code: |
                   if dv_crime == 'yes one':
                     add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list)
                 if what_next == 'stop for me':
+                  no_qualifying_relationship = True
                   if other_po['stalked']:
                     add_unique_step((stalking_step, "stalking_idx"), step_list)
                   if other_po['sexual contact']:
@@ -356,29 +364,19 @@ code: |
                   if dv_crime == 'yes more':
                     add_unique_step((protective_order_more_than_one_step, "protective_order_more_than_one_idx"), step_list)
                   elif dv_crime == 'yes one':
-                    add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list)
-                #  elif children_related_to_abuser in('one', 'some'):
-                #    if what_next_for_children == 'order for one':
-                #      if dv_crime == 'yes':
-                #        add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list)
-                #    elif what_next_for_children == 'order for more':
-                #      if dv_crime == 'yes more':
-                #        add_unique_step((protective_order_more_than_one_step, "protective_order_more_than_one_idx"), step_list)
-                #      elif dv_crime == 'yes one':
-                #        add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list)
-                #    elif what_next_for_children == 'stop':
-                #      if other_po['stalked']:
-                #        add_unique_step((stalking_step, "stalking_idx"), step_list)
-                #      if other_po['sexual contact']:
-                #        add_unique_step((sa_step, "sa_idx"), step_list)  
+                    add_unique_step((protective_order_for_one_step, "protective_order_for_one_idx"), step_list) 
   
                 elif children_related_to_abuser == 'none':
+                  no_qualifying_relationship = True
                   if other_po['stalked']:
                     add_unique_step((stalking_step, "stalking_idx"), step_list)
                   if other_po['sexual contact']:
                     add_unique_step((sa_step, "sa_idx"), step_list)
   
   # if user_need == 'have po':
+
+
+  
   # if user_need == 'register po':
   # if user_need == 'po defendant':
 
@@ -397,7 +395,7 @@ code: |
   
   
   
-  add_unique_step((get_help, "get_help_idx"), step_list)
+  # add_unique_step((get_help, "get_help_idx"), step_list)
     
   for iter_idx, step_tuple in enumerate( step_list ):
     define(step_tuple[ 1 ], iter_idx + 1)
@@ -424,54 +422,517 @@ code: |
     if is_unique:
       image_list.append(new_image)
 ---
+#### used to start interview order over again if protective order expired more than 60 days ago without already answering the question by default and so skipping new_order_info ####
+code: |
+  has_expired = False
+---
 template: stay_safe_step
 subject: |
   Step ${stay_safe_idx}:
   Stay safe step
 content: | 
-  Stay safe info and resources
+  % if user_need == 'want po':
+  % if no_qualifying_relationship:
+  Based on your answers, you may not qualify for a domestic violence protective order if there is no qualifying relationship under Alaska law. If you don't qualify for a protective order, take steps to stay safe.
+  % endif
+  % if not dv_crime:
+  Based on your answers, you may not qualify for a domestic violence protective order if there was no domestic violence crime. You or your children may be experiencing domestic violence that may not be considered a crime under the law such as calling you names, making you feel like you shouldn't talk to friends or family, or limiting access to money. If you and your children don't qualify for a protective order, take steps to stay safe. If something changes, there is a new incident, or you decide to ask the court now for a protective order, use the Court Guide again [use standard language to link to this interview]
+  % endif
+  % if no_qualifying_relationship and not dv_crime:
+  Based on your answers, you may not qualify for a protective order. If you don't qualify for a protective order, take steps to stay safe.
+  % endif
+  % endif
+
+  Contact law enforcement if needed. If you are in immediate danger, call 911. Tell your concerns to your local law enforcement. You can find your local police department non-emergency phone numbers on-line.
+  
+  * State Trooper [locations and phone numbers](https://dps.alaska.gov/ast/contacts)  
+  * Village Public Safety Officer home page
+
+  % if user_need == 'have po' and expired_days_ago == 'more than 60 ':
+  <div class="step-subheading">Decide if you want to ask for a new protective order</div>
+  If your protective order expired more than 60 days ago, it cannot be extended. Read the information below and stay safe. If you want to ask for a new protective order, you can retake this interview and answer questions about asking for a protective order in Alaska.
+  % endif
+
+  <div class="step-subheading">Learn more about the process</div>
+  
+  * Watch a [video](https://www.youtube.com/watch?v=OruAbmtJ3-M&list=PLRS0LlEIQsuRzdyylqpm_K8p6O6U9t_9n) about the forms, court hearings, and safety planning (for Spanish & Yup'ik).  
+  * Read *How to Represent Yourself in Alaska's Domestic Violence Protective Order Process*, [PUB-22](https://public.courts.alaska.gov/web/forms/docs/pub-22.pdf).
+
+  <div class="step-subheading">Find help</div>
+  See if you qualify for a free lawyer:  
+
+  * [Direct services for survivors](https://andvsa.org/support-for-survivors), or  
+  * [Alaska Legal Services Corporation](https://www.alsc-law.org/apply-for-services/).  
+
+  Find a [domestic violence program in your area](https://andvsa.org/) to learn about services they offer. They may offer counseling, financial assistance, housing and safe shelter, resources for children, and help with court. Contact the [National Domestic Violence Hotline](https://www.thehotline.org/) or call 1-800-799-7233.
+
+  <div class="step-subheading">Create a safety plan</div>
+  To keep yourself safe:
+  
+  * [Learn about safety](https://www.thehotline.org/what-is-a-safety-plan).  
+  * Create [your own safety plan](https://ncadv.org/personalized-safety-plan).
+
+  <div class="step-subheading">More resources</div>
+  
+  * [Learn more about domestic violence](https://www.thehotline.org/resources/learn-more-about-abuse/).  
+  * Read the Alaska Court System’s webpage [Domestic Violence, Stalking or Sexual Assault](https://courts.alaska.gov/shc/dv/index.htm).
+---
+template: register_foreign_po_step
+subject: |
+  Step ${ register_foreign_po_idx }: Register a Protective Order from another state or tribal court 
+content: |
+  An Alaska Court can register your protective order. File:
+
+  * a certified copy of your unexpired protective order, and
+  * **[Notice of Registering Protective Order of another State or Tribal Court, DV-220 \[Fill-in PDF\]](https://public.courts.alaska.gov/web/forms/docs/dv-220.pdf)**
+
+  If you do not have a certified copy of your order, the court that issued the order can fax a copy of the protective order to the Alaska court. You cannot fax the copy yourself. Contact your local Alaska court for their fax number.
+  
+  There is no filing fee to register.
+  
+  When you fill out the **Notice of Registration**, you can ask the court to let you know when the order is registered.
+  
+  Once your order is registered, the clerk will send a copy to Alaska law enforcement. Law enforcement officers out in the field will not have a copy of the protective order. They cannot see what the order says. They just know your name, the other person’s name, and that there is a protective order in place. You may want to keep a copy of the protective order with you to show law enforcement if you need to call them to enforce it.
+  
+  The court will not send a copy to the other side or tell them that you have filed the order with the Alaska court. Your case will not appear on the court’s public CourtView webpage.
+  
+  **Did you know:** A protective order from another state or tribal court is often called a “foreign order.”
+  
+  If you decide you want to ask for a protective order in Alaska, you can retake the interview.
 ---
 template: military_po_info_step
 subject: |
   Step ${military_po_info_idx}:
-  Military protective order info step
+  Review resources for military dependents
 content: |
-  military po info and resources
+  <div class="step-subheading">Military specific options</div>
+  The military can issue their own protective orders to protect victims of domestic violence, which are different than protective orders from state courts. The military can also issue No Contact Orders.
+
+  <div class="step-subheading">Get more information about military</div>
+
+  * [Family Advocacy Program](https://www.militaryonesource.mil/family-relationships/family-life/preventing-abuse-neglect/the-family-advocacy-program) has resources for military family members experience domestic violence or abuse.
+  * [Military OneSource](https://www.militaryonesource.mil) has resources for military members and their families on [safety from violence and abuse](https://www.militaryonesource.mil/relationships/prevent-violence-abuse).
+  * Women’s Law.org has legal information about [domestic violence in the military](https://www.womenslaw.org/laws/federal/domestic-violence-military/military-protective-orders/basic-info-about-military-1).
+
 ---
 template: tribal_po_info_step
 subject: |
   Step ${tribal_po_info_idx}:
-  Tribal protective order info step
+  Review resources for tribal members
 content: |
-  tribal po info and resources
+  <div class="step-subheading">If you or the other person is a tribal member</div>
+  You may qualify for a protective order from the tribal court. To find out if your tribal court offers protective orders, contact your tribe. If your tribe does not offer tribal protective orders, you can ask the Alaska court for a protective order.
+
+  <div class="step-subheading">Find local resources</div>
+
+  * [2022 Alaska Tribal Court Directory](https://public.courts.alaska.gov/web/forms/docs/tc-directory.pdf)
+  * [Tribal health organizations](https://www.ihs.gov/alaska/healthcare/facilities) that operate Alaska’s tribal healthcare facilities
+
 ---
-template: divorce_po_info_step
+template: ak_court_po_info_step
 subject: |
-  Step ${divorce_po_info_idx}:
-  Divorce protective order info step
+  Step ${ak_court_po_info_idx}:
+  Review resources to help with the court process
 content: |
-  divorce po info and resources
+  <div class="step-subheading">See if you qualify for a free lawyer</div>
+
+  * **Direct services for providers**
+  * [Alaska Legal Services Corporation](https://www.alsc-law.org/apply-for-services)
+
+  <div class="step-subheading">Learn about filling out the forms to ask for a domestic violence protective order</div>
+
+  * Watch **How to File for a Domestic Violence Protective Order** using form [DV-100](https://public.courts.alaska.gov/web/forms/docs/dv-100.pdf)
+  * Read **Instructions for Requesting a Protective Order, DV-150**, available in:
+      * [English](https://public.courts.alaska.gov/web/forms/docs/dv-150.pdf)
+      * [Arabic عربى](https://public.courts.alaska.gov/web/forms/docs/dv-150-arabic.pdf)
+      * [Chinese 中文](https://public.courts.alaska.gov/web/forms/docs/dv-150-chinese.pdf)
+      * [Hmong Hmoob](https://public.courts.alaska.gov/web/forms/docs/dv-150-hmong.pdf)
+      * [Korean 한글](https://public.courts.alaska.gov/web/forms/docs/dv-150-korean.pdf)
+      * [Laotian ພາສາລາວ](https://public.courts.alaska.gov/web/forms/docs/dv-150-laotian.pdf)
+      * [Russian Pусский](https://public.courts.alaska.gov/web/forms/docs/dv-150-russian.pdf)
+      * [Samoan Fa’asamoa](https://public.courts.alaska.gov/web/forms/docs/dv-150-samoan.pdf)
+      * [Somali](https://public.courts.alaska.gov/web/forms/docs/dv-150-somali.pdf)
+      * [Spanish Español](https://public.courts.alaska.gov/web/forms/docs/dv-150-spanish.pdf)
+      * [Tagalog](https://public.courts.alaska.gov/web/forms/docs/dv-150-tagalog.pdf)
+      * [Vietnamese Tiếng Việt](https://public.courts.alaska.gov/web/forms/docs/dv-150-vietnamese.pdf)
+      * [Yup'ik](https://public.courts.alaska.gov/web/forms/docs/dv-150-yupik.pdf)
+
+  <div class="step-subheading">Learn about resources for the legal process</div>
+
+  * Read *How to Represent Yourself in Alaska's Domestic Violence Protective Order Process*, [PUB-22](https://public.courts.alaska.gov/web/forms/docs/pub-22.pdf)
+  % if dv_crime:
+  * Watch **Domestic Violence Protective Orders** videos
+  * Read the court’s webpage: [Domestic Violence, Stalking or Sexual Assault](https://courts.alaska.gov/shc/dv/index.htm)
+  % endif
+  * Contact [the Family Law Self-Help Center](https://courts.alaska.gov/shc/family/shcabout.htm)</ br>
+  Call **(907) 264-0851** or **(866) 279-0851**
 ---
-template: custody_case_step
+template: po_against_you_resources_step
 subject: |
-  Step ${custody_case_idx}:
-  Custody protective order info step
+  Step ${ po_against_you_resources_idx }:
+  Tips and resources for when someone 
+  % if user_need == 'have po':
+  has
+  % else:
+  asks for
+  % endif 
+  a Protective Order against you
 content: |
-  custody po info and resources
+  <div class="step-subheading">Follow all court orders</div>
+  The same event can have several different court cases and several different orders not to contact the other person.
+
+  If the police arrested you for the same reason that led to the protective order against you, you may have a criminal case. The criminal case may have a condition that you not contact the other person as part of your bail conditions for release. If you violate the condition, you may no longer be released on bail and it may be a new crime.
+
+  If someone has a civil protective order against you, it orders you not to contact them. If you violate the order, it can be a new criminal case separate from the civil protective order case.
+
+  Each case has different restrictions. If one case is dismissed, it usually does not change the restrictions in the other cases.
+
+  If you have multiple court cases, be sure you understand what each case requires so that you do not violate any of them.
+
+  <div class="step-subheading">Follow the protective order</div>
+  Follow what the protective order says. You risk getting arrested if you violate it.
+
+  If the other person tries to contact you, you can be arrested if you do not ignore or stop the contact.
+
+  <div class="step-subheading">Get more information or help</div>
+
+  * Read **DV-151 Information for When Someone Gets a Domestic Violence Protective Order Against You**, available in:
+      * [English](https://public.courts.alaska.gov/web/forms/docs/dv-151.pdf)
+      * [Arabic عربى](https://public.courts.alaska.gov/web/forms/docs/dv-151-arabic.pdf)
+      * [Chinese 中文](https://public.courts.alaska.gov/web/forms/docs/dv-151-chinese.pdf)
+      * [Hmong Hmoob](https://public.courts.alaska.gov/web/forms/docs/dv-151-hmong.pdf)
+      * [Korean 한글](https://public.courts.alaska.gov/web/forms/docs/dv-151-korean.pdf)
+      * [Laotian ພາສາລາວ](https://public.courts.alaska.gov/web/forms/docs/dv-151-laotian.pdf)
+      * [Russian Pусский](https://public.courts.alaska.gov/web/forms/docs/dv-151-russian.pdf)
+      * [Samoan Fa’asamoa](https://public.courts.alaska.gov/web/forms/docs/dv-151-samoan.pdf)
+      * [Somali](https://public.courts.alaska.gov/web/forms/docs/dv-151-somali.pdf)
+      * [Spanish Español](https://public.courts.alaska.gov/web/forms/docs/dv-151-spanish.pdf)
+      * [Tagalog](https://public.courts.alaska.gov/web/forms/docs/dv-151-tagalog.pdf)
+      * [Vietnamese Tiếng Việt](https://public.courts.alaska.gov/web/forms/docs/dv-151-vietnamese.pdf)
+      * [Yup'ik](https://public.courts.alaska.gov/web/forms/docs/dv-151-yupik.pdf)
+
+  * Learn more by reading *What to Do When Someone Files a Domestic Violence Protective Order Against You*, [PUB-23](https://public.courts.alaska.gov/web/forms/docs/pub-23.pdf)
+
+  * Read the court’s webpage: [Domestic Violence, Stalking or Sexual Assault](https://courts.alaska.gov/shc/dv/index.htm)
+
+  * Contact the Family Law Self-Help Center at **(907) 264-0851** or **(866) 279-0851**
+
+  * Learn about resources for those who commit violence
+
 ---
 template: child_w_other_side_step
 subject: |
   Step ${child_w_other_side_idx}:
-  Protective Order info when child with other side step
+  Think about parenting issues 
 content: |
-  Protective Order info when person who needs order or their parent has a child with other side
+  <div class="step-subheading">If you have children with the other party</div>
+  If you have children with the other party in a domestic violence protective order case, the judge may make a parenting schedule or issue a child support order as part of the protective order.
+
+  <div class="step-subheading">Think about a parenting schedule before your protective order hearing</div>
+
+  * Read FAQs on Visitation:
+  
+    * [Word](https://public.courts.alaska.gov/web/forms/docs/visitation-faqs.docx)  
+    * [PDF](https://public.courts.alaska.gov/web/forms/docs/visitation-faqs.pdf)
+
+  * Fill out a worksheet to organize what you want to ask the judge for in court:
+  
+      * [Word](https://public.courts.alaska.gov/web/forms/docs/visitation-worksheet.docx)  
+      * [PDF](https://public.courts.alaska.gov/web/forms/docs/visitation-worksheet.pdf)
+
+  % if user_need in('want po', 'have po'):
+  <div class="step-subheading">Ask for child support if appropriate</div>
+  Fill out a **Child Support Guidelines Affidavit, DR-305** and bring it to each court hearing, with proof of both parents’ income, such as paystubs, tax returns, W2 forms, and 1099 forms. If you cannot bring an affidavit, bring proof of income anyway.
+  % elif user_need == 'po defendant':
+  <div class="step-subheading">Bring income information</div>
+  Bring income information.
+  % endif
+
+  The other parent may ask for child support. You may want to bring income information to make sure any child support order is based on your actual income.
 ---
-template: protective_order_info_step
+template: protective_order_step
 subject: |
-  Step ${ protective_order_info_idx }:
-  Protective Order step
+  Step ${ protective_order_idx }: Fill out the forms to ask the court for a ${ protective_order } for 1 person / for more than 1 person
 content: |
-  Protective Order information
+  <div class="step-subheading">20-day protective orders</div>
+  A 20-day % if protective_order_for_one or protective_order_for_more: **domestic violence** % elif no_qualifying_relationship and other_po['stalked']: **Stalking** % elif no_qualifying_relationship and other_po['sexual contact']: **Sexual Assault** % endif protective order lasts 20 days if the court grants it. The person asking for a protective order is called the **petitioner**.
+
+  The court only considers the petitioner’s information when deciding whether to issue a 20-day order. To protect the petitioner’s safety, the court does not contact the other side when deciding whether to issue a 20-day order. But if the court issues the order, law enforcement will give the other side a copy of the protective order and explain what it says.
+
+  A 20-day protective order is also called a **short-term** or an **ex parte** protective order.
+
+  <div class="step-subheading">Long-term protective orders</div>
+  A long-term domestic violence protective order lasts **1 year** if the court grants it. You can ask for a long-term protective order when you ask for a 20-day protective order.
+
+  Law enforcement will notify the other side that you asked for the long-term order and that there will be a court hearing in about **20 days**. Both sides can testify at the hearing where the judge will decide whether to issue the long-term protective order.
+
+  Most people ask for both 20-day and long-term protective orders by checking both boxes on the top of the form.
+
+  <div class="step-subheading">Forms you need to file</div>
+
+  Fill out:
+
+  % if protective_order_for_one:
+    * **Petition for Domestic Violence Protective Order (one), DV-100 ONE**
+  
+  % elif protective_order_for_more:
+    * **Petition for Domestic Violence Protective Order (multi), DV-100 MULTI**
+  
+  % elif no_qualifying_relationship and other_po['stalked']:
+    * **Petition for Stalking Protective Order, CIV-752**
+  
+  % elif no_qualifying_relationship and other_po['sexual contact']:
+    * **Petition for Sexual Assault Protective Order, CIV-750**
+  
+  % endif
+  
+    * **DV-127 Confidential Law Enforcement Information Sheet**
+  
+  % if who_needs_order in('child', 'children') or (who_needs_order in('self and child', 'self and children') and not self_related_to_abuser):
+  If you are an adult filling out the forms for a minor, put your name under petitioner information.
+  % elif who_needs_order in('self and child', 'self and children'):
+  When it asks for petitioner information, put the name of the person filling out the form.
+  % endif
+---
+template: prepare_for_long_term_hearing_petitioner_step
+subject: |
+  Step ${ prepare_for_long_term_hearing_petitioner_idx }: Prepare for your Protective Order hearing
+content: |
+  <div class="step-subheading">Prepare for your hearing</div>
+  Prepare / Prepare for your
+  % if user_need == 'want po': 
+  **20-day** 
+  % elif user_need == 'has po':  
+  **long-term** 
+  % endif 
+  hearing by reading 
+  % if other_po.any_true(): 
+  You can review 
+  % endif 
+  
+  **[How to Represent Yourself in Alaska's Domestic Violence Protective Order Process, PUB-22](https://public.courts.alaska.gov/web/forms/docs/pub-22.pdf)**.
+  
+  % if user_need == 'want po':
+  The sections on **Short-Term Order Process**, **Long-Term Order Process**, and **Evidence** have helpful information.
+  % elif user_need == 'has po':
+  The sections on **Short-Term Order Process**, **Long-Term Order Process**, and **Evidence** provide helpful information.
+  % endif
+  
+  % if other_po.any_true():
+  Most of the information in the sections on **Short-Term Order Process**, **Long-Term Order Process**, and **Evidence** is the same as the stalking or sexual assault protective order process.
+  % endif
+---
+template: prepare_for_long_term_hearing_respondent_step
+subject: |
+  Step ${ prepare_for_long_term_hearing_respondent_idx }: Prepare for your Protective Order hearing
+content: |
+  <div class="step-subheading">Prepare for your hearing</div>
+
+  Prepare for your long-term hearing by reading **[What to Do When Someone Files a Domestic Violence Protective Order Against You, PUB-23](https://public.courts.alaska.gov/web/forms/docs/pub-23.pdf)**. There is a section on the **Long-Term Protective Order Hearing**.
+
+  You can review **[What to Do When Someone Files a Domestic Violence Protective Order Against You, PUB-23](https://public.courts.alaska.gov/web/forms/docs/pub-23.pdf)**. Most of the information in the sections on the **Long-Term Protective Order Hearing** is the same as the stalking or sexual assault protective order process.
+---
+template: other_side_violated_order_step
+subject: |
+  Step ${ other_side_violated_order_idx }:
+  Review options if respondent violates Protective Order
+content: |
+  <div class="step-subheading">Call the police</div>
+  If you are in immediate danger, call 911.
+
+  It is a misdemeanor crime to violate most parts of a protective order. You can call the police to report the crime.
+
+  You can find your local police department non-emergency phone numbers on-line:
+
+    * State Trooper [locations and phone numbers](https://dps.alaska.gov/ast/contacts)
+    * Village Public Safety Officer home page
+
+  <div class="step-subheading">Common examples of criminal violations are:</div>
+
+    * Committing or threatening to commit domestic violence.
+    * Contacting the victim.
+    * Entering or following the victim's home or vehicle.
+
+  % if petitioner_choices.all_true('change', 'extend') or (petitioner_choices['extend'] and not petitioner_choices['change'] and also_change):
+  <div class="step-subheading">Ask to change the order</div>
+  If you think you would be safer if the protective order has more protections, you can ask the judge to change the order and add more protections for you. Read steps ?: Fill out the form to ask the court to change your order.
+  % endif
+---
+template: change_end_extend_dismiss_petition_step
+subject: |
+  Step ${ change_end_extend_dismiss_petition_idx }:
+  % if petitioner_choices.any_true('change', 'end', 'extend'):
+  ${ petitioner_choices.true_values() } the order
+  % endif
+  % if len(petitioner_choices) > 1 and petitioner_choices['dismiss']:
+  or
+  % endif
+  % if petitioner_choices['dismiss']:
+  dismiss the petition
+  % endif
+content: |
+  <div class="step-subheading">Learn about the process</div>
+  The law allows a person to extend a protective order for up to 1 year if the court finds an extension is necessary to protect the person from
+  % if po_case_type.any_true('1 person', ' more than 1'):
+  domestic violence if the original protective order was for domestic violence.
+  % elif po_case_type['stalking']:
+  stalking if your original protective order was for stalking.
+  % elif po_case_type['sexual assault']:
+  sexual assault if your original protective order was for sexual assault.
+  % endif
+
+  You can file a request for an extension 30 days before the protective order expires until 60 days after it expired.
+
+  The court will set a hearing at least 10 days after the request to hear both sides' arguments.
+
+  If the order expired more than 60 days ago, it cannot be extended.
+
+  % if petitioner_choices['extend'] and not expired and will_expire == 'less than 10':
+  <div class="step-subheading">Stay safe</div>
+  Because your protective order expires in less than 10 days, the hearing will be after it expires. To figure out a plan to stay safe, review Step 1 of this action plan: Stay Safe.
+
+  File your request as soon as possible to reduce the amount of time you do not have a protective order.
+  % endif
+
+  <div class="step-subheading">Fill out the form</div>
+
+  % if petitioner_choices['change']:
+    * [DV-131 Request to Modify Protective Order, (One Petitioner) (Fill-in PDF)](https://public.courts.alaska.gov/web/forms/docs/dv-131-one.pdf)
+  % endif
+
+  % if petitioner_choices['end']:
+    * [DV-133 Request to Dissolve Protective Order, (One Petitioner) (Fill-in PDF)](https://public.courts.alaska.gov/web/forms/docs/dv-133-one.pdf)
+  % endif
+
+  % if petitioner_choices['extend']:
+    * [DV-132 Request to Extend Long-Term Protective Order, (One Petitioner) (Fill-in PDF)](https://public.courts.alaska.gov/web/forms/docs/dv-132-one.pdf)
+  % endif
+
+  % if petitioner_choices['dismiss']:
+    * [DV-134 Request to Dismiss Long-Term Petition, (One Petitioner) (Fill-in PDF)](https://public.courts.alaska.gov/web/forms/docs/dv-134-one.pdf)
+  % endif
+
+  % if petitioner_choices['change']:
+    * [DV-131 Request to Modify Protective Order, (Multiple Petitioners) (Fill-in PDF)](https://public.courts.alaska.gov/web/forms/docs/dv-131-multi.pdf)
+  % endif
+
+  % if petitioner_choices['end']:
+    * [DV-133 Request to Dissolve Protective Order, (Multiple Petitioners) (Fill-in PDF)](https://public.courts.alaska.gov/web/forms/docs/dv-133-multi.pdf)
+  % endif
+
+  % if petitioner_choices['extend']:
+    * [DV-132 Request to Extend Long-Term Protective Orders, (Multiple Petitioners) (Fill-in PDF)](https://public.courts.alaska.gov/web/forms/docs/dv-132-multi.pdf)
+  % endif
+
+  % if petitioner_choices['dismiss']:
+    * [DV-134 Request to Dismiss Long-Term Petition, (Multiple Petitioners) (Fill-in PDF)](https://public.courts.alaska.gov/web/forms/docs/dv-134-multi.pdf)
+  % endif
+
+  % if user_need == 'po respondent':
+  <div class="step-subheading">Follow the protective order</div>
+  After you file a request, you must follow the protective order until the court signs an order deciding whether or not to grant your request.
+
+  The court may or may not hold a hearing.
+
+  If the court signs a new order, you will get a copy.
+
+  If the court does not change the protective order, you must follow the order until it expires, even if you and the other side both want to change it.
+  % endif
+---
+template: respond_change_end_extend_dismiss_petition_step
+subject: |
+  Step ${ respond_change_end_extend_dismiss_petition_idx }:
+  Respond to a Request [to change/end/extend/dismiss] your order  
+content: |
+  <div class="step-subheading">Learn about the process</div>
+  The law allows a person to extend a protective order for up to 1 year if the court finds an extension is necessary to protect the person from:
+
+    * Domestic violence if the original protective order was for domestic violence
+    * Sexual assault if your original protective order was for sexual assault
+    * Stalking if your original protective order was for stalking
+
+  A party in the case can file a request for an extension 30 days before the protective order expires until 60 days after it expired.
+
+  The court will set a hearing at least 10 days after the request to hear both side's arguments.
+
+  If the order expired more than 60 days ago, it cannot be extended.
+
+  <div class="step-subheading">Fill out the form</div>
+
+    * [Response to Request to Modify, Extend, or Dissolve Protective Order (one petitioner)](https://public.courts.alaska.gov/web/forms/docs/dv-140-one.pdf)
+    * [Response to Request to Modify, Extend, or Dissolve Protective Order (multiple petitioners)](https://public.courts.alaska.gov/web/forms/docs/dv-140-multi.pdf)
+
+  % if user_need == 'po respondent':
+  <div class="step-subheading">Follow the protective order</div>
+  After you file a request, you must follow the protective order until the court signs an order deciding whether or not to grant your request.
+
+  The court may or may not hold a hearing.
+
+  If the court signs a new order, you will get a copy.
+
+  If the court does not change the protective order, you must follow the order until it expires, even if you and the other side both want to change it.
+  % endif
+
+---
+template: file_po_step
+subject: |
+  Step ${ file_po_idx }: File your documents
+  
+content: |
+  <div class="step-subheading">Using TrueFiling</div>
+  The court has a system called **TrueFiling** that you need to use unless you are exempt. You are exempt if one of these applies:
+
+    * You are in a jail or correctional facility.
+    * You have a disability under the **Americans with Disabilities Act (ADA)**.
+    * You do not have safe access to a computer, internet, or email.
+    * You cannot get the help you need to use TrueFiling.
+    * You have a language barrier or are **Limited English Proficient**.
+
+  <div class="step-subheading">If you are exempt and choose not to use TrueFiling</div>
+
+    * Fill out **[TF-820 Notice of Change to Use of Email or TrueFiling (Fill-in PDF)](https://public.courts.alaska.gov/web/forms/docs/tf-820.pdf)**.
+
+  For your own records, make a copy of:
+
+    * your petition,
+    * the **Confidential Law Enforcement Information Sheet**, and
+    * your **TF-820 Notice**.
+
+  Find the closest courthouse and file your document.
+
+  <div class="step-subheading">If you are not exempt</div>
+  Create a **TrueFiling account** and file your documents at:  
+  [https://truefiling.com](https://truefiling.com)
+---
+template: divorce_po_info_step
+subject: |
+  Step ${divorce_po_info_idx}:
+  Start a case to end your marriage
+content: |
+  <div class="step-subheading">Divorce and protective orders</div>
+  You can ask the court to end your marriage through a divorce case.
+
+  A protective order is only temporary. The judge’s orders only last during the protective order. The focus is on safety. The protective order cannot address many issues that a judge can address in a divorce case.
+
+  In a divorce case you can end your marriage, divide your property and debt, and ask for financial help from your spouse.
+
+  If you have children, the divorce case will include a parenting plan and a child support order. Even if you have a parenting plan or child support order in the protective order case, it is important to file a divorce case so you can present all the evidence about the children’s best interest to the judge. The judge will make a permanent decision with more details than the order in a protective order case. The parenting plan can only be changed if either parent files a motion to modify and the judge finds there has been a substantial change of circumstances.
+
+  Answer questions for an action plan with steps for starting a case to end your marriage.
+
+---
+template: custody_po_info_step
+subject: |
+  Step ${custody_po_info_idx}:
+  Start a case for a Parenting Plan (also known as a "Custody Order")
+content: |
+  <div class="step-subheading">Custody and protective orders</div>
+  A protective order is only temporary. The judge’s orders only last during the protective order. The focus is on safety. The protective order cannot address many issues that a judge can address in a custody case.
+
+  The custody case will include a parenting plan and a child support order. Even if you have a parenting plan or child support order in the protective order case, it is important to file a custody case so you can present all the evidence about the children’s best interest to the judge. The judge will make a permanent decision with more details than the order in a protective order case. The parenting plan can only be changed if either parent files a motion to modify and the judge finds there has been a substantial change of circumstances.
+
+  Answer questions for an action plan with steps for starting a custody case.
+
 ---
 template: protective_order_more_than_one_step
 subject: |
@@ -495,13 +956,6 @@ subject: |
   Stalking Protective Order step
 content: |
   Stalking Protective Order information
----
-template: sa_step
-subject: |
-  Step ${ sa_idx }:
-  Sexual Assault Protective Order step
-content: |
-  Sexual Assault Protective Order information
 ---
 template: dont_qualify_placeholder_language
 content: |
