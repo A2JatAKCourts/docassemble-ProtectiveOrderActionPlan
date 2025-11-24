@@ -84,6 +84,7 @@ code: |
   # reply_certificate_list.append({'image': service_cert_reply_image, 'text': "Certificate of Service at the bottom of the Reply form."})
   # motion_type used in expect_after_motion_step "What to expect after you file a ${ motion_type }"
   motion_type = 'motion or Answer'
+  no_qualifying_relationship = False
     
   # if len(type_of_response.true_values()) > 1:
   #   add_unique_step((pick_a_step_step, "pick_a_step_idx"), step_list)
