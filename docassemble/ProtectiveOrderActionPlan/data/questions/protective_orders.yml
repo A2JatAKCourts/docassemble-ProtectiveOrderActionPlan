@@ -2,6 +2,7 @@ Comment: |
   2025-11-19 
 ---
 include:
+
   - docassemble.AssemblyLine:assembly_line.yml
   - docassemble.AKA2JBranding:custom_organization.yml
   - docassemble.AKA2JBranding:aka2j_templates.yml
@@ -1150,7 +1151,142 @@ fields:
     choices:
       - Asking for a Domestic Violence Protective Order for 1 person: one person dv form
       - Asking for a Domestic Violence Protective Order for more than 1 person: multi person dv form
- 
+---
+###### Step 6 2025-11-18 ######
+id: short or long term
+question: |
+  Is your Alaska protective order a 20-day order or long-term (1 year) order?
+fields:
+  - Short or long-term?: term
+    datatype: radio
+    choices:
+      - "20-day order": short
+      - "long-term (1 year) order": long
+---
+id: request long
+question: |
+  When you asked for the 20-day order, did you also ask for a long-term protective order?
+fields:
+  - Request long-term?: request_long
+    datatype: radio
+    choices:
+      - "Yes.": yes
+      - "No.": no
+---
+id: married or kids
+question: |
+  Do you have a child with the other person?
+fields:
+  - no label: shared_children
+    datatype: radio
+    choices:
+      - "Yes.": yes
+      - "No.": no
+  - What is your situation?: custody
+    datatype: radio
+    choices:
+      - "Married.": married
+      - "Divorced.": divorced
+      - "Never married, but I have a custody order.": custody order
+      - "Never married, and we do not have a custody order.": no custody order
+    show if: |
+      val('shared_children') == true
+---
+id: married to the other person
+question: |
+  Are you married to the other person?
+fields:
+  - Married?: married
+    datatype: radio
+    choices:
+      - "Yes.": yes
+      - "No.": no
+---
+id: more info petitioner
+question: |
+  What would you like to learn about?
+subquestion: |
+  Check all that apply.
+fields:
+  - I want to learn about : petitioner_choices
+    datatype: checkboxes
+    choices:
+      - "Options if the other side violates the protective order .": options
+      - "Asking the judge to change the protective order.": change
+      - "Asking the judge to end the protective order.": end
+      - "Asking the judge to extend the protective order.": extend
+      - "Responding if the other side asks to change or end the order.": change
+      - "Ask the judge to dismiss a petition for a long-term protective order before deciding if it should be granted change.": dismiss
+    none of the above: |
+      None of these
+---
+id: expired yet
+question: |
+    Has the long-term protective order expired yet?
+fields:
+  - Expired?: expired
+    datatype: radio
+    choices:
+      - "Yes.": yes
+      - "No.": no
+---
+id: how long ago
+question: |
+  How long ago did the long-term protective order expire?
+subquestion: |
+fields:
+  - How long ago?: expired_days_ago
+    datatype: radio
+    choices:
+      - "Less than 60 days ago.": less than 60 days
+      - "More than 60 days ago.": more than 60 days
+---
+id: how long until
+question: |
+  How long until the current long-term protective order expires?
+subquestion: |
+fields:
+  - How long?: will_expire
+    datatype: radio
+    choices:
+      - "Less than 10 days ago.": less than 10 days
+      - "More than 10 days ago.": more than 10 days
+---
+id: too long
+question: |
+  If your protective order expired more than 60 days ago, it cannot be extended. 
+fields:
+  - Would you like information about asking for a new protective order?: new_order_info
+    datatype: radio
+    choices:
+      - "Yes.": yes
+      - "No.": no
+---
+id: also change
+question: |
+  Would you like information about asking the judge to change the protective order?
+subquestion: |
+  If you think you would be safer if the protective order has more protections, you can ask the judge to change the order and add more protections for you.  
+fields:
+  - Would you like more information?: also_change
+    datatype: radio
+    choices:
+      - "Yes.": yes
+      - "No.": no
+---
+id: what type of case
+question: |
+  What type of protective order case do you have?
+fields:
+  - I have: po_case_type
+    datatype: radio
+    choices:
+      - "A Domestic violence protective order with 1 petitioner": 1 person
+      - "A Domestic violence protective order with more than 1 petitioner.": more than 1
+      - "A Stalking Protective Order.": stalking
+      - "A Sexual Assault Protective Order.": sexual assault
+---
+
       
 ---
 # ALDocument objects specify the metadata for each template
@@ -1173,6 +1309,7 @@ attachment:
   variable name: protective_order_action_plan_attachment[i]
   skip undefined: True
   docx template file: dummy.docx
+  # docx template file: protective_order_action_plan.docx
   tagged pdf: True
 ---
 attachment:
@@ -1182,4 +1319,5 @@ attachment:
   variable name: docx_protective_order_action_plan_attachment
   skip undefined: True
   docx template file: dummy.docx
+  # docx template file: protective_order_action_plan.docx
   tagged pdf: True

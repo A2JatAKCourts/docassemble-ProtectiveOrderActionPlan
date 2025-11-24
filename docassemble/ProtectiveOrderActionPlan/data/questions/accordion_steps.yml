@@ -320,8 +320,6 @@ code: |
                       add_unique_step((stalking_step, "stalking_idx"), step_list)
                     if other_po['sexual contact']:
                       add_unique_step((sa_step, "sa_idx"), step_list)
-  
-  
      
         if petitioner_related_to_child in('guardian', 'combination'):
           if domestic_violence_po_criteria:
@@ -351,7 +349,6 @@ code: |
                   if other_po['sexual contact']:
                     add_unique_step((sa_step, "sa_idx"), step_list)
 
-  
             elif self_related_to_abuser.all_false():
               if what_next == 'other po for me':
                 if other_po['stalked']:
@@ -373,11 +370,53 @@ code: |
                   if other_po['sexual contact']:
                     add_unique_step((sa_step, "sa_idx"), step_list)
   
-  # if user_need == 'have po':
-
-
+  if user_need == 'have po':
+    if term == 'short':
+      if request_long:
+        add_unique_step((prepare_for_hearing_step, "prepare_for_hearing_idx"), step_list)
+    if not shared_child:
+      if married:
+        add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
+    if petitioner_choices['options']:
+      add_unique_step((other_side_violated_order_step, "other_side_violated_order_idx"), step_list)
+    if petitioner_choices.any_true('change', 'end', 'extend', 'dismiss'):
+      add_unique_step((change_protective_order_step, "change_protective_order_idx"), step_list)
+    if petitioner_choices['respond to change']:
+      add_unique_step((respond_po_change_step, "respond_po_change_idx"), step_list)
+    if petitioner_choices['options'] and not petitioner_choices['change']:
+      if also_change:
+        add_unique_step((change_protective_order_step, "change_protective_order_idx"), step_list)
+    if petitioner_choices ['extend']:
+      if expired:
+        if expired_days_ago == 'less than 60':
+          po_case_type
+        elif expired_days_ago == 'more than 60':
+          ## add language about expired to stay safe step ##
+          if new_order_info:
+            ### variable to get questions from ask user_need == 'want po' ###
+            has_expired = True
+            options_for_po['AK court'] = True
+            options_for_po['tribal'] = False
+            options_for_po['military'] = False
+          # if not new_order_info:
+            ## PDF
+      elif not expired:
+        if will_expire == 'less than 10':
+          add_unique_step((extend_protective_order_step, "extend_protective_order_idx"), step_list)
+          po_case_type
+        elif will_expire == 'more than 10':
+          add_unique_step((extend_protective_order_step, "extend_protective_order_idx"), step_list)
+          if not new_order_info:
+            po_case_type
+          else:
+            user_need == 'want po'
+    if petitioner_choices.any_true():
+      po_case_type
   
-  # if user_need == 'register po':
+  if user_need == 'register po':
+    add_unique_step((stay_safe_step, "stay_safe_idx"), step_list)
+    add_unique_step((register_foreign_po_step, "register_foreign_po_idx"), step_list)
+    add_unique_step((file_po_step, "file_po_idx"), step_list)
   # if user_need == 'po defendant':
 
   
@@ -421,6 +460,10 @@ code: |
         is_unique = False
     if is_unique:
       image_list.append(new_image)
+---
+#### gets docassemble to start interview order over from the beginning ###
+code: |
+  get_po_questions_complete = True
 ---
 #### used to start interview order over again if protective order expired more than 60 days ago without already answering the question by default and so skipping new_order_info ####
 code: |
@@ -484,7 +527,7 @@ content: |
   An Alaska Court can register your protective order. File:
 
   * a certified copy of your unexpired protective order, and
-  * **[Notice of Registering Protective Order of another State or Tribal Court, DV-220 \[Fill-in PDF\]](https://public.courts.alaska.gov/web/forms/docs/dv-220.pdf)**
+  * **Notice of Registering Protective Order of another State or Tribal Court, DV-220** [Fill-in PDF](https://public.courts.alaska.gov/web/forms/docs/dv-220.pdf)
 
   If you do not have a certified copy of your order, the court that issued the order can fax a copy of the protective order to the Alaska court. You cannot fax the copy yourself. Contact your local Alaska court for their fax number.
   
