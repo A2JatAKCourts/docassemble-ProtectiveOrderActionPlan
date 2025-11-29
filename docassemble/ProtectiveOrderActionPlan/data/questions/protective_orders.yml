@@ -447,7 +447,7 @@ under: |
 
   The child needs one of these relationships to receive a domestic violence protective order. If the child does not have one of these relationships, the child may qualify for a stalking or sexual assault protective order if the other person stalked the child or had sexual contact with the child without consent.
     % elif petitioner_related_to_child == 'parent' and who_needs_po_related_to_abuser.all_false():
-    Why does my  relationship with the other person matter?
+    Why does my relationship with the other person matter?
 
     If your child does not have one of the qualifying relationships, your child may still qualify for a protective order if you have a qualifying relationship with the other person. For example, if you are asking for a protective order for your minor child against someone you are dating.
     % endif
