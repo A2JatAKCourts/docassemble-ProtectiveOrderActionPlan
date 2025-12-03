@@ -1,5 +1,5 @@
 @want_po_self_children_parent
-# 2025-10-31
+# 2025-12-02
 
 Feature: User paths 
 
@@ -546,7 +546,7 @@ Scenario: Row #228
     | po_against_other_parent        | False             |         | 
     | self_related_to_abuser['None'] | True              |         | 
     | what_next                      | other po for me   |         | 
-    | other_po['stalked']            | True              |         | 
+    | other_po                       | stalked           |         | 
     And I take a screenshot
 
 @row229
@@ -562,7 +562,7 @@ Scenario: Row #229
     | po_against_other_parent        | False             |         | 
     | self_related_to_abuser['None'] | True              |         | 
     | what_next                      | other po for me   |         | 
-    | other_po['sexual contact']     | True              |         | 
+    | other_po                       | sexual contact    |         | 
     And I take a screenshot
 
 @row230
@@ -578,7 +578,7 @@ Scenario: Row #230
     | po_against_other_parent        | False             |         | 
     | self_related_to_abuser['None'] | True              |         | 
     | what_next                      | other po for me   |         | 
-    | other_po['None']               | True              |         | 
+    | other_po                       | neither           |         | 
     And I take a screenshot
 
 @row231
@@ -737,7 +737,7 @@ Scenario: Row #239
     | what_next                      | stop for me       |         | 
     | children_related_to_abuser     | one               |         | 
     | what_next_for_children         | stop              |         | 
-    | other_po['stalked']            | True              |         | 
+    | other_po                       | stalked           |         | 
     And I take a screenshot
 
 @row240
@@ -755,7 +755,7 @@ Scenario: Row #240
     | what_next                      | stop for me       |         | 
     | children_related_to_abuser     | one               |         | 
     | what_next_for_children         | stop              |         | 
-    | other_po['sexual contact']     | True              |         | 
+    | other_po                       | sexual contact    |         | 
     And I take a screenshot
 
 @row241
@@ -773,7 +773,7 @@ Scenario: Row #241
     | what_next                      | stop for me       |         | 
     | children_related_to_abuser     | one               |         | 
     | what_next_for_children         | stop              |         | 
-    | other_po['None']               | True              |         | 
+    | other_po                       | neither           |         | 
     And I take a screenshot
 
 @row242
@@ -790,7 +790,7 @@ Scenario: Row #242
     | self_related_to_abuser['None'] | True              |         | 
     | what_next                      | stop for me       |         | 
     | children_related_to_abuser     | none              |         | 
-    | other_po['stalked']            | True              |         | 
+    | other_po                       | stalked           |         | 
     And I take a screenshot
 
 @row243
@@ -807,7 +807,7 @@ Scenario: Row #243
     | self_related_to_abuser['None'] | True              |         | 
     | what_next                      | stop for me       |         | 
     | children_related_to_abuser     | none              |         | 
-    | other_po['sexual contact']     | True              |         | 
+    | other_po                       | sexual contact    |         | 
     And I take a screenshot
 
 @row244
@@ -824,7 +824,7 @@ Scenario: Row #244
     | self_related_to_abuser['None'] | True              |         | 
     | what_next                      | stop for me       |         | 
     | children_related_to_abuser     | none              |         | 
-    | other_po['None']               | True              |         | 
+    | other_po                       | neither           |         | 
     And I take a screenshot    
 
 

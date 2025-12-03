@@ -1,10 +1,8 @@
 comment: |
-    last updated: 2025-11-19
----
-generic object: ALDocumentBundle
+    last updated: 2025-12-03
 template: x.get_email_copy
 content: |
-  Email a copy of your Action Plan to yourself or someone else
+  Email a copy of your Action Plan to yourself or someone else.
 ---
 generic object: ALDocumentBundle
 template: x.send_email_template
@@ -15,8 +13,8 @@ content: |
 
   Your Action Plan is attached.
 
-  Get [more information and a list of all the Court Guide Action Plans](https://ak-courts.info/ActionPlan).  
-  
+  Get [more information and a list of all the Court Guide Action Plans](https://ak-courts.info/ActionPlan).
+
   [ak-courts.info/ActionPlan](https://ak-courts.info/ActionPlan).
 ---
 id: final screen
@@ -30,26 +28,26 @@ question: |
   % endif
 subquestion: |
   #### Your Protective Order Action Plan in ${ len(step_list) } steps
- 
+
   % if get_config("debug", False):
   <button id="akc_expand_all" class="btn other stuff">Expand all</button>
   <button id="akc_collapse_all" class="btn other stuff">Collapse all</button>
-  % endif  
-  
+  % endif
+
   % for iteration_index, step_tuple in enumerate( step_list ):
   ${ collapse_template(step_tuple[0], closed_icon="plus", open_icon="minus") }
   % endfor
-  
+
   ${ al_user_bundle.download_list_html() }
-  
+
   &nbsp;
 
   ${ al_user_bundle.send_button_html(show_editable_checkbox=False) }
-  
+
   % if get_config("debug", False):
   [get the docx file](${ docx_protective_order_action_plan_attachment.docx.url_for() })
-  % endif 
-   
+  % endif
+
 buttons:
   - Start over: restart
 script: |
@@ -58,7 +56,7 @@ script: |
   expander.on("click", function () {
    Array.from(document.querySelectorAll('.al_collapse_template .collapse')).forEach((elem) => { elem.className += " show" })
   })
-  
+
   let collapser = $("#akc_collapse_all")
   collapser.on("click", function () {
       Array.from(document.querySelectorAll('.al_collapse_template .collapse')).forEach((elem) => { elem.className = elem.className.replace(" show", "" ) })
@@ -73,8 +71,8 @@ code: |
   distribution_certificate_list = []
   reply_certificate_list = []
   other_party_in_case  = ''
-  # case_type = 'custody case'  
-  type_of_response['ak custody case'] = False 
+  # case_type = 'custody case'
+  type_of_response['ak custody case'] = False
   # distribution_certificate_list.append({'image': distrib_cert_custody_divorce_image, 'text': "Certificate of Distribution shows the date the court sent your order to you."})
   # expect_after_motion is in what to expect step for filing motion for interim order w complaint, or answer/response, cannot use variable in docx template, must insert condition in what to expect step.
   expect_after_motion = ''
@@ -85,9 +83,10 @@ code: |
   # motion_type used in expect_after_motion_step "What to expect after you file a ${ motion_type }"
   motion_type = 'motion or Answer'
   no_qualifying_relationship = False
+  relationship_qualifies = False
   protective_order_for_one = False
   protective_order_for_more = False
-    
+
   # if len(type_of_response.true_values()) > 1:
   #   add_unique_step((pick_a_step_step, "pick_a_step_idx"), step_list)
 
@@ -110,46 +109,47 @@ code: |
           if child_w_abuser:
             add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
         if self_related_to_abuser.any_true():
+          relationship_qualifies = True
           if dv_crime == 'yes':
             protective_order_for_one = True
             add_unique_step((protective_order_step, "protective_order_idx"), step_list)
         else:
           no_qualifying_relationship = True
-          if other_po['stalked']:
-            add_unique_step((stalking_step, "stalking_idx"), step_list)
-          if other_po['sexual contact']:
-            add_unique_step((sa_step, "sa_idx"), step_list)
-       
+          if other_po in('stalked', 'sexual contact'):
+            add_unique_step((protective_order_step, "protective_order_idx"), step_list)
+
+
       if who_needs_the_order == 'child':
         if petitioner_related_to_child == 'parent':
           if child_related_to_abuser['have child']:
             add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
           if child_related_to_abuser.any_true() or (child_related_to_abuser.all_false() and petitioner_related_to_child == 'parent' and parent_related_to_abuser.any_true()) or (child_related_to_abuser.all_false() and petitioner_related_to_child == 'parent' and parent_related_to_abuser.all_false() and other_parent_related_to_abuser.any_true()):
-            if dv_crime == 'yes':
-              protective_order_for_one = True
-              add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-          else:
-            if other_po['stalked']:
-              add_unique_step((stalking_step, "stalking_idx"), step_list)
-            if other_po['sexual contact']:
-              add_unique_step((sa_step, "sa_idx"), step_list)
-        elif petitioner_related_to_child in('guardian', 'representative'):
-          if guardian_for_child_related_to_abuser['have child']:
-            add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
-          if guardian_for_child_related_to_abuser.any_true():
+            relationship_qualifies = True
             if dv_crime == 'yes':
               protective_order_for_one = True
               add_unique_step((protective_order_step, "protective_order_idx"), step_list)
           else:
             no_qualifying_relationship = True
-            if other_po['stalked']:
-              add_unique_step((stalking_step, "stalking_idx"), step_list)
-            if other_po['sexual contact']:
-              add_unique_step((sa_step, "sa_idx"), step_list)
+            if other_po in('stalked', 'sexual contact'):
+              add_unique_step((protective_order_step, "protective_order_idx"), step_list)
+
+        elif petitioner_related_to_child in('guardian', 'representative'):
+          if guardian_for_child_related_to_abuser['have child']:
+            add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
+          if guardian_for_child_related_to_abuser.any_true():
+            relationship_qualifies = True
+            if dv_crime == 'yes':
+              protective_order_for_one = True
+              add_unique_step((protective_order_step, "protective_order_idx"), step_list)
+          else:
+            no_qualifying_relationship = True
+            if other_po in('stalked', 'sexual contact'):
+              add_unique_step((protective_order_step, "protective_order_idx"), step_list)
 
       if who_needs_the_order == 'self and child':
-        if petitioner_related_to_child == 'parent': 
+        if petitioner_related_to_child == 'parent':
           if po_against_other_parent:
+            relationship_qualifies = True
             add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
             if parent_married_parent == 'married':
               add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
@@ -167,35 +167,34 @@ code: |
             if self_related_to_abuser['have child']:
               add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
             if self_related_to_abuser.any_true():
+              relationship_qualifies = True
               if dv_crime in('yes one', 'yes both'):
                 if dv_crime == 'yes one':
                   protective_order_for_one = True
                 if dv_crime == 'yes both':
                   protective_order_for_more = True
                 add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-            
-            else:
+
+            else: # parent related to abuser.all_false()
               if what_next == 'other po for me':
                 no_qualifying_relationship = True
-                if other_po['stalked']:
-                  add_unique_step((stalking_step, "stalking_idx"), step_list)
-                if other_po['sexual contact']:
-                  add_unique_step((sa_step, "sa_idx"), step_list)
-  
+                if other_po in('stalked', 'sexual contact'):
+                  add_unique_step((protective_order_step, "protective_order_idx"), step_list)
+
+
               if what_next == 'stop for me':
                 if child_related_to_abuser['have child'] or (child_related_to_abuser.all_false() and filing_parent_does_not_qualify_other_parent_related_to_abuser['have child']):
                   add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
                 if child_related_to_abuser.any_true() or (child_related_to_abuser.all_false() and filing_parent_does_not_qualify_other_parent_related_to_abuser.any_true()):
+                  relationship_qualifies = True
                   if dv_crime == 'yes':
                     protective_order_for_one = True
                     add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-                else: 
+                else:
                   no_qualifying_relationship = True
-                  if other_po['stalked']:
-                    add_unique_step((stalking_step, "stalking_idx"), step_list)
-                  if other_po['sexual contact']:
-                    add_unique_step((sa_step, "sa_idx"), step_list)
-  
+                  if other_po in('stalked', 'sexual contact'):
+                    add_unique_step((protective_order_step, "protective_order_idx"), step_list)
+
         if petitioner_related_to_child in('guardian', 'representative'):
           if self_related_to_abuser['married']:
             add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
@@ -207,18 +206,21 @@ code: |
             if guardian_and_child_child_related_to_abuser['have child']:
               add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
             if guardian_and_child_child_related_to_abuser.any_true():
+              relationship_qualifies = True
               if dv_crime == 'yes both':
                 protective_order_for_more = True
                 add_unique_step((protective_order_step, "protective_order_idx"), step_list)
               if dv_crime == 'yes one':
                 protective_order_for_one = True
                 add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-            else: ## guardian_and_child_child_related_to_abuser.all_false            
+            else: ## guardian_and_child_child_related_to_abuser.all_false
               if what_next == 'stop for child':
-                  if dv_crime == 'yes':
-                    protective_order_for_one = True
-                    add_unique_step((protective_order_step, "protective_order_idx"), step_list)
+                relationship_qualifies = True
+                if dv_crime == 'yes':
+                  protective_order_for_one = True
+                  add_unique_step((protective_order_step, "protective_order_idx"), step_list)
               elif what_next == 'continue for both':
+                relationship_qualifies = True
                 if dv_crime == 'yes both':
                   protective_order_for_more = True
                   add_unique_step((protective_order_step, "protective_order_idx"), step_list)
@@ -227,29 +229,25 @@ code: |
                   add_unique_step((protective_order_step, "protective_order_idx"), step_list)
               else: ## what_next == 'stop for me'
                 no_qualifying_relationship = True
-                if other_po['stalked']:
-                  add_unique_step((stalking_step, "stalking_idx"), step_list)
-                if other_po['sexual contact']:
-                  add_unique_step((sa_step, "sa_idx"), step_list)
-  
-          if self_related_to_abuser.all_false(): 
-            if what_next == 'stop for me': 
+                if other_po in('stalked', 'sexual contact'):
+                  add_unique_step((protective_order_step, "protective_order_idx"), step_list)
+          if self_related_to_abuser.all_false():
+            if what_next == 'stop for me':
               if guardian_for_child_related_to_abuser['married']:
                 add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
               if guardian_for_child_related_to_abuser['have child']:
                 add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
               if guardian_for_child_related_to_abuser.any_true():
-                if dv_crime == 'yes':                  
+                relationship_qualifies = True
+                if dv_crime == 'yes':
                   protective_order_for_one = True
-                  add_unique_step((protective_order_step, "protective_order_idx"), step_list) 
+                  add_unique_step((protective_order_step, "protective_order_idx"), step_list)
             if what_next == 'other po for me':
                 no_qualifying_relationship = True
-                if other_po['stalked']:
-                  add_unique_step((stalking_step, "stalking_idx"), step_list)
-                if other_po['sexual contact']:
-                  add_unique_step((sa_step, "sa_idx"), step_list)
+                if other_po in('stalked', 'sexual contact'):
+                  add_unique_step((protective_order_step, "protective_order_idx"), step_list)
 
-      if who_needs_the_order == 'children':   
+      if who_needs_the_order == 'children':
         if petitioner_related_to_child != 'other':
           if domestic_violence_po_criteria:
             if children_related_to_abuser == 'all':
@@ -258,185 +256,165 @@ code: |
                 add_unique_step((protective_order_step, "protective_order_idx"), step_list)
               if dv_crime == 'yes one':
                 protective_order_for_one = True
-                add_unique_step((protective_order_step, "protective_order_idx"), step_list) 
+                add_unique_step((protective_order_step, "protective_order_idx"), step_list)
             elif children_related_to_abuser in('one', 'some'):
               if what_next_for_children == 'order for one':
                 if dv_crime == 'yes':
                   protective_order_for_one = True
-                  add_unique_step((protective_order_step, "protective_order_idx"), step_list) 
+                  add_unique_step((protective_order_step, "protective_order_idx"), step_list)
               if what_next_for_children == 'order for more':
                 if dv_crime == 'yes more':
                   protective_order_for_more = True
                   add_unique_step((protective_order_step, "protective_order_idx"), step_list)
                 elif dv_crime == 'yes one':
                   protective_order_for_one = True
-                  add_unique_step((protective_order_step, "protective_order_idx"), step_list) 
+                  add_unique_step((protective_order_step, "protective_order_idx"), step_list)
               if what_next_for_children == 'stop':
                 no_qualifying_relationship = True
-                if other_po['stalked']:
-                  add_unique_step((stalking_step, "stalking_idx"), step_list)
-                if other_po['sexual contact']:
-                  add_unique_step((sa_step, "sa_idx"), step_list)
+                if other_po in('stalked', 'sexual contact'):
+                  add_unique_step((protective_order_step, "protective_order_idx"), step_list)
             else:
               no_qualifying_relationship = True
-              if other_po['stalked']:
-                add_unique_step((stalking_step, "stalking_idx"), step_list)
-              if other_po['sexual contact']:
-                add_unique_step((sa_step, "sa_idx"), step_list)
+              if other_po in('stalked', 'sexual contact'):
+                add_unique_step((protective_order_step, "protective_order_idx"), step_list)
 
-      if who_needs_the_order == 'self and children':   
-        if petitioner_related_to_child == 'parent':
-          if domestic_violence_po_criteria:
-            if po_against_other_parent:
+      if who_needs_the_order == 'self and children':
+        # if petitioner_related_to_child == 'parent':
+        if domestic_violence_po_criteria:
+          if po_against_other_parent:
+            add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
+            if parent_married_parent == 'married':
+              add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
+            if parent_married_parent == 'no':
+              add_unique_step((custody_case_step, "custody_case_idx"), step_list)
+            if dv_crime == 'yes one':
+              protective_order_for_one = True
+              add_unique_step((protective_order_step, "protective_order_idx"), step_list)
+            elif dv_crime in('yes all', 'yes some'):
+              protective_order_for_more = True
+              add_unique_step((protective_order_step, "protective_order_idx"), step_list)
+          else: ## not po_against_other_parent
+            if self_related_to_abuser['married']:
+              add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
+            if self_related_to_abuser['have child']:
               add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
-              if parent_married_parent == 'married':
-                add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
-              if parent_married_parent == 'no':
-                add_unique_step((custody_case_step, "custody_case_idx"), step_list)
+            if self_related_to_abuser.any_true():
+              if dv_crime in('yes all', 'yes some'):
+                protective_order_for_more = True
+                add_unique_step((protective_order_step, "protective_order_idx"), step_list)
               if dv_crime == 'yes one':
                 protective_order_for_one = True
                 add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-              elif dv_crime in('yes all', 'yes some'):
-                protective_order_for_more = True
-                add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-            else:
-              if self_related_to_abuser['married']:
-                add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
-              if self_related_to_abuser['have child']:
-                add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
-              if self_related_to_abuser.any_true():
-                if dv_crime in('yes all', 'yes some'):
-                  protective_order_for_more = True
+
+            else: ## self_related_to_abuser.all_false()
+              if what_next == 'other po for me':
+                no_qualifying_relationship = True
+                if other_po in('stalked', 'sexual contact'):
                   add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-                if dv_crime == 'yes one':
-                  protective_order_for_one = True
-                  add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-              
-              else:
-                if what_next == 'other po for me':
-                  no_qualifying_relationship = True
-                  if other_po['stalked']:
-                    add_unique_step((stalking_step, "stalking_idx"), step_list)
-                  if other_po['sexual contact']:
-                    add_unique_step((sa_step, "sa_idx"), step_list)
-    
-                elif what_next == 'stop for me':
-                  no_qualifying_relationship = True
-                  if children_related_to_abuser == 'all':
+
+              elif what_next == 'stop for me':
+                no_qualifying_relationship = True
+                if children_related_to_abuser == 'all':
+                  if dv_crime == 'yes more':
+                    protective_order_for_more = True
+                    add_unique_step((protective_order_step, "protective_order_idx"), step_list)
+                  elif dv_crime == 'yes one':
+                    protective_order_for_one = True
+                    add_unique_step((protective_order_step, "protective_order_idx"), step_list)
+                elif children_related_to_abuser == 'one':
+                  if what_next_for_children == 'order for one':
+                    if dv_crime == 'yes':
+                      protective_order_for_one = True
+                      add_unique_step((protective_order_step, "protective_order_idx"), step_list)
+                  elif what_next_for_children == 'order for more':
                     if dv_crime == 'yes more':
                       protective_order_for_more = True
                       add_unique_step((protective_order_step, "protective_order_idx"), step_list)
                     elif dv_crime == 'yes one':
                       protective_order_for_one = True
                       add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-                  elif children_related_to_abuser == 'one':
-                    if what_next_for_children == 'order for one':
-                      if dv_crime == 'yes':
-                        protective_order_for_one = True
-                        add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-                    elif what_next_for_children == 'order for more':
-                      if dv_crime == 'yes more':
-                        protective_order_for_more = True
-                        add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-                      elif dv_crime == 'yes one':
-                        protective_order_for_one = True
-                        add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-                    elif what_next_for_children == 'stop':
-                      if other_po['stalked']:
-                        add_unique_step((stalking_step, "stalking_idx"), step_list)
-                      if other_po['sexual contact']:
-                        add_unique_step((sa_step, "sa_idx"), step_list)  
-    
-                  elif children_related_to_abuser == 'none':
-                    no_qualifying_relationship = True
-                    if other_po['stalked']:
-                      add_unique_step((stalking_step, "stalking_idx"), step_list)
-                    if other_po['sexual contact']:
-                      add_unique_step((sa_step, "sa_idx"), step_list)
-  
-  
-     
+                  elif what_next_for_children == 'stop':
+                    if other_po in('stalked', 'sexual contact'):
+                      add_unique_step((protective_order_step, "protective_order_idx"), step_list)
+
+                elif children_related_to_abuser == 'none':
+                  no_qualifying_relationship = True
+                  if other_po in('stalked', 'sexual contact'):
+                    add_unique_step((protective_order_step, "protective_order_idx"), step_list)
+
+
         if petitioner_related_to_child in('guardian', 'combination'):
-          if domestic_violence_po_criteria:
-            if self_related_to_abuser['married']:
-              add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
-            if self_related_to_abuser['have child']:
-              add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
-            if self_related_to_abuser.any_true():
-              if children_related_to_abuser in('all', 'one'):
+          # if domestic_violence_po_criteria:
+          if self_related_to_abuser['married']:
+            add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
+          if self_related_to_abuser['have child']:
+            add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
+          if self_related_to_abuser.any_true():
+            if children_related_to_abuser in('all', 'one'):
+              if dv_crime in('yes all', 'yes some'):
+                protective_order_for_more = True
+                add_unique_step((protective_order_step, "protective_order_idx"), step_list)
+              elif dv_crime == 'yes one':
+                protective_order_for_one = True
+                add_unique_step((protective_order_step, "protective_order_idx"), step_list)
+            elif children_related_to_abuser == 'none':
+              if what_next == 'stop for child':
+                if dv_crime == 'yes':
+                  protective_order_for_one = True
+                  add_unique_step((protective_order_step, "protective_order_idx"), step_list)
+              if what_next == 'continue for both':
                 if dv_crime in('yes all', 'yes some'):
+                  protective_order_for_more = True
+                  add_unique_step((protective_order_step, "protective_order_idx"), step_list)
+                if dv_crime == 'yes one':
+                  protective_order_for_one = True
+                  add_unique_step((protective_order_step, "protective_order_idx"), step_list)
+              if what_next == 'stop for me':
+                no_qualifying_relationship = True
+                if other_po in('stalked', 'sexual contact'):
+                  add_unique_step((protective_order_step, "protective_order_idx"), step_list)
+
+
+          elif self_related_to_abuser.all_false():
+            if what_next == 'other po for me':
+              if other_po in('stalked', 'sexual contact'):
+                add_unique_step((protective_order_step, "protective_order_idx"), step_list)
+
+            elif what_next == 'stop for me':
+              if children_related_to_abuser in('all', 'one'):
+                if dv_crime == 'yes more':
                   protective_order_for_more = True
                   add_unique_step((protective_order_step, "protective_order_idx"), step_list)
                 elif dv_crime == 'yes one':
                   protective_order_for_one = True
-                  add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-              elif children_related_to_abuser == 'none':
-                if what_next == 'stop for child':
-                  if dv_crime == 'yes':
-                    protective_order_for_one = True
-                    add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-                if what_next == 'continue for both':
-                  if dv_crime in('yes all', 'yes some'):
-                    protective_order_for_more = True
-                    add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-                  if dv_crime == 'yes one':
-                    protective_order_for_one = True
-                    add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-                if what_next == 'stop for me':
-                  no_qualifying_relationship = True
-                  if other_po['stalked']:
-                    add_unique_step((stalking_step, "stalking_idx"), step_list)
-                  if other_po['sexual contact']:
-                    add_unique_step((sa_step, "sa_idx"), step_list)
+                  add_unique_step((protective_order_step, "protective_order_idx"), step_list) 
 
-  
-            elif self_related_to_abuser.all_false():
-              if what_next == 'other po for me':
-                if other_po['stalked']:
-                  add_unique_step((stalking_step, "stalking_idx"), step_list)
-                if other_po['sexual contact']:
-                  add_unique_step((sa_step, "sa_idx"), step_list)
-  
-              elif what_next == 'stop for me':
-                if children_related_to_abuser in('all', 'one'):
-                  if dv_crime == 'yes more':
-                    protective_order_for_more = True
-                    add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-                  elif dv_crime == 'yes one':
-                    protective_order_for_one = True
-                    add_unique_step((protective_order_step, "protective_order_idx"), step_list) 
-  
-                elif children_related_to_abuser == 'none':
-                  no_qualifying_relationship = True
-                  if other_po['stalked']:
-                    add_unique_step((stalking_step, "stalking_idx"), step_list)
-                  if other_po['sexual contact']:
-                    add_unique_step((sa_step, "sa_idx"), step_list)
-  
+              elif children_related_to_abuser == 'none':
+                no_qualifying_relationship = True
+                if other_po in('stalked', 'sexual contact'):
+                  add_unique_step((protective_order_step, "protective_order_idx"), step_list)
+
   # if user_need == 'have po':
 
 
-  
+
   # if user_need == 'register po':
   # if user_need == 'po defendant':
 
-  
+
   #  add_unique_image({'image': service_cert_image, 'text': "Certificate of Service"}, images_list)
   #  add_unique_step((cert_of_service_step, "cert_of_service_idx"), step_list)
   #  add_unique_step((answer_file_and_serve_step, "answer_file_and_serve_idx"), step_list)
 
-    
-  
+
    # add_unique_step((expect_after_answer_step, "expect_after_answer_idx"), step_list)
 
    #if :
    #  add_unique_step((learn_more_about_process_step, "learn_more_about_process_idx"), step_list)
-  
-  
-  
-  
+
+
   # add_unique_step((get_help, "get_help_idx"), step_list)
-    
+
   for iter_idx, step_tuple in enumerate( step_list ):
     define(step_tuple[ 1 ], iter_idx + 1)
   get_steps = True
@@ -449,7 +427,7 @@ code: |
         is_unique = False
     if is_unique:
       step_list.append(step)
-      
+
   #if foo:
   #  add_unique_step((file_step, "file_idx"), step_list)
 ---
@@ -475,23 +453,15 @@ template: stay_safe_step
 subject: |
   Step ${stay_safe_idx}:
   Stay safe step
-content: | 
+content: |
   % if user_need == 'want po':
-  % if no_qualifying_relationship:
-  Based on your answers, you may not qualify for a domestic violence protective order if there is no qualifying relationship under Alaska law. If you don't qualify for a protective order, take steps to stay safe.
-  % endif
-  % if not dv_crime:
-  Based on your answers, you may not qualify for a domestic violence protective order if there was no domestic violence crime. You or your children may be experiencing domestic violence that may not be considered a crime under the law such as calling you names, making you feel like you shouldn't talk to friends or family, or limiting access to money. If you and your children don't qualify for a protective order, take steps to stay safe. If something changes, there is a new incident, or you decide to ask the court now for a protective order, use the Court Guide again [use standard language to link to this interview]
-  % endif
-  % if no_qualifying_relationship and not dv_crime:
-  Based on your answers, you may not qualify for a protective order. If you don't qualify for a protective order, take steps to stay safe.
-  % endif
+  ${ dont_qualify_placeholder_language.content }
   % endif
 
-  Contact law enforcement if needed. If you are in immediate danger, call 911. Tell your concerns to your local law enforcement. You can find your local police department non-emergency phone numbers on-line.
-  
-  * State Trooper [locations and phone numbers](https://dps.alaska.gov/ast/contacts)  
-  * Village Public Safety Officer home page
+  Contact law enforcement if needed. If you are in immediate danger, call 911. Tell your concerns to your local law enforcement. You can find your local police department's non-emergency phone numbers on-line:
+
+  * State Trooper [locations and phone numbers](https://dps.alaska.gov/ast/contacts) 
+  * Village Public Safety Officer [home page](https://dps.alaska.gov/AST/VPSO/Contact)
 
   % if user_need == 'have po' and expired_days_ago == 'more than 60 ':
   <div class="step-subheading">Decide if you want to ask for a new protective order</div>
@@ -499,32 +469,32 @@ content: |
   % endif
 
   <div class="step-subheading">Learn more about the process</div>
-  
-  * Watch a [video](https://www.youtube.com/watch?v=OruAbmtJ3-M&list=PLRS0LlEIQsuRzdyylqpm_K8p6O6U9t_9n) about the forms, court hearings, and safety planning (for Spanish & Yup'ik).  
-  * Read *How to Represent Yourself in Alaska's Domestic Violence Protective Order Process*, [PUB-22](https://public.courts.alaska.gov/web/forms/docs/pub-22.pdf).
+
+  * Watch a [video](https://www.youtube.com/watch?v=OruAbmtJ3-M&list=PLRS0LlEIQsuRzdyylqpm_K8p6O6U9t_9n) about the forms, court hearings, and safety planning (for Spanish & Yup'ik).
+  * Read **How to Represent Yourself in Alaska's Domestic Violence Protective Order Process**, [PUB-22](https://public.courts.alaska.gov/web/forms/docs/pub-22.pdf).
 
   <div class="step-subheading">Find help</div>
-  See if you qualify for a free lawyer:  
+  See if you qualify for a free lawyer:
 
-  * [Direct services for survivors](https://andvsa.org/support-for-survivors), or  
-  * [Alaska Legal Services Corporation](https://www.alsc-law.org/apply-for-services/).  
+  * [Direct services for survivors](https://andvsa.org/support-for-survivors), or
+  * [Alaska Legal Services Corporation](https://www.alsc-law.org/apply-for-services/).
 
   Find a [domestic violence program in your area](https://andvsa.org/) to learn about services they offer. They may offer counseling, financial assistance, housing and safe shelter, resources for children, and help with court. Contact the [National Domestic Violence Hotline](https://www.thehotline.org/) or call 1-800-799-7233.
 
   <div class="step-subheading">Create a safety plan</div>
   To keep yourself safe:
-  
-  * [Learn about safety](https://www.thehotline.org/what-is-a-safety-plan).  
+
+  * [Learn about safety](https://www.thehotline.org/what-is-a-safety-plan).
   * Create [your own safety plan](https://ncadv.org/personalized-safety-plan).
 
   <div class="step-subheading">More resources</div>
-  
-  * [Learn more about domestic violence](https://www.thehotline.org/resources/learn-more-about-abuse/).  
+
+  * [Learn more about domestic violence](https://www.thehotline.org/resources/learn-more-about-abuse/).
   * Read the Alaska Court System’s webpage [Domestic Violence, Stalking or Sexual Assault](https://courts.alaska.gov/shc/dv/index.htm).
 ---
 template: register_foreign_po_step
 subject: |
-  Step ${ register_foreign_po_idx }: Register a Protective Order from another state or tribal court 
+  Step ${ register_foreign_po_idx }: Register a Protective Order from another state or tribal court
 content: |
   An Alaska Court can register your protective order. File:
 
@@ -532,17 +502,17 @@ content: |
   * **[Notice of Registering Protective Order of another State or Tribal Court, DV-220 \[Fill-in PDF\]](https://public.courts.alaska.gov/web/forms/docs/dv-220.pdf)**
 
   If you do not have a certified copy of your order, the court that issued the order can fax a copy of the protective order to the Alaska court. You cannot fax the copy yourself. Contact your local Alaska court for their fax number.
-  
+
   There is no filing fee to register.
-  
+
   When you fill out the **Notice of Registration**, you can ask the court to let you know when the order is registered.
-  
+
   Once your order is registered, the clerk will send a copy to Alaska law enforcement. Law enforcement officers out in the field will not have a copy of the protective order. They cannot see what the order says. They just know your name, the other person’s name, and that there is a protective order in place. You may want to keep a copy of the protective order with you to show law enforcement if you need to call them to enforce it.
-  
+
   The court will not send a copy to the other side or tell them that you have filed the order with the Alaska court. Your case will not appear on the court’s public CourtView webpage.
-  
+
   **Did you know:** A protective order from another state or tribal court is often called a “foreign order.”
-  
+
   If you decide you want to ask for a protective order in Alaska, you can retake the interview.
 ---
 template: military_po_info_step
@@ -615,13 +585,13 @@ content: |
 template: po_against_you_resources_step
 subject: |
   Step ${ po_against_you_resources_idx }:
-  Tips and resources for when someone 
+  Tips and resources for when someone
   % if user_need == 'have po':
   has
   % else:
   asks for
   % endif 
-  a Protective Order against you
+  you
 content: |
   <div class="step-subheading">Follow all court orders</div>
   The same event can have several different court cases and several different orders not to contact the other person.
@@ -668,7 +638,7 @@ content: |
 template: child_w_other_side_step
 subject: |
   Step ${child_w_other_side_idx}:
-  Think about parenting issues 
+  Think about parenting issues
 content: |
   <div class="step-subheading">If you have children with the other party</div>
   If you have children with the other party in a domestic violence protective order case, the judge may make a parenting schedule or issue a child support order as part of the protective order.
@@ -676,13 +646,13 @@ content: |
   <div class="step-subheading">Think about a parenting schedule before your protective order hearing</div>
 
   * Read FAQs on Visitation:
-  
-    * [Word](https://public.courts.alaska.gov/web/forms/docs/visitation-faqs.docx)  
+
+    * [Word](https://public.courts.alaska.gov/web/forms/docs/visitation-faqs.docx)
     * [PDF](https://public.courts.alaska.gov/web/forms/docs/visitation-faqs.pdf)
 
   * Fill out a worksheet to organize what you want to ask the judge for in court:
-  
-      * [Word](https://public.courts.alaska.gov/web/forms/docs/visitation-worksheet.docx)  
+
+      * [Word](https://public.courts.alaska.gov/web/forms/docs/visitation-worksheet.docx)
       * [PDF](https://public.courts.alaska.gov/web/forms/docs/visitation-worksheet.pdf)
 
   % if user_need in('want po', 'have po'):
@@ -697,30 +667,26 @@ content: |
 ---
 template: protective_order_step
 subject: |
-  Step ${ protective_order_idx }: Fill out the forms to ask the court for a 
-  % if protective_order_for_one: 
-  Domestic Violence Protective Order for One Person 
-  % elif protective_order_for_more: 
+  Step ${ protective_order_idx }: Fill out the forms to ask the court for a
+  % if protective_order_for_one:
+  Domestic Violence Protective Order for One Person
+  % elif protective_order_for_more:
   Domestic Violence Protective Order for More Than One Person
   % endif
-  % if no_qualifying_relationship and other_po.all_true('stalked', exclusive = True): 
+  % if no_qualifying_relationship and other_po == 'stalked':
   Stalking Protective Order
-  % elif no_qualifying_relationship and other_po.all_true('sexual contact', exclusive = True):  
+  % elif no_qualifying_relationship and other_po == 'sexual contact':
   Sexual Assault Protective Order
-  % elif no_qualifying_relationship and other_po.all_true('stalked', 'sexual contact'): 
-  Stalking Protective Order and a Sexual Assault Protective Order
   % endif
 content: |
   <div class="step-subheading">20-day protective orders</div>
-  % if protective_order_for_one or protective_order_for_more: 
+  % if protective_order_for_one or protective_order_for_more:
   A 20-day **Domestic Violence Protective Order** lasts
-  % elif no_qualifying_relationship and other_po.all_true('stalked', exclusive = True): 
+  % elif no_qualifying_relationship and other_po == 'stalked':
   A 20-day **Stalking Protective Order** lasts
-  % elif no_qualifying_relationship and other_po.all_true('sexual contact', exclusive = True): 
+  % elif no_qualifying_relationship and other_po == 'sexual contact':
   A 20-day **Sexual Assault Protective Order** lasts
-  % elif no_qualifying_relationship and other_po.all_true('stalked', 'sexual contact'): 
-  20 day **Stalking** and **Sexual Assault** Protective Orders last
-  % endif 
+  % endif
     20 days if the court grants it. The person asking for a protective order is called the **petitioner**.
 
   The court only considers the petitioner’s information when deciding whether to issue a 20-day order. To protect the petitioner’s safety, the court does not contact the other side when deciding whether to issue a 20-day order. But if the court issues the order, law enforcement will give the other side a copy of the protective order and explain what it says.
@@ -740,24 +706,24 @@ content: |
 
   % if protective_order_for_one:
     * **Petition for Domestic Violence Protective Order (one), DV-100 ONE**
-  
+
   % elif protective_order_for_more:
     * **Petition for Domestic Violence Protective Order (multi), DV-100 MULTI**
-  
+
   % endif
-  
-  % if no_qualifying_relationship and other_po['stalked']:
+
+  % if no_qualifying_relationship and other_po == 'stalked':
     * **Petition for Stalking Protective Order, CIV-752**
-  
+
   % endif
-  
-  % if no_qualifying_relationship and other_po['sexual contact']:
+
+  % if no_qualifying_relationship and other_po == 'sexual contact':
     * **Petition for Sexual Assault Protective Order, CIV-750**
-  
+
   % endif
-  
+
     * **DV-127 Confidential Law Enforcement Information Sheet**
-  
+
   % if who_needs_the_order in('child', 'children') or (who_needs_the_order in('self and child', 'self and children') and not self_related_to_abuser):
   If you are an adult filling out the forms for a minor, put your name under petitioner information.
   % elif who_needs_the_order in('self and child', 'self and children'):
@@ -776,7 +742,7 @@ content: |
   **long-term** 
   % endif 
   hearing by reading 
-  % if other_po.any_true(): 
+  % if other_po in('stalked', 'sexual contact'): 
   You can review 
   % endif 
   
@@ -788,7 +754,7 @@ content: |
   The sections on **Short-Term Order Process**, **Long-Term Order Process**, and **Evidence** provide helpful information.
   % endif
   
-  % if other_po.any_true():
+  % if other_po in('stalked', 'sexual contact'):
   Most of the information in the sections on **Short-Term Order Process**, **Long-Term Order Process**, and **Evidence** is the same as the stalking or sexual assault protective order process.
   % endif
 ---
@@ -1029,84 +995,94 @@ content: |
 ---
 template: dont_qualify_placeholder_language
 content: |
-  % if no_qualifying_relationship:  
-  Based on your answers, a domestic violence protective order may not be appropriate if there was no domestic violence crime. 
-  % if who_needs_the_order == 'self':
-  You 
-  % elif who_needs_the_order == 'child':
-  % if petitioner_related_to_child == 'parent':
-  Your
-  % elif petitioner_related_to_child in('guardian', 'representative'):
-  The
+  % if no_qualifying_relationship or (relationship_qualifies and not dv_crime in('yes', 'yes one', 'yes both', 'yes more', 'yes some', 'yes all')):
+  Based on your answers, 
+    % if who_needs_the_order == 'self':
+  you
+    % elif who_needs_the_order == 'child':
+     ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } child
+    % elif who_needs_the_order == 'self and child':
+  you or ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } child
+    % elif who_needs_the_order == 'children':
+  ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } children
+    % elif who_needs_the_order == 'self and children':
+  you or ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } children
+    % endif
+  may not qualify for a 
+  % if (no_qualifying_relationship and other_po in('stalked', 'sexual contact'))  or (relationship_qualifies and not dv_crime in('yes', 'yes one', 'yes both', 'yes more', 'yes some', 'yes all')):
+  domestic violence
+  % endif  
+  protective order if there
+  % if relationship_qualifies and not dv_crime in('yes', 'yes one', 'yes both', 'yes more', 'yes some', 'yes all'):
+  was no domestic violence crime. 
+    % if who_needs_the_order == 'self':
+    You
+    % elif who_needs_the_order == 'child':
+      ${ 'Your' if petitioner_related_to_child == 'parent' else 'The' } child
+    % elif who_needs_the_order == 'self and child':
+    You or ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } child
+    % elif who_needs_the_order == 'children':
+    ${ 'Your' if petitioner_related_to_child == 'parent' else 'The' } children
+    % elif who_needs_the_order == 'self and children':
+    You or ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } children
+    % endif
+  may be experiencing domestic violence that may not be considered a crime under the law such as calling 
+    % if who_needs_the_order == 'self':
+    you
+    % elif who_needs_the_order == 'child':
+      ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } child
+    % elif who_needs_the_order == 'self and child':
+    you or ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } child
+    % elif who_needs_the_order == 'children':
+    ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } children
+    % elif who_needs_the_order == 'self and children':
+    you or ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } children
+    % endif
+  names, making 
+    % if who_needs_the_order == 'self':
+    you
+    % elif who_needs_the_order == 'child':
+      ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } child
+    % elif who_needs_the_order == 'self and child':
+    you or ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } child
+    % elif who_needs_the_order == 'children':
+    ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } children
+    % elif who_needs_the_order == 'self and children':
+    you or ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } children
+    % endif
+  feel like 
+   % if who_needs_the_order == 'self':
+  you
+    % elif who_needs_the_order == 'child':
+      ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } child
+    % elif who_needs_the_order == 'self and child':
+    you or ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } child
+    % elif who_needs_the_order == 'children':
+    ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } children
+    % elif who_needs_the_order == 'self and children':
+    you or ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } children
+    % endif
+   shouldn't talk to friends or family ${', or limiting access to money' if who_needs_the_order in ('self', 'self and child', 'self and children') else ''}.
+  % elif no_qualifying_relationship:
+  is no qualifying relationship under Alaska law.
   % endif
-  child
-  % elif who_needs_the_order == 'self and child':
-  You or 
-  % if petitioner_related_to_child == 'parent':
-  your
-  % elif petitioner_related_to_child in('guardian', 'representative'):
-  the
-  % endif
-  child
-  % elif who_needs_the_order == 'children':
-  % if petitioner_related_to_child == 'parent':
-  Your
-  % elif petitioner_related_to_child in('guardian', 'representative'):
-  The
-  % endif
-  children
-  % elif who_needs_the_order == 'self and children':
-  You or 
-  % if petitioner_related_to_child == 'parent':
-  your
-  % elif petitioner_related_to_child in('guardian', 'representative'):
-  the 
-  % endif 
-  children
-  % endif 
-  may be experiencing domestic violence that may not be considered a crime under the law such as calling you names, making you feel like you shouldn't talk to friends or family, or limiting access to money. 
-  
-  If
+
+
+  If 
   % if who_needs_the_order == 'self':
   you do not
   % elif who_needs_the_order == 'child':
-  % if petitioner_related_to_child == 'parent':
-  your
-  % elif petitioner_related_to_child in('guardian', 'representative'):
-  the
-  % endif
-  child does not
+     ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } child does not
   % elif who_needs_the_order == 'self and child':
-  you and
-  % if petitioner_related_to_child == 'parent':
-  your
-  % elif petitioner_related_to_child in('guardian', 'representative'):
-  the
-  % endif
-  child do not
+  you or ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } child do not
   % elif who_needs_the_order == 'children':
-  % if petitioner_related_to_child == 'parent':
-  your
-  % elif petitioner_related_to_child in('guardian', 'representative'):
-  the
-  % endif
-  children do not
+  ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } children do not
   % elif who_needs_the_order == 'self and children':
-  you and 
-  % if petitioner_related_to_child == 'parent':
-  your
-  % elif petitioner_related_to_child in('guardian', 'representative'):
-  the 
-  % endif 
-  children do not
-  % endif 
-  qualify for a protective order you can take steps to 
-  % if who_needs_the_order in('child', 'children'):
-  keep them
-  % else:
-  stay 
-  % endif
-  safe. 
+  you or ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } children do not
+  % endif  
+  qualify for a protective order, take steps to ${ 'keep them' if who_needs_the_order in ('child', 'children') else 'stay' } safe.
   
-  Information about options and safety planning has been added to your Action Plan.
+  % if relationship_qualifies and not dv_crime in('yes', 'yes one', 'yes both', 'yes more', 'yes some', 'yes all'):
+  If something changes, there is a new incident, or you decide to ask the court now for a protective order, use the Court Guide again [use standard language to link to this interview]
+  % endif
   % endif
