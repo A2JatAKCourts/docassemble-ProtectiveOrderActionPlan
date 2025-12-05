@@ -32,7 +32,6 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False   |         |
       | child_w_abuser                       | True    |         |
       | dv_crime                             | no      |         |
-      | other_po                             | stalked |         |
     And I take a screenshot
 
   @row4
@@ -47,7 +46,6 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False          |         |
       | child_w_abuser                       | True           |         |
       | dv_crime                             | no             |         |
-      | other_po                             | sexual contact |         |
     And I take a screenshot
 
   @row5
@@ -62,7 +60,6 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False   |         |
       | child_w_abuser                       | True    |         |
       | dv_crime                             | no      |         |
-      | other_po                             | neither |         |
     And I take a screenshot
 
   @row6
@@ -91,7 +88,6 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False   |         |
       | child_w_abuser                       | False   |         |
       | dv_crime                             | no      |         |
-      | other_po                             | stalked |         |
     And I take a screenshot
 
   @row8
@@ -106,7 +102,6 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False          |         |
       | child_w_abuser                       | False          |         |
       | dv_crime                             | no             |         |
-      | other_po                             | sexual contact |         |
     And I take a screenshot
 
   @row9
@@ -121,7 +116,6 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False   |         |
       | child_w_abuser                       | False   |         |
       | dv_crime                             | no      |         |
-      | other_po                             | neither |         |
     And I take a screenshot
 
   @row10
@@ -150,7 +144,6 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False   |         |
       | child_w_abuser                       | True    |         |
       | dv_crime                             | no      |         |
-      | other_po                             | stalked |         |
     And I take a screenshot
 
   @row12
@@ -165,7 +158,6 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False          |         |
       | child_w_abuser                       | True           |         |
       | dv_crime                             | no             |         |
-      | other_po                             | sexual contact |         |
     And I take a screenshot
 
   @row13
@@ -180,7 +172,6 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False   |         |
       | child_w_abuser                       | True    |         |
       | dv_crime                             | no      |         |
-      | other_po                             | neither |         |
     And I take a screenshot
 
   @row14
@@ -209,7 +200,6 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False   |         |
       | child_w_abuser                       | False   |         |
       | dv_crime                             | no      |         |
-      | other_po                             | stalked |         |
     And I take a screenshot
 
   @row16
@@ -224,7 +214,6 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False          |         |
       | child_w_abuser                       | False          |         |
       | dv_crime                             | no             |         |
-      | other_po                             | sexual contact |         |
     And I take a screenshot
 
   @row17
@@ -239,7 +228,6 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False   |         |
       | child_w_abuser                       | False   |         |
       | dv_crime                             | no      |         |
-      | other_po                             | neither |         |
     And I take a screenshot
 
   @row18
@@ -264,7 +252,6 @@ Feature: User paths
       | who_needs_the_order                  | self    |         |
       | self_related_to_abuser['have child'] | True    |         |
       | dv_crime                             | no      |         |
-      | other_po                             | stalked |         |
     And I take a screenshot
 
   @row20
@@ -277,7 +264,6 @@ Feature: User paths
       | who_needs_the_order                  | self           |         |
       | self_related_to_abuser['have child'] | True           |         |
       | dv_crime                             | no             |         |
-      | other_po                             | sexual contact |         |
     And I take a screenshot
 
   @row21
@@ -290,7 +276,6 @@ Feature: User paths
       | who_needs_the_order                  | self    |         |
       | self_related_to_abuser['have child'] | True    |         |
       | dv_crime                             | no      |         |
-      | other_po                             | neither |         |
     And I take a screenshot
 
   @row22
@@ -319,7 +304,6 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False   |         |
       | child_w_abuser                       | True    |         |
       | dv_crime                             | no      |         |
-      | other_po                             | stalked |         |
     And I take a screenshot
 
   @row24
@@ -334,7 +318,6 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False          |         |
       | child_w_abuser                       | True           |         |
       | dv_crime                             | no             |         |
-      | other_po                             | sexual contact |         |
     And I take a screenshot
 
   @row25
@@ -349,7 +332,6 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False   |         |
       | child_w_abuser                       | True    |         |
       | dv_crime                             | no      |         |
-      | other_po                             | neither |         |
     And I take a screenshot
 
   @row26
@@ -378,7 +360,6 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False   |         |
       | child_w_abuser                       | False   |         |
       | dv_crime                             | no      |         |
-      | other_po                             | stalked |         |
     And I take a screenshot
 
   @row28
@@ -393,7 +374,6 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False          |         |
       | child_w_abuser                       | False          |         |
       | dv_crime                             | no             |         |
-      | other_po                             | sexual contact |         |
     And I take a screenshot
 
   @row29
@@ -408,7 +388,6 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False   |         |
       | child_w_abuser                       | False   |         |
       | dv_crime                             | no      |         |
-      | other_po                             | neither |         |
     And I take a screenshot
 
   @row30
@@ -437,7 +416,6 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False   |         |
       | child_w_abuser                       | True    |         |
       | dv_crime                             | no      |         |
-      | other_po                             | stalked |         |
     And I take a screenshot
 
   @row32
@@ -452,7 +430,6 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False          |         |
       | child_w_abuser                       | True           |         |
       | dv_crime                             | no             |         |
-      | other_po                             | sexual contact |         |
     And I take a screenshot
 
   @row33
@@ -467,7 +444,6 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False   |         |
       | child_w_abuser                       | True    |         |
       | dv_crime                             | no      |         |
-      | other_po                             | neither |         |
     And I take a screenshot
 
   @row34
@@ -496,7 +472,6 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False   |         |
       | child_w_abuser                       | False   |         |
       | dv_crime                             | no      |         |
-      | other_po                             | stalked |         |
     And I take a screenshot
 
   @row36
@@ -511,7 +486,6 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False          |         |
       | child_w_abuser                       | False          |         |
       | dv_crime                             | no             |         |
-      | other_po                             | sexual contact |         |
     And I take a screenshot
 
   @row37
@@ -526,7 +500,6 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False   |         |
       | child_w_abuser                       | False   |         |
       | dv_crime                             | no      |         |
-      | other_po                             | neither |         |
     And I take a screenshot
 
   @row38
@@ -555,7 +528,6 @@ Feature: User paths
       | self_related_to_abuser['have child']       | False   |         |
       | child_w_abuser                             | True    |         |
       | dv_crime                                   | no      |         |
-      | other_po                                   | stalked |         |
     And I take a screenshot
 
   @row40
@@ -614,7 +586,6 @@ Feature: User paths
       | self_related_to_abuser['have child']       | False   |         |
       | child_w_abuser                             | False   |         |
       | dv_crime                                   | no      |         |
-      | other_po                                   | stalked |         |
     And I take a screenshot
 
   @row44
@@ -629,7 +600,6 @@ Feature: User paths
       | self_related_to_abuser['have child']       | False          |         |
       | child_w_abuser                             | False          |         |
       | dv_crime                                   | no             |         |
-      | other_po                                   | sexual contact |         |
     And I take a screenshot
 
   @row45
@@ -644,7 +614,6 @@ Feature: User paths
       | self_related_to_abuser['have child']       | False   |         |
       | child_w_abuser                             | False   |         |
       | dv_crime                                   | no      |         |
-      | other_po                                   | neither |         |
     And I take a screenshot
 
   @row46
@@ -673,7 +642,6 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False   |         |
       | child_w_abuser                       | True    |         |
       | dv_crime                             | no      |         |
-      | other_po                             | stalked |         |
     And I take a screenshot
 
   @row48
@@ -688,7 +656,6 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False          |         |
       | child_w_abuser                       | True           |         |
       | dv_crime                             | no             |         |
-      | other_po                             | sexual contact |         |
     And I take a screenshot
 
   @row49
@@ -703,7 +670,6 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False   |         |
       | child_w_abuser                       | True    |         |
       | dv_crime                             | no      |         |
-      | other_po                             | neither |         |
     And I take a screenshot
 
   @row50
@@ -732,7 +698,6 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False   |         |
       | child_w_abuser                       | False   |         |
       | dv_crime                             | no      |         |
-      | other_po                             | stalked |         |
     And I take a screenshot
 
   @row52
@@ -747,7 +712,6 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False          |         |
       | child_w_abuser                       | False          |         |
       | dv_crime                             | no             |         |
-      | other_po                             | sexual contact |         |
     And I take a screenshot
 
   @row53
@@ -762,7 +726,6 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False   |         |
       | child_w_abuser                       | False   |         |
       | dv_crime                             | no      |         |
-      | other_po                             | neither |         |
     And I take a screenshot
 
   @row54

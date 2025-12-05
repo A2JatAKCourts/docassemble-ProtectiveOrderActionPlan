@@ -1,5 +1,5 @@
 comment: |
-    last updated: 2025-12-03
+    last updated: 2025-12-04
 template: x.get_email_copy
 content: |
   Email a copy of your Action Plan to yourself or someone else.
@@ -102,7 +102,7 @@ code: |
           add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
         if self_related_to_abuser['have child']:
           if self_related_to_abuser.all_false('married', 'divorced'): 
-            add_unique_step((custody_case_step, "custody_case_idx"), step_list)
+            add_unique_step((custody_po_info_step, "custody_po_info_idx"), step_list)
           else:
             add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
         if self_related_to_abuser.any_true('married', 'divorced') and not self_related_to_abuser['have child']:
@@ -154,7 +154,7 @@ code: |
             if parent_married_parent == 'married':
               add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
             if parent_married_parent == 'no':
-              add_unique_step((custody_case_step, "custody_case_idx"), step_list)
+              add_unique_step((custody_po_info_step, "custody_po_info_idx"), step_list)
             if dv_crime in('yes one', 'yes both'):
               if dv_crime == 'yes one':
                 protective_order_for_one = True
@@ -286,7 +286,7 @@ code: |
             if parent_married_parent == 'married':
               add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
             if parent_married_parent == 'no':
-              add_unique_step((custody_case_step, "custody_case_idx"), step_list)
+              add_unique_step((custody_po_info_step, "custody_po_info_idx"), step_list)
             if dv_crime == 'yes one':
               protective_order_for_one = True
               add_unique_step((protective_order_step, "protective_order_idx"), step_list)
@@ -724,7 +724,7 @@ content: |
 
     * **DV-127 Confidential Law Enforcement Information Sheet**
 
-  % if who_needs_the_order in('child', 'children') or (who_needs_the_order in('self and child', 'self and children') and not self_related_to_abuser):
+  % if who_needs_the_order in('child', 'children') or (who_needs_the_order in('self and child', 'self and children') and not relationship_qualifies):
   If you are an adult filling out the forms for a minor, put your name under petitioner information.
   % elif who_needs_the_order in('self and child', 'self and children'):
   When it asks for petitioner information, put the name of the person filling out the form.
