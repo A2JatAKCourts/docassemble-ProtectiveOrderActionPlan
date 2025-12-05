@@ -1,5 +1,5 @@
 @want_po_self_children_parent
-# 2025-12-02
+# 2025-12-05
 
 Feature: User paths 
 
@@ -28,7 +28,7 @@ Scenario: Row #219
     | petitioner_related_to_child   | parent            |         | 
     | domestic_violence_po_criteria | True              |         | 
     | po_against_other_parent       | True              |         | 
-    | parent_related_parent         | married           |         | 
+    | parent_married_parent         | married           |         | 
     | dv_crime                      | yes all           |         | 
     And I take a screenshot
 
@@ -43,7 +43,7 @@ Scenario: Row #220
     | petitioner_related_to_child   | parent            |         | 
     | domestic_violence_po_criteria | True              |         | 
     | po_against_other_parent       | True              |         | 
-    | parent_related_parent         | divorced          |         | 
+    | parent_married_parent         | divorced          |         | 
     | dv_crime                      | yes some          |         | 
     And I take a screenshot
 
@@ -58,7 +58,7 @@ Scenario: Row #221
     | petitioner_related_to_child   | parent            |         | 
     | domestic_violence_po_criteria | True              |         | 
     | po_against_other_parent       | True              |         | 
-    | parent_related_parent         | no                |         | 
+    | parent_married_parent         | no                |         | 
     | dv_crime                      | yes one           |         | 
     And I take a screenshot
 
@@ -73,7 +73,7 @@ Scenario: Row #222
     | petitioner_related_to_child   | parent            |         | 
     | domestic_violence_po_criteria | True              |         | 
     | po_against_other_parent       | True              |         | 
-    | parent_related_parent         | divorced          |         | 
+    | parent_married_parent         | divorced          |         | 
     | dv_crime                      | no                |         | 
     And I take a screenshot
 
@@ -88,7 +88,7 @@ Scenario: Row #223
     | petitioner_related_to_child   | parent            |         | 
     | domestic_violence_po_criteria | True              |         | 
     | po_against_other_parent       | True              |         | 
-    | parent_related_parent         | no                |         | 
+    | parent_married_parent         | no                |         | 
     | dv_crime                      | no                |         | 
     And I take a screenshot
 

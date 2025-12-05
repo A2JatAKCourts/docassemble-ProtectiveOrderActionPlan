@@ -1,5 +1,5 @@
 comment: |
-    last updated: 2025-12-04
+    last updated: 2025-12-05
 template: x.get_email_copy
 content: |
   Email a copy of your Action Plan to yourself or someone else.
@@ -279,8 +279,8 @@ code: |
                 add_unique_step((protective_order_step, "protective_order_idx"), step_list)
 
       if who_needs_the_order == 'self and children':
-        # if petitioner_related_to_child == 'parent':
-        if domestic_violence_po_criteria:
+        if petitioner_related_to_child == 'parent':
+        # if domestic_violence_po_criteria:
           if po_against_other_parent:
             add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
             if parent_married_parent == 'married':
@@ -315,13 +315,15 @@ code: |
               elif what_next == 'stop for me':
                 no_qualifying_relationship = True
                 if children_related_to_abuser == 'all':
+                  relationship_qualifies = True
                   if dv_crime == 'yes more':
                     protective_order_for_more = True
                     add_unique_step((protective_order_step, "protective_order_idx"), step_list)
                   elif dv_crime == 'yes one':
                     protective_order_for_one = True
                     add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-                elif children_related_to_abuser == 'one':
+                elif children_related_to_abuser == 'one':                  
+                  relationship_qualifies = True
                   if what_next_for_children == 'order for one':
                     if dv_crime == 'yes':
                       protective_order_for_one = True
@@ -343,7 +345,7 @@ code: |
                     add_unique_step((protective_order_step, "protective_order_idx"), step_list)
 
 
-        if petitioner_related_to_child in('guardian', 'combination'):
+        elif petitioner_related_to_child in('guardian', 'combination'):
           # if domestic_violence_po_criteria:
           if self_related_to_abuser['married']:
             add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
@@ -351,6 +353,7 @@ code: |
             add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
           if self_related_to_abuser.any_true():
             if children_related_to_abuser in('all', 'one'):
+              relationship_qualifies = True
               if dv_crime in('yes all', 'yes some'):
                 protective_order_for_more = True
                 add_unique_step((protective_order_step, "protective_order_idx"), step_list)
@@ -376,12 +379,14 @@ code: |
 
 
           elif self_related_to_abuser.all_false():
+            no_qualifying_relationship = True
             if what_next == 'other po for me':
               if other_po in('stalked', 'sexual contact'):
                 add_unique_step((protective_order_step, "protective_order_idx"), step_list)
 
             elif what_next == 'stop for me':
               if children_related_to_abuser in('all', 'one'):
+                relationship_qualifies = True
                 if dv_crime == 'yes more':
                   protective_order_for_more = True
                   add_unique_step((protective_order_step, "protective_order_idx"), step_list)
@@ -673,19 +678,23 @@ subject: |
   % elif protective_order_for_more:
   Domestic Violence Protective Order for More Than One Person
   % endif
-  % if no_qualifying_relationship and other_po == 'stalked':
+  % if no_qualifying_relationship and not relationship_qualifies:
+  % if other_po == 'stalked':
   Stalking Protective Order
-  % elif no_qualifying_relationship and other_po == 'sexual contact':
+  % elif other_po == 'sexual contact':
   Sexual Assault Protective Order
+  % endif
   % endif
 content: |
   <div class="step-subheading">20-day protective orders</div>
   % if protective_order_for_one or protective_order_for_more:
   A 20-day **Domestic Violence Protective Order** lasts
-  % elif no_qualifying_relationship and other_po == 'stalked':
+  % elif no_qualifying_relationship and not relationship_qualifies:
+  % if other_po == 'stalked':
   A 20-day **Stalking Protective Order** lasts
-  % elif no_qualifying_relationship and other_po == 'sexual contact':
+  % elif other_po == 'sexual contact':
   A 20-day **Sexual Assault Protective Order** lasts
+  % endif
   % endif
     20 days if the court grants it. The person asking for a protective order is called the **petitioner**.
 
@@ -705,24 +714,24 @@ content: |
   Fill out:
 
   % if protective_order_for_one:
-    * **Petition for Domestic Violence Protective Order (one), DV-100 ONE**
+    * **Petition for Domestic Violence Protective Order (One Petitioner), DV-100 ONE** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-100-127-one.pdf)] 
 
   % elif protective_order_for_more:
-    * **Petition for Domestic Violence Protective Order (multi), DV-100 MULTI**
+    * **Petition for Domestic Violence Protective Orders (Mulitiple Petitioners), DV-100 MULTI** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-100-127-multi.pdf)] 
 
   % endif
 
-  % if no_qualifying_relationship and other_po == 'stalked':
-    * **Petition for Stalking Protective Order, CIV-752**
+  % if no_qualifying_relationship and not relationship_qualifies:
+  % if other_po == 'stalked':
+    * **Petition for Stalking Protective Order, CIV-752** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/civ-752.pdf)] 
+
+  % elif other_po == 'sexual contact':
+    * **Petition for Sexual Assault Protective Order, CIV-750** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/civ-750.pdf)] 
 
   % endif
-
-  % if no_qualifying_relationship and other_po == 'sexual contact':
-    * **Petition for Sexual Assault Protective Order, CIV-750**
-
   % endif
 
-    * **DV-127 Confidential Law Enforcement Information Sheet**
+    * **DV-127 Confidential Law Enforcement Information Sheet** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-127.pdf)] 
 
   % if who_needs_the_order in('child', 'children') or (who_needs_the_order in('self and child', 'self and children') and not relationship_qualifies):
   If you are an adult filling out the forms for a minor, put your name under petitioner information.
@@ -995,6 +1004,9 @@ content: |
 ---
 template: dont_qualify_placeholder_language
 content: |
+  % if user_need == 'want po' and who_needs_the_order != 'self' and petitioner_related_to_child == 'other':
+  Asking the court for a protective order for the ${ 'child' if who_needs_the_order in('child', 'self and child') else 'children' } may not be appropriate. Alaska law allows a parent, guardian, or representative appointed by the court to ask for a protective order for a child.
+  % endif
   % if no_qualifying_relationship or (relationship_qualifies and not dv_crime in('yes', 'yes one', 'yes both', 'yes more', 'yes some', 'yes all')):
   Based on your answers, 
     % if who_needs_the_order == 'self':
@@ -1009,7 +1021,7 @@ content: |
   you or ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } children
     % endif
   may not qualify for a 
-  % if (no_qualifying_relationship and other_po in('stalked', 'sexual contact'))  or (relationship_qualifies and not dv_crime in('yes', 'yes one', 'yes both', 'yes more', 'yes some', 'yes all')):
+  % if no_qualifying_relationship or (relationship_qualifies and not dv_crime in('yes', 'yes one', 'yes both', 'yes more', 'yes some', 'yes all')):
   domestic violence
   % endif  
   protective order if there
