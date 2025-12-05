@@ -271,6 +271,7 @@ code: |
                   add_unique_step((protective_order_step, "protective_order_idx"), step_list)
               if what_next_for_children == 'stop':
                 no_qualifying_relationship = True
+                relationship_qualifies = False
                 if other_po in('stalked', 'sexual contact'):
                   add_unique_step((protective_order_step, "protective_order_idx"), step_list)
             else:
@@ -322,20 +323,23 @@ code: |
                   elif dv_crime == 'yes one':
                     protective_order_for_one = True
                     add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-                elif children_related_to_abuser == 'one':                  
-                  relationship_qualifies = True
-                  if what_next_for_children == 'order for one':
+                elif children_related_to_abuser == 'one':
+                  if what_next_for_children == 'order for one':                  
+                    relationship_qualifies = True
                     if dv_crime == 'yes':
                       protective_order_for_one = True
                       add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-                  elif what_next_for_children == 'order for more':
+                  elif what_next_for_children == 'order for more':                  
+                    relationship_qualifies = True
                     if dv_crime == 'yes more':
                       protective_order_for_more = True
                       add_unique_step((protective_order_step, "protective_order_idx"), step_list)
                     elif dv_crime == 'yes one':
                       protective_order_for_one = True
                       add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-                  elif what_next_for_children == 'stop':
+                  elif what_next_for_children == 'stop':  
+                    no_qualifying_relationship = True                  
+                    relationship_qualifies = False
                     if other_po in('stalked', 'sexual contact'):
                       add_unique_step((protective_order_step, "protective_order_idx"), step_list)
 
