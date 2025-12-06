@@ -1,731 +1,814 @@
-@want_po_self_child_parent
-# 2025-12-02
+@want_po_self_children_parent
+# 2025-12-05
 
-Feature: User paths
+Feature: User paths 
 
-Background:
+Background: 
   Given the maximum seconds for each Step is 90
 
-@row81
-Scenario: Row #81
+@row218
+Scenario: Row #218
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                         | value          | trigger |
-    | user_need                   | want po        |         |
-    | options_for_po['AK court']  | True           |         |
-    | who_needs_the_order         | self and child |         |
-    | petitioner_related_to_child | other          |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                         | value             | trigger | 
+    | user_need                   | want po           |         | 
+    | options_for_po['AK court']  | True              |         | 
+    | who_needs_the_order         | self and children |         | 
+    | petitioner_related_to_child | other             |         | 
+    And I take a screenshot
 
-@row82
-Scenario: Row #82
+@row219
+Scenario: Row #219
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                         | value          | trigger |
-    | user_need                   | want po        |         |
-    | options_for_po['AK court']  | True           |         |
-    | who_needs_the_order         | self and child |         |
-    | petitioner_related_to_child | parent         |         |
-    | po_against_other_parent     | True           |         |
-    | parent_married_parent       | married        |         |
-    | dv_crime                    | yes both       |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                           | value             | trigger | 
+    | user_need                     | want po           |         | 
+    | options_for_po['AK court']    | True              |         | 
+    | who_needs_the_order           | self and children |         | 
+    | petitioner_related_to_child   | parent            |         | 
+    | domestic_violence_po_criteria | True              |         | 
+    | po_against_other_parent       | True              |         | 
+    | parent_married_parent         | married           |         | 
+    | dv_crime                      | yes all           |         | 
+    And I take a screenshot
 
-@row83
-Scenario: Row #83
+@row220
+Scenario: Row #220
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                         | value          | trigger |
-    | user_need                   | want po        |         |
-    | options_for_po['AK court']  | True           |         |
-    | who_needs_the_order         | self and child |         |
-    | petitioner_related_to_child | parent         |         |
-    | po_against_other_parent     | True           |         |
-    | parent_married_parent       | divorced       |         |
-    | dv_crime                    | yes one        |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                           | value             | trigger | 
+    | user_need                     | want po           |         | 
+    | options_for_po['AK court']    | True              |         | 
+    | who_needs_the_order           | self and children |         | 
+    | petitioner_related_to_child   | parent            |         | 
+    | domestic_violence_po_criteria | True              |         | 
+    | po_against_other_parent       | True              |         | 
+    | parent_married_parent         | divorced          |         | 
+    | dv_crime                      | yes some          |         | 
+    And I take a screenshot
 
-@row84
-Scenario: Row #84
+@row221
+Scenario: Row #221
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                         | value                | trigger |
-    | user_need                   | want po              |         |
-    | options_for_po['AK court']  | True                 |         |
-    | who_needs_the_order         | self and child       |         |
-    | petitioner_related_to_child | parent               |         |
-    | po_against_other_parent     | True                 |         |
-    | parent_married_parent       | no                   |         |
-    | dv_crime                    | yes one              |         |
-    | which_po_form               | multi person dv form |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                           | value             | trigger | 
+    | user_need                     | want po           |         | 
+    | options_for_po['AK court']    | True              |         | 
+    | who_needs_the_order           | self and children |         | 
+    | petitioner_related_to_child   | parent            |         | 
+    | domestic_violence_po_criteria | True              |         | 
+    | po_against_other_parent       | True              |         | 
+    | parent_married_parent         | no                |         | 
+    | dv_crime                      | yes one           |         | 
+    And I take a screenshot
 
-@row85
-Scenario: Row #85
+@row222
+Scenario: Row #222
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                         | value          | trigger |
-    | user_need                   | want po        |         |
-    | options_for_po['AK court']  | True           |         |
-    | who_needs_the_order         | self and child |         |
-    | petitioner_related_to_child | parent         |         |
-    | po_against_other_parent     | True           |         |
-    | parent_married_parent       | married        |         |
-    | dv_crime                    | no             |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                           | value             | trigger | 
+    | user_need                     | want po           |         | 
+    | options_for_po['AK court']    | True              |         | 
+    | who_needs_the_order           | self and children |         | 
+    | petitioner_related_to_child   | parent            |         | 
+    | domestic_violence_po_criteria | True              |         | 
+    | po_against_other_parent       | True              |         | 
+    | parent_married_parent         | divorced          |         | 
+    | dv_crime                      | no                |         | 
+    And I take a screenshot
 
-@row86
-Scenario: Row #86
+@row223
+Scenario: Row #223
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                               | value          | trigger |
-    | user_need                         | want po        |         |
-    | options_for_po['AK court']        | True           |         |
-    | who_needs_the_order               | self and child |         |
-    | petitioner_related_to_child       | parent         |         |
-    | po_against_other_parent           | False          |         |
-    | self_related_to_abuser['married'] | True           |         |
-    | dv_crime                          | yes both       |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                           | value             | trigger | 
+    | user_need                     | want po           |         | 
+    | options_for_po['AK court']    | True              |         | 
+    | who_needs_the_order           | self and children |         | 
+    | petitioner_related_to_child   | parent            |         | 
+    | domestic_violence_po_criteria | True              |         | 
+    | po_against_other_parent       | True              |         | 
+    | parent_married_parent         | no                |         | 
+    | dv_crime                      | no                |         | 
+    And I take a screenshot
 
-@row87
-Scenario: Row #87
+@row224aall
+Scenario: Row #224aall
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                                | value                | trigger |
-    | user_need                          | want po              |         |
-    | options_for_po['AK court']         | True                 |         |
-    | who_needs_the_order                | self and child       |         |
-    | petitioner_related_to_child        | parent               |         |
-    | po_against_other_parent            | False                |         |
-    | self_related_to_abuser['married']  | True                 |         |
-    | self_related_to_abuser['divorced'] | True                 |         |
-    | dv_crime                           | yes one              |         |
-    | which_po_form                      | multi person dv form |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                               | value             | trigger | 
+    | user_need                         | want po           |         | 
+    | options_for_po['AK court']        | True              |         | 
+    | who_needs_the_order               | self and children |         | 
+    | petitioner_related_to_child       | parent            |         | 
+    | domestic_violence_po_criteria     | True              |         | 
+    | po_against_other_parent           | False             |         | 
+    | self_related_to_abuser['married'] | True              |         | 
+    | dv_crime                          | yes all           |         | 
+    And I take a screenshot
 
-@row88
-Scenario: Row #88
+@row225asome
+Scenario: Row #225asome
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                                  | value          | trigger |
-    | user_need                            | want po        |         |
-    | options_for_po['AK court']           | True           |         |
-    | who_needs_the_order                  | self and child |         |
-    | petitioner_related_to_child          | parent         |         |
-    | po_against_other_parent              | False          |         |
-    | self_related_to_abuser['married']    | True           |         |
-    | self_related_to_abuser['have child'] | True           |         |
-    | dv_crime                             | no             |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                                | value             | trigger | 
+    | user_need                          | want po           |         | 
+    | options_for_po['AK court']         | True              |         | 
+    | who_needs_the_order                | self and children |         | 
+    | petitioner_related_to_child        | parent            |         | 
+    | domestic_violence_po_criteria      | True              |         | 
+    | po_against_other_parent            | False             |         | 
+    | self_related_to_abuser['married']  | True              |         | 
+    | self_related_to_abuser['divorced'] | True              |         | 
+    | dv_crime                           | yes some          |         | 
+    And I take a screenshot
 
-@row89
-Scenario: Row #89
+@row227ano
+Scenario: Row #227ano
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                               | value          | trigger |
-    | user_need                         | want po        |         |
-    | options_for_po['AK court']        | True           |         |
-    | who_needs_the_order               | self and child |         |
-    | petitioner_related_to_child       | parent         |         |
-    | po_against_other_parent           | False          |         |
-    | self_related_to_abuser['married'] | True           |         |
-    | self_related_to_abuser['dated']   | True           |         |
-    | dv_crime                          | yes both       |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                                  | value             | trigger | 
+    | user_need                            | want po           |         | 
+    | options_for_po['AK court']           | True              |         | 
+    | who_needs_the_order                  | self and children |         | 
+    | petitioner_related_to_child          | parent            |         | 
+    | domestic_violence_po_criteria        | True              |         | 
+    | po_against_other_parent              | False             |         | 
+    | self_related_to_abuser['married']    | True              |         | 
+    | self_related_to_abuser['have child'] | True              |         | 
+    | dv_crime                             | no                |         | 
+    And I take a screenshot
 
-@row90
-Scenario: Row #90
+@row224ball
+Scenario: Row #224ball
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                                | value              | trigger |
-    | user_need                          | want po            |         |
-    | options_for_po['AK court']         | True               |         |
-    | who_needs_the_order                | self and child     |         |
-    | petitioner_related_to_child        | parent             |         |
-    | po_against_other_parent            | False              |         |
-    | self_related_to_abuser['divorced'] | True               |         |
-    | dv_crime                           | yes one            |         |
-    | which_po_form                      | one person dv form |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                               | value             | trigger | 
+    | user_need                         | want po           |         | 
+    | options_for_po['AK court']        | True              |         | 
+    | who_needs_the_order               | self and children |         | 
+    | petitioner_related_to_child       | parent            |         | 
+    | domestic_violence_po_criteria     | True              |         | 
+    | po_against_other_parent           | False             |         | 
+    | self_related_to_abuser['married'] | True              |         | 
+    | self_related_to_abuser['dated']   | True              |         | 
+    | dv_crime                          | yes all           |         | 
+    And I take a screenshot
 
-@row91
-Scenario: Row #91
+@row225bsome
+Scenario: Row #225bsome
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                                  | value          | trigger |
-    | user_need                            | want po        |         |
-    | options_for_po['AK court']           | True           |         |
-    | who_needs_the_order                  | self and child |         |
-    | petitioner_related_to_child          | parent         |         |
-    | po_against_other_parent              | False          |         |
-    | self_related_to_abuser['divorced']   | True           |         |
-    | self_related_to_abuser['have child'] | True           |         |
-    | dv_crime                             | no             |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                                | value             | trigger | 
+    | user_need                          | want po           |         | 
+    | options_for_po['AK court']         | True              |         | 
+    | who_needs_the_order                | self and children |         | 
+    | petitioner_related_to_child        | parent            |         | 
+    | domestic_violence_po_criteria      | True              |         | 
+    | po_against_other_parent            | False             |         | 
+    | self_related_to_abuser['divorced'] | True              |         | 
+    | dv_crime                           | yes some          |         | 
+    And I take a screenshot
 
-@row92
-Scenario: Row #92
+@row227bno
+Scenario: Row #227bno
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                                | value          | trigger |
-    | user_need                          | want po        |         |
-    | options_for_po['AK court']         | True           |         |
-    | who_needs_the_order                | self and child |         |
-    | petitioner_related_to_child        | parent         |         |
-    | po_against_other_parent            | False          |         |
-    | self_related_to_abuser['divorced'] | True           |         |
-    | self_related_to_abuser['dated']    | True           |         |
-    | dv_crime                           | yes both       |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                                  | value             | trigger | 
+    | user_need                            | want po           |         | 
+    | options_for_po['AK court']           | True              |         | 
+    | who_needs_the_order                  | self and children |         | 
+    | petitioner_related_to_child          | parent            |         | 
+    | domestic_violence_po_criteria        | True              |         | 
+    | po_against_other_parent              | False             |         | 
+    | self_related_to_abuser['divorced']   | True              |         | 
+    | self_related_to_abuser['have child'] | True              |         | 
+    | dv_crime                             | no                |         | 
+    And I take a screenshot
 
-@row93
-Scenario: Row #93
+@row224call
+Scenario: Row #224call
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                                | value                | trigger |
-    | user_need                          | want po              |         |
-    | options_for_po['AK court']         | True                 |         |
-    | who_needs_the_order                | self and child       |         |
-    | petitioner_related_to_child        | parent               |         |
-    | po_against_other_parent            | False                |         |
-    | self_related_to_abuser['divorced'] | True                 |         |
-    | self_related_to_abuser['married']  | True                 |         |
-    | dv_crime                           | yes one              |         |
-    | which_po_form                      | multi person dv form |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                                | value             | trigger | 
+    | user_need                          | want po           |         | 
+    | options_for_po['AK court']         | True              |         | 
+    | who_needs_the_order                | self and children |         | 
+    | petitioner_related_to_child        | parent            |         | 
+    | domestic_violence_po_criteria      | True              |         | 
+    | po_against_other_parent            | False             |         | 
+    | self_related_to_abuser['divorced'] | True              |         | 
+    | self_related_to_abuser['dated']    | True              |         | 
+    | dv_crime                           | yes all           |         | 
+    And I take a screenshot
 
-@row94
-Scenario: Row #94
+@row227cno
+Scenario: Row #227cno
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                                  | value          | trigger |
-    | user_need                            | want po        |         |
-    | options_for_po['AK court']           | True           |         |
-    | who_needs_the_order                  | self and child |         |
-    | petitioner_related_to_child          | parent         |         |
-    | po_against_other_parent              | False          |         |
-    | self_related_to_abuser['have child'] | True           |         |
-    | dv_crime                             | no             |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                                  | value             | trigger | 
+    | user_need                            | want po           |         | 
+    | options_for_po['AK court']           | True              |         | 
+    | who_needs_the_order                  | self and children |         | 
+    | petitioner_related_to_child          | parent            |         | 
+    | domestic_violence_po_criteria        | True              |         | 
+    | po_against_other_parent              | False             |         | 
+    | self_related_to_abuser['have child'] | True              |         | 
+    | dv_crime                             | no                |         | 
+    And I take a screenshot
 
-@row95
-Scenario: Row #95
+@row224dall
+Scenario: Row #224dall
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                                  | value          | trigger |
-    | user_need                            | want po        |         |
-    | options_for_po['AK court']           | True           |         |
-    | who_needs_the_order                  | self and child |         |
-    | petitioner_related_to_child          | parent         |         |
-    | po_against_other_parent              | False          |         |
-    | self_related_to_abuser['have child'] | True           |         |
-    | self_related_to_abuser['dated']      | True           |         |
-    | dv_crime                             | yes both       |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                                  | value             | trigger | 
+    | user_need                            | want po           |         | 
+    | options_for_po['AK court']           | True              |         | 
+    | who_needs_the_order                  | self and children |         | 
+    | petitioner_related_to_child          | parent            |         | 
+    | domestic_violence_po_criteria        | True              |         | 
+    | po_against_other_parent              | False             |         | 
+    | self_related_to_abuser['have child'] | True              |         | 
+    | self_related_to_abuser['dated']      | True              |         | 
+    | dv_crime                             | yes all           |         | 
+    And I take a screenshot
 
-@row96
-Scenario: Row #96
+@row225dsome
+Scenario: Row #225dsome
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                                  | value              | trigger |
-    | user_need                            | want po            |         |
-    | options_for_po['AK court']           | True               |         |
-    | who_needs_the_order                  | self and child     |         |
-    | petitioner_related_to_child          | parent             |         |
-    | po_against_other_parent              | False              |         |
-    | self_related_to_abuser['have child'] | True               |         |
-    | self_related_to_abuser['cohabited']  | True               |         |
-    | dv_crime                             | yes one            |         |
-    | which_po_form                        | one person dv form |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                                  | value             | trigger | 
+    | user_need                            | want po           |         | 
+    | options_for_po['AK court']           | True              |         | 
+    | who_needs_the_order                  | self and children |         | 
+    | petitioner_related_to_child          | parent            |         | 
+    | domestic_violence_po_criteria        | True              |         | 
+    | po_against_other_parent              | False             |         | 
+    | self_related_to_abuser['have child'] | True              |         | 
+    | self_related_to_abuser['cohabited']  | True              |         | 
+    | dv_crime                             | yes some          |         | 
+    And I take a screenshot
 
-@row97
-Scenario: Row #97
+@row227dno
+Scenario: Row #227dno
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                                  | value          | trigger |
-    | user_need                            | want po        |         |
-    | options_for_po['AK court']           | True           |         |
-    | who_needs_the_order                  | self and child |         |
-    | petitioner_related_to_child          | parent         |         |
-    | po_against_other_parent              | False          |         |
-    | self_related_to_abuser['have child'] | True           |         |
-    | self_related_to_abuser['married']    | True           |         |
-    | dv_crime                             | no             |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                                  | value             | trigger | 
+    | user_need                            | want po           |         | 
+    | options_for_po['AK court']           | True              |         | 
+    | who_needs_the_order                  | self and children |         | 
+    | petitioner_related_to_child          | parent            |         | 
+    | domestic_violence_po_criteria        | True              |         | 
+    | po_against_other_parent              | False             |         | 
+    | self_related_to_abuser['have child'] | True              |         | 
+    | self_related_to_abuser['married']    | True              |         | 
+    | dv_crime                             | no                |         | 
+    And I take a screenshot
 
-@row98
-Scenario: Row #98
+@row224eall
+Scenario: Row #224eall
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                             | value          | trigger |
-    | user_need                       | want po        |         |
-    | options_for_po['AK court']      | True           |         |
-    | who_needs_the_order             | self and child |         |
-    | petitioner_related_to_child     | parent         |         |
-    | po_against_other_parent         | False          |         |
-    | self_related_to_abuser['dated'] | True           |         |
-    | dv_crime                        | yes both       |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                             | value             | trigger | 
+    | user_need                       | want po           |         | 
+    | options_for_po['AK court']      | True              |         | 
+    | who_needs_the_order             | self and children |         | 
+    | petitioner_related_to_child     | parent            |         | 
+    | domestic_violence_po_criteria   | True              |         | 
+    | po_against_other_parent         | False             |         | 
+    | self_related_to_abuser['dated'] | True              |         | 
+    | dv_crime                        | yes all           |         | 
+    And I take a screenshot
 
-@row99
-Scenario: Row #99
+@row225esome
+Scenario: Row #225esome
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                             | value              | trigger |
-    | user_need                       | want po            |         |
-    | options_for_po['AK court']      | True               |         |
-    | who_needs_the_order             | self and child     |         |
-    | petitioner_related_to_child     | parent             |         |
-    | po_against_other_parent         | False              |         |
-    | self_related_to_abuser['dated'] | True               |         |
-    | self_related_to_abuser['blood'] | True               |         |
-    | dv_crime                        | yes one            |         |
-    | which_po_form                   | one person dv form |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                             | value             | trigger | 
+    | user_need                       | want po           |         | 
+    | options_for_po['AK court']      | True              |         | 
+    | who_needs_the_order             | self and children |         | 
+    | petitioner_related_to_child     | parent            |         | 
+    | domestic_violence_po_criteria   | True              |         | 
+    | po_against_other_parent         | False             |         | 
+    | self_related_to_abuser['dated'] | True              |         | 
+    | self_related_to_abuser['blood'] | True              |         | 
+    | dv_crime                        | yes some          |         | 
+    And I take a screenshot
 
-@row100
-Scenario: Row #100
+@row226aone
+Scenario: Row #226aone
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                                        | value                | trigger |
-    | user_need                                  | want po              |         |
-    | options_for_po['AK court']                 | True                 |         |
-    | who_needs_the_order                        | self and child       |         |
-    | petitioner_related_to_child                | parent               |         |
-    | po_against_other_parent                    | False                |         |
-    | self_related_to_abuser['dated']            | True                 |         |
-    | self_related_to_abuser['marriage related'] | True                 |         |
-    | dv_crime                                   | yes one              |         |
-    | which_po_form                              | multi person dv form |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                                        | value             | trigger | 
+    | user_need                                  | want po           |         | 
+    | options_for_po['AK court']                 | True              |         | 
+    | who_needs_the_order                        | self and children |         | 
+    | petitioner_related_to_child                | parent            |         | 
+    | domestic_violence_po_criteria              | True              |         | 
+    | po_against_other_parent                    | False             |         | 
+    | self_related_to_abuser['dated']            | True              |         | 
+    | self_related_to_abuser['marriage related'] | True              |         | 
+    | dv_crime                                   | yes one           |         | 
+    And I take a screenshot
 
-@row101
-Scenario: Row #101
+@row227eno
+Scenario: Row #227eno
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                                  | value          | trigger |
-    | user_need                            | want po        |         |
-    | options_for_po['AK court']           | True           |         |
-    | who_needs_the_order                  | self and child |         |
-    | petitioner_related_to_child          | parent         |         |
-    | po_against_other_parent              | False          |         |
-    | self_related_to_abuser['dated']      | True           |         |
-    | self_related_to_abuser['have child'] | True           |         |
-    | dv_crime                             | no             |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                                  | value             | trigger | 
+    | user_need                            | want po           |         | 
+    | options_for_po['AK court']           | True              |         | 
+    | who_needs_the_order                  | self and children |         | 
+    | petitioner_related_to_child          | parent            |         | 
+    | domestic_violence_po_criteria        | True              |         | 
+    | po_against_other_parent              | False             |         | 
+    | self_related_to_abuser['dated']      | True              |         | 
+    | self_related_to_abuser['have child'] | True              |         | 
+    | dv_crime                             | no                |         | 
+    And I take a screenshot
 
-@row102
-Scenario: Row #102
+@row224fall
+Scenario: Row #224fall
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                                 | value          | trigger |
-    | user_need                           | want po        |         |
-    | options_for_po['AK court']          | True           |         |
-    | who_needs_the_order                 | self and child |         |
-    | petitioner_related_to_child         | parent         |         |
-    | po_against_other_parent             | False          |         |
-    | self_related_to_abuser['cohabited'] | True           |         |
-    | dv_crime                            | yes both       |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                                 | value             | trigger | 
+    | user_need                           | want po           |         | 
+    | options_for_po['AK court']          | True              |         | 
+    | who_needs_the_order                 | self and children |         | 
+    | petitioner_related_to_child         | parent            |         | 
+    | domestic_violence_po_criteria       | True              |         | 
+    | po_against_other_parent             | False             |         | 
+    | self_related_to_abuser['cohabited'] | True              |         | 
+    | dv_crime                            | yes all           |         | 
+    And I take a screenshot
 
-@row103
-Scenario: Row #103
+@row225fsome
+Scenario: Row #225fsome
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                                 | value              | trigger |
-    | user_need                           | want po            |         |
-    | options_for_po['AK court']          | True               |         |
-    | who_needs_the_order                 | self and child     |         |
-    | petitioner_related_to_child         | parent             |         |
-    | po_against_other_parent             | False              |         |
-    | self_related_to_abuser['cohabited'] | True               |         |
-    | self_related_to_abuser['married']   | True               |         |
-    | dv_crime                            | yes one            |         |
-    | which_po_form                       | one person dv form |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                                 | value             | trigger | 
+    | user_need                           | want po           |         | 
+    | options_for_po['AK court']          | True              |         | 
+    | who_needs_the_order                 | self and children |         | 
+    | petitioner_related_to_child         | parent            |         | 
+    | domestic_violence_po_criteria       | True              |         | 
+    | po_against_other_parent             | False             |         | 
+    | self_related_to_abuser['cohabited'] | True              |         | 
+    | self_related_to_abuser['married']   | True              |         | 
+    | dv_crime                            | yes some          |         | 
+    And I take a screenshot
 
-@row104
-Scenario: Row #104
+@row226bone
+Scenario: Row #226bone
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                                 | value                | trigger |
-    | user_need                           | want po              |         |
-    | options_for_po['AK court']          | True                 |         |
-    | who_needs_the_order                 | self and child       |         |
-    | petitioner_related_to_child         | parent               |         |
-    | po_against_other_parent             | False                |         |
-    | self_related_to_abuser['cohabited'] | True                 |         |
-    | self_related_to_abuser['divorced']  | True                 |         |
-    | dv_crime                            | yes one              |         |
-    | which_po_form                       | multi person dv form |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                                 | value             | trigger | 
+    | user_need                           | want po           |         | 
+    | options_for_po['AK court']          | True              |         | 
+    | who_needs_the_order                 | self and children |         | 
+    | petitioner_related_to_child         | parent            |         | 
+    | domestic_violence_po_criteria       | True              |         | 
+    | po_against_other_parent             | False             |         | 
+    | self_related_to_abuser['cohabited'] | True              |         | 
+    | self_related_to_abuser['divorced']  | True              |         | 
+    | dv_crime                            | yes one           |         | 
+    And I take a screenshot
 
-@row105
-Scenario: Row #105
+@row227fno
+Scenario: Row #227fno
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                                  | value          | trigger |
-    | user_need                            | want po        |         |
-    | options_for_po['AK court']           | True           |         |
-    | who_needs_the_order                  | self and child |         |
-    | petitioner_related_to_child          | parent         |         |
-    | po_against_other_parent              | False          |         |
-    | self_related_to_abuser['cohabited']  | True           |         |
-    | self_related_to_abuser['have child'] | True           |         |
-    | dv_crime                             | no             |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                                  | value             | trigger | 
+    | user_need                            | want po           |         | 
+    | options_for_po['AK court']           | True              |         | 
+    | who_needs_the_order                  | self and children |         | 
+    | petitioner_related_to_child          | parent            |         | 
+    | domestic_violence_po_criteria        | True              |         | 
+    | po_against_other_parent              | False             |         | 
+    | self_related_to_abuser['cohabited']  | True              |         | 
+    | self_related_to_abuser['have child'] | True              |         | 
+    | dv_crime                             | no                |         | 
+    And I take a screenshot
 
-@row106
-Scenario: Row #106
+@row224gall
+Scenario: Row #224gall
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                                        | value          | trigger |
-    | user_need                                  | want po        |         |
-    | options_for_po['AK court']                 | True           |         |
-    | who_needs_the_order                        | self and child |         |
-    | petitioner_related_to_child                | parent         |         |
-    | po_against_other_parent                    | False          |         |
-    | self_related_to_abuser['marriage related'] | True           |         |
-    | dv_crime                                   | yes both       |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                                        | value             | trigger | 
+    | user_need                                  | want po           |         | 
+    | options_for_po['AK court']                 | True              |         | 
+    | who_needs_the_order                        | self and children |         | 
+    | petitioner_related_to_child                | parent            |         | 
+    | domestic_violence_po_criteria              | True              |         | 
+    | po_against_other_parent                    | False             |         | 
+    | self_related_to_abuser['marriage related'] | True              |         | 
+    | dv_crime                                   | yes all           |         | 
+    And I take a screenshot
 
-@row107
-Scenario: Row #107
+@row225gsome
+Scenario: Row #225gsome
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                                        | value              | trigger |
-    | user_need                                  | want po            |         |
-    | options_for_po['AK court']                 | True               |         |
-    | who_needs_the_order                        | self and child     |         |
-    | petitioner_related_to_child                | parent             |         |
-    | po_against_other_parent                    | False              |         |
-    | self_related_to_abuser['marriage related'] | True               |         |
-    | self_related_to_abuser['cohabited']        | True               |         |
-    | dv_crime                                   | yes one            |         |
-    | which_po_form                              | one person dv form |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                                        | value             | trigger | 
+    | user_need                                  | want po           |         | 
+    | options_for_po['AK court']                 | True              |         | 
+    | who_needs_the_order                        | self and children |         | 
+    | petitioner_related_to_child                | parent            |         | 
+    | domestic_violence_po_criteria              | True              |         | 
+    | po_against_other_parent                    | False             |         | 
+    | self_related_to_abuser['marriage related'] | True              |         | 
+    | self_related_to_abuser['cohabited']        | True              |         | 
+    | dv_crime                                   | yes some          |         | 
+    And I take a screenshot
 
-@row108
-Scenario: Row #108
+@row226cone
+Scenario: Row #226cone
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                                        | value                | trigger |
-    | user_need                                  | want po              |         |
-    | options_for_po['AK court']                 | True                 |         |
-    | who_needs_the_order                        | self and child       |         |
-    | petitioner_related_to_child                | parent               |         |
-    | po_against_other_parent                    | False                |         |
-    | self_related_to_abuser['marriage related'] | True                 |         |
-    | self_related_to_abuser['married']          | True                 |         |
-    | dv_crime                                   | yes one              |         |
-    | which_po_form                              | multi person dv form |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                                        | value             | trigger | 
+    | user_need                                  | want po           |         | 
+    | options_for_po['AK court']                 | True              |         | 
+    | who_needs_the_order                        | self and children |         | 
+    | petitioner_related_to_child                | parent            |         | 
+    | domestic_violence_po_criteria              | True              |         | 
+    | po_against_other_parent                    | False             |         | 
+    | self_related_to_abuser['marriage related'] | True              |         | 
+    | self_related_to_abuser['married']          | True              |         | 
+    | dv_crime                                   | yes one           |         | 
+    And I take a screenshot
 
-@row109
-Scenario: Row #109
+@row227gno
+Scenario: Row #227gno
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                                        | value          | trigger |
-    | user_need                                  | want po        |         |
-    | options_for_po['AK court']                 | True           |         |
-    | who_needs_the_order                        | self and child |         |
-    | petitioner_related_to_child                | parent         |         |
-    | po_against_other_parent                    | False          |         |
-    | self_related_to_abuser['marriage related'] | True           |         |
-    | self_related_to_abuser['divorced']         | True           |         |
-    | dv_crime                                   | no             |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                                        | value             | trigger | 
+    | user_need                                  | want po           |         | 
+    | options_for_po['AK court']                 | True              |         | 
+    | who_needs_the_order                        | self and children |         | 
+    | petitioner_related_to_child                | parent            |         | 
+    | domestic_violence_po_criteria              | True              |         | 
+    | po_against_other_parent                    | False             |         | 
+    | self_related_to_abuser['marriage related'] | True              |         | 
+    | self_related_to_abuser['divorced']         | True              |         | 
+    | dv_crime                                   | no                |         | 
+    And I take a screenshot
 
-@row110
-Scenario: Row #110
+@row226done
+Scenario: Row #226done
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                             | value          | trigger |
-    | user_need                       | want po        |         |
-    | options_for_po['AK court']      | True           |         |
-    | who_needs_the_order             | self and child |         |
-    | petitioner_related_to_child     | parent         |         |
-    | po_against_other_parent         | False          |         |
-    | self_related_to_abuser['blood'] | True           |         |
-    | dv_crime                        | yes both       |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                             | value             | trigger | 
+    | user_need                       | want po           |         | 
+    | options_for_po['AK court']      | True              |         | 
+    | who_needs_the_order             | self and children |         | 
+    | petitioner_related_to_child     | parent            |         | 
+    | domestic_violence_po_criteria   | True              |         | 
+    | po_against_other_parent         | False             |         | 
+    | self_related_to_abuser['blood'] | True              |         | 
+    | dv_crime                        | yes one           |         | 
+    And I take a screenshot
 
-@row111
-Scenario: Row #111
+@row226eone
+Scenario: Row #226eone
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                                  | value              | trigger |
-    | user_need                            | want po            |         |
-    | options_for_po['AK court']           | True               |         |
-    | who_needs_the_order                  | self and child     |         |
-    | petitioner_related_to_child          | parent             |         |
-    | po_against_other_parent              | False              |         |
-    | self_related_to_abuser['blood']      | True               |         |
-    | self_related_to_abuser['have child'] | True               |         |
-    | dv_crime                             | yes one            |         |
-    | which_po_form                        | one person dv form |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                                  | value             | trigger | 
+    | user_need                            | want po           |         | 
+    | options_for_po['AK court']           | True              |         | 
+    | who_needs_the_order                  | self and children |         | 
+    | petitioner_related_to_child          | parent            |         | 
+    | domestic_violence_po_criteria        | True              |         | 
+    | po_against_other_parent              | False             |         | 
+    | self_related_to_abuser['blood']      | True              |         | 
+    | self_related_to_abuser['have child'] | True              |         | 
+    | dv_crime                             | yes one           |         | 
+    And I take a screenshot
 
-@row112
-Scenario: Row #112
+@row226fone
+Scenario: Row #226fone
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                                 | value                | trigger |
-    | user_need                           | want po              |         |
-    | options_for_po['AK court']          | True                 |         |
-    | who_needs_the_order                 | self and child       |         |
-    | petitioner_related_to_child         | parent               |         |
-    | po_against_other_parent             | False                |         |
-    | self_related_to_abuser['blood']     | True                 |         |
-    | self_related_to_abuser['cohabited'] | True                 |         |
-    | dv_crime                            | yes one              |         |
-    | which_po_form                       | multi person dv form |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                                 | value             | trigger | 
+    | user_need                           | want po           |         | 
+    | options_for_po['AK court']          | True              |         | 
+    | who_needs_the_order                 | self and children |         | 
+    | petitioner_related_to_child         | parent            |         | 
+    | domestic_violence_po_criteria       | True              |         | 
+    | po_against_other_parent             | False             |         | 
+    | self_related_to_abuser['blood']     | True              |         | 
+    | self_related_to_abuser['cohabited'] | True              |         | 
+    | dv_crime                            | yes one           |         | 
+    And I take a screenshot
 
-@row113
-Scenario: Row #113
+@row226gone
+Scenario: Row #226gone
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                                        | value          | trigger |
-    | user_need                                  | want po        |         |
-    | options_for_po['AK court']                 | True           |         |
-    | who_needs_the_order                        | self and child |         |
-    | petitioner_related_to_child                | parent         |         |
-    | po_against_other_parent                    | False          |         |
-    | self_related_to_abuser['blood']            | True           |         |
-    | self_related_to_abuser['marriage related'] | True           |         |
-    | dv_crime                                   | no             |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                                        | value             | trigger | 
+    | user_need                                  | want po           |         | 
+    | options_for_po['AK court']                 | True              |         | 
+    | who_needs_the_order                        | self and children |         | 
+    | petitioner_related_to_child                | parent            |         | 
+    | domestic_violence_po_criteria              | True              |         | 
+    | po_against_other_parent                    | False             |         | 
+    | self_related_to_abuser['blood']            | True              |         | 
+    | self_related_to_abuser['marriage related'] | True              |         | 
+    | dv_crime                                   | yes one           |         | 
+    And I take a screenshot
 
-@row114
-Scenario: Row #114
+@row228
+Scenario: Row #228
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                            | value           | trigger |
-    | user_need                      | want po         |         |
-    | options_for_po['AK court']     | True            |         |
-    | who_needs_the_order            | self and child  |         |
-    | petitioner_related_to_child    | parent          |         |
-    | po_against_other_parent        | False           |         |
-    | self_related_to_abuser['None'] | True            |         |
-    | what_next                      | other po for me |         |
-    | other_po                       | stalked         |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                            | value             | trigger | 
+    | user_need                      | want po           |         | 
+    | options_for_po['AK court']     | True              |         | 
+    | who_needs_the_order            | self and children |         | 
+    | petitioner_related_to_child    | parent            |         | 
+    | domestic_violence_po_criteria  | True              |         | 
+    | po_against_other_parent        | False             |         | 
+    | self_related_to_abuser['None'] | True              |         | 
+    | what_next                      | other po for me   |         | 
+    | other_po                       | stalked           |         | 
+    And I take a screenshot
 
-@row115
-Scenario: Row #115
+@row229
+Scenario: Row #229
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                            | value           | trigger |
-    | user_need                      | want po         |         |
-    | options_for_po['AK court']     | True            |         |
-    | who_needs_the_order            | self and child  |         |
-    | petitioner_related_to_child    | parent          |         |
-    | po_against_other_parent        | False           |         |
-    | self_related_to_abuser['None'] | True            |         |
-    | what_next                      | other po for me |         |
-    | other_po                       | sexual contact  |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                            | value             | trigger | 
+    | user_need                      | want po           |         | 
+    | options_for_po['AK court']     | True              |         | 
+    | who_needs_the_order            | self and children |         | 
+    | petitioner_related_to_child    | parent            |         | 
+    | domestic_violence_po_criteria  | True              |         | 
+    | po_against_other_parent        | False             |         | 
+    | self_related_to_abuser['None'] | True              |         | 
+    | what_next                      | other po for me   |         | 
+    | other_po                       | sexual contact    |         | 
+    And I take a screenshot
 
-@row116
-Scenario: Row #116
+@row230
+Scenario: Row #230
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                            | value           | trigger |
-    | user_need                      | want po         |         |
-    | options_for_po['AK court']     | True            |         |
-    | who_needs_the_order            | self and child  |         |
-    | petitioner_related_to_child    | parent          |         |
-    | po_against_other_parent        | False           |         |
-    | self_related_to_abuser['None'] | True            |         |
-    | what_next                      | other po for me |         |
-    | other_po                       | neither         |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                            | value             | trigger | 
+    | user_need                      | want po           |         | 
+    | options_for_po['AK court']     | True              |         | 
+    | who_needs_the_order            | self and children |         | 
+    | petitioner_related_to_child    | parent            |         | 
+    | domestic_violence_po_criteria  | True              |         | 
+    | po_against_other_parent        | False             |         | 
+    | self_related_to_abuser['None'] | True              |         | 
+    | what_next                      | other po for me   |         | 
+    | other_po                       | neither           |         | 
+    And I take a screenshot
 
-@row117
-Scenario: Row #117
+@row231
+Scenario: Row #231
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                                | value          | trigger |
-    | user_need                          | want po        |         |
-    | options_for_po['AK court']         | True           |         |
-    | who_needs_the_order                | self and child |         |
-    | petitioner_related_to_child        | parent         |         |
-    | po_against_other_parent            | False          |         |
-    | self_related_to_abuser['None']     | True           |         |
-    | what_next                          | stop for me    |         |
-    | child_related_to_abuser['married'] | True           |         |
-    | dv_crime                           | yes            |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                            | value             | trigger | 
+    | user_need                      | want po           |         | 
+    | options_for_po['AK court']     | True              |         | 
+    | who_needs_the_order            | self and children |         | 
+    | petitioner_related_to_child    | parent            |         | 
+    | domestic_violence_po_criteria  | True              |         | 
+    | po_against_other_parent        | False             |         | 
+    | self_related_to_abuser['None'] | True              |         | 
+    | what_next                      | stop for me       |         | 
+    | children_related_to_abuser     | all               |         | 
+    | dv_crime                       | yes more          |         | 
+    And I take a screenshot
 
-@row118
-Scenario: Row #118
+@row232
+Scenario: Row #232
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                              | value          | trigger |
-    | user_need                        | want po        |         |
-    | options_for_po['AK court']       | True           |         |
-    | who_needs_the_order              | self and child |         |
-    | petitioner_related_to_child      | parent         |         |
-    | po_against_other_parent          | False          |         |
-    | self_related_to_abuser['None']   | True           |         |
-    | what_next                        | stop for me    |         |
-    | child_related_to_abuser['dated'] | True           |         |
-    | dv_crime                         | no             |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                            | value             | trigger | 
+    | user_need                      | want po           |         | 
+    | options_for_po['AK court']     | True              |         | 
+    | who_needs_the_order            | self and children |         | 
+    | petitioner_related_to_child    | parent            |         | 
+    | domestic_violence_po_criteria  | True              |         | 
+    | po_against_other_parent        | False             |         | 
+    | self_related_to_abuser['None'] | True              |         | 
+    | what_next                      | stop for me       |         | 
+    | children_related_to_abuser     | all               |         | 
+    | dv_crime                       | yes one           |         | 
+    And I take a screenshot
 
-@row119
-Scenario: Row #119
+@row233
+Scenario: Row #233
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                                  | value          | trigger |
-    | user_need                            | want po        |         |
-    | options_for_po['AK court']           | True           |         |
-    | who_needs_the_order                  | self and child |         |
-    | petitioner_related_to_child          | parent         |         |
-    | po_against_other_parent              | False          |         |
-    | self_related_to_abuser['None']       | True           |         |
-    | what_next                            | stop for me    |         |
-    | child_related_to_abuser['cohabited'] | True           |         |
-    | child_related_to_abuser['married']   | True           |         |
-    | dv_crime                             | yes            |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                            | value             | trigger | 
+    | user_need                      | want po           |         | 
+    | options_for_po['AK court']     | True              |         | 
+    | who_needs_the_order            | self and children |         | 
+    | petitioner_related_to_child    | parent            |         | 
+    | domestic_violence_po_criteria  | True              |         | 
+    | po_against_other_parent        | False             |         | 
+    | self_related_to_abuser['None'] | True              |         | 
+    | what_next                      | stop for me       |         | 
+    | children_related_to_abuser     | all               |         | 
+    | dv_crime                       | no                |         | 
+    And I take a screenshot
 
-@row120
-Scenario: Row #120
+@row234
+Scenario: Row #234
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                                         | value          | trigger |
-    | user_need                                   | want po        |         |
-    | options_for_po['AK court']                  | True           |         |
-    | who_needs_the_order                         | self and child |         |
-    | petitioner_related_to_child                 | parent         |         |
-    | po_against_other_parent                     | False          |         |
-    | self_related_to_abuser['None']              | True           |         |
-    | what_next                                   | stop for me    |         |
-    | child_related_to_abuser['marriage related'] | True           |         |
-    | child_related_to_abuser['dated']            | True           |         |
-    | dv_crime                                    | no             |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                            | value             | trigger | 
+    | user_need                      | want po           |         | 
+    | options_for_po['AK court']     | True              |         | 
+    | who_needs_the_order            | self and children |         | 
+    | petitioner_related_to_child    | parent            |         | 
+    | domestic_violence_po_criteria  | True              |         | 
+    | po_against_other_parent        | False             |         | 
+    | self_related_to_abuser['None'] | True              |         | 
+    | what_next                      | stop for me       |         | 
+    | children_related_to_abuser     | one               |         | 
+    | what_next_for_children         | order for one     |         | 
+    | dv_crime                       | yes               |         | 
+    And I take a screenshot
 
-@row121
-Scenario: Row #121
+@row235
+Scenario: Row #235
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                                  | value          | trigger |
-    | user_need                            | want po        |         |
-    | options_for_po['AK court']           | True           |         |
-    | who_needs_the_order                  | self and child |         |
-    | petitioner_related_to_child          | parent         |         |
-    | po_against_other_parent              | False          |         |
-    | self_related_to_abuser['None']       | True           |         |
-    | what_next                            | stop for me    |         |
-    | child_related_to_abuser['blood']     | True           |         |
-    | child_related_to_abuser['cohabited'] | True           |         |
-    | dv_crime                             | yes            |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                            | value             | trigger | 
+    | user_need                      | want po           |         | 
+    | options_for_po['AK court']     | True              |         | 
+    | who_needs_the_order            | self and children |         | 
+    | petitioner_related_to_child    | parent            |         | 
+    | domestic_violence_po_criteria  | True              |         | 
+    | po_against_other_parent        | False             |         | 
+    | self_related_to_abuser['None'] | True              |         | 
+    | what_next                      | stop for me       |         | 
+    | children_related_to_abuser     | one               |         | 
+    | what_next_for_children         | order for one     |         | 
+    | dv_crime                       | no                |         | 
+    And I take a screenshot
 
-@row122
-Scenario: Row #122
+@row236
+Scenario: Row #236
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                                         | value          | trigger |
-    | user_need                                   | want po        |         |
-    | options_for_po['AK court']                  | True           |         |
-    | who_needs_the_order                         | self and child |         |
-    | petitioner_related_to_child                 | parent         |         |
-    | po_against_other_parent                     | False          |         |
-    | self_related_to_abuser['None']              | True           |         |
-    | what_next                                   | stop for me    |         |
-    | child_related_to_abuser['have child']       | True           |         |
-    | child_related_to_abuser['marriage related'] | True           |         |
-    | dv_crime                                    | no             |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                            | value             | trigger | 
+    | user_need                      | want po           |         | 
+    | options_for_po['AK court']     | True              |         | 
+    | who_needs_the_order            | self and children |         | 
+    | petitioner_related_to_child    | parent            |         | 
+    | domestic_violence_po_criteria  | True              |         | 
+    | po_against_other_parent        | False             |         | 
+    | self_related_to_abuser['None'] | True              |         | 
+    | what_next                      | stop for me       |         | 
+    | children_related_to_abuser     | one               |         | 
+    | what_next_for_children         | order for more    |         | 
+    | dv_crime                       | yes more          |         | 
+    And I take a screenshot
 
-@row123
-Scenario: Row #1232
+@row237
+Scenario: Row #237
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                                                                         | value          | trigger |
-    | user_need                                                                   | want po        |         |
-    | options_for_po['AK court']                                                  | True           |         |
-    | who_needs_the_order                                                         | self and child |         |
-    | petitioner_related_to_child                                                 | parent         |         |
-    | po_against_other_parent                                                     | False          |         |
-    | self_related_to_abuser['None']                                              | True           |         |
-    | what_next                                                                   | stop for me    |         |
-    | child_related_to_abuser['None']                                             | True           |         |
-    | filing_parent_does_not_qualify_other_parent_related_to_abuser['have child'] | True           |         |
-    | dv_crime                                                                    | yes            |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                            | value             | trigger | 
+    | user_need                      | want po           |         | 
+    | options_for_po['AK court']     | True              |         | 
+    | who_needs_the_order            | self and children |         | 
+    | petitioner_related_to_child    | parent            |         | 
+    | domestic_violence_po_criteria  | True              |         | 
+    | po_against_other_parent        | False             |         | 
+    | self_related_to_abuser['None'] | True              |         | 
+    | what_next                      | stop for me       |         | 
+    | children_related_to_abuser     | one               |         | 
+    | what_next_for_children         | order for more    |         | 
+    | dv_crime                       | yes one           |         | 
+    And I take a screenshot
 
-@row124
-Scenario: Row #124
+@row238
+Scenario: Row #238
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                                                                    | value          | trigger |
-    | user_need                                                              | want po        |         |
-    | options_for_po['AK court']                                             | True           |         |
-    | who_needs_the_order                                                    | self and child |         |
-    | petitioner_related_to_child                                            | parent         |         |
-    | po_against_other_parent                                                | False          |         |
-    | self_related_to_abuser['None']                                         | True           |         |
-    | what_next                                                              | stop for me    |         |
-    | child_related_to_abuser['None']                                        | True           |         |
-    | filing_parent_does_not_qualify_other_parent_related_to_abuser['dated'] | True           |         |
-    | dv_crime                                                               | no             |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                            | value             | trigger | 
+    | user_need                      | want po           |         | 
+    | options_for_po['AK court']     | True              |         | 
+    | who_needs_the_order            | self and children |         | 
+    | petitioner_related_to_child    | parent            |         | 
+    | domestic_violence_po_criteria  | True              |         | 
+    | po_against_other_parent        | False             |         | 
+    | self_related_to_abuser['None'] | True              |         | 
+    | what_next                      | stop for me       |         | 
+    | children_related_to_abuser     | one               |         | 
+    | what_next_for_children         | order for more    |         | 
+    | dv_crime                       | no                |         | 
+    And I take a screenshot
 
-@row125
-Scenario: Row #125
+@row239
+Scenario: Row #239
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                                                                   | value          | trigger |
-    | user_need                                                             | want po        |         |
-    | options_for_po['AK court']                                            | True           |         |
-    | who_needs_the_order                                                   | self and child |         |
-    | petitioner_related_to_child                                           | parent         |         |
-    | po_against_other_parent                                               | False          |         |
-    | self_related_to_abuser['None']                                        | True           |         |
-    | what_next                                                             | stop for me    |         |
-    | child_related_to_abuser['None']                                       | True           |         |
-    | filing_parent_does_not_qualify_other_parent_related_to_abuser['None'] | True           |         |
-    | other_po                                                              | sexual contact |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                            | value             | trigger | 
+    | user_need                      | want po           |         | 
+    | options_for_po['AK court']     | True              |         | 
+    | who_needs_the_order            | self and children |         | 
+    | petitioner_related_to_child    | parent            |         | 
+    | domestic_violence_po_criteria  | True              |         | 
+    | po_against_other_parent        | False             |         | 
+    | self_related_to_abuser['None'] | True              |         | 
+    | what_next                      | stop for me       |         | 
+    | children_related_to_abuser     | one               |         | 
+    | what_next_for_children         | stop              |         | 
+    | other_po                       | stalked           |         | 
+    And I take a screenshot
 
-@row126
-Scenario: Row #126
+@row240
+Scenario: Row #240
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                                                                   | value          | trigger |
-    | user_need                                                             | want po        |         |
-    | options_for_po['AK court']                                            | True           |         |
-    | who_needs_the_order                                                   | self and child |         |
-    | petitioner_related_to_child                                           | parent         |         |
-    | po_against_other_parent                                               | False          |         |
-    | self_related_to_abuser['None']                                        | True           |         |
-    | what_next                                                             | stop for me    |         |
-    | child_related_to_abuser['None']                                       | True           |         |
-    | filing_parent_does_not_qualify_other_parent_related_to_abuser['None'] | True           |         |
-    | other_po                                                              | stalked        |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                            | value             | trigger | 
+    | user_need                      | want po           |         | 
+    | options_for_po['AK court']     | True              |         | 
+    | who_needs_the_order            | self and children |         | 
+    | petitioner_related_to_child    | parent            |         | 
+    | domestic_violence_po_criteria  | True              |         | 
+    | po_against_other_parent        | False             |         | 
+    | self_related_to_abuser['None'] | True              |         | 
+    | what_next                      | stop for me       |         | 
+    | children_related_to_abuser     | one               |         | 
+    | what_next_for_children         | stop              |         | 
+    | other_po                       | sexual contact    |         | 
+    And I take a screenshot
 
-@row127
-Scenario: Row #127
+@row241
+Scenario: Row #241
   Given I start the interview at "protective_orders.yml"
-  And I get to the question id "final screen" with this data:
-    | var                                                                   | value          | trigger |
-    | user_need                                                             | want po        |         |
-    | options_for_po['AK court']                                            | True           |         |
-    | who_needs_the_order                                                   | self and child |         |
-    | petitioner_related_to_child                                           | parent         |         |
-    | po_against_other_parent                                               | False          |         |
-    | self_related_to_abuser['None']                                        | True           |         |
-    | what_next                                                             | stop for me    |         |
-    | child_related_to_abuser['None']                                       | True           |         |
-    | filing_parent_does_not_qualify_other_parent_related_to_abuser['None'] | True           |         |
-    | other_po                                                              | neither        |         |
-  And I take a screenshot
+    And I get to the question id "final screen" with this data:
+    | var                            | value             | trigger | 
+    | user_need                      | want po           |         | 
+    | options_for_po['AK court']     | True              |         | 
+    | who_needs_the_order            | self and children |         | 
+    | petitioner_related_to_child    | parent            |         | 
+    | domestic_violence_po_criteria  | True              |         | 
+    | po_against_other_parent        | False             |         | 
+    | self_related_to_abuser['None'] | True              |         | 
+    | what_next                      | stop for me       |         | 
+    | children_related_to_abuser     | one               |         | 
+    | what_next_for_children         | stop              |         | 
+    | other_po                       | neither           |         | 
+    And I take a screenshot
+
+@row242
+Scenario: Row #242
+  Given I start the interview at "protective_orders.yml"
+    And I get to the question id "final screen" with this data:
+    | var                            | value             | trigger | 
+    | user_need                      | want po           |         | 
+    | options_for_po['AK court']     | True              |         | 
+    | who_needs_the_order            | self and children |         | 
+    | petitioner_related_to_child    | parent            |         | 
+    | domestic_violence_po_criteria  | True              |         | 
+    | po_against_other_parent        | False             |         | 
+    | self_related_to_abuser['None'] | True              |         | 
+    | what_next                      | stop for me       |         | 
+    | children_related_to_abuser     | none              |         | 
+    | other_po                       | stalked           |         | 
+    And I take a screenshot
+
+@row243
+Scenario: Row #243
+  Given I start the interview at "protective_orders.yml"
+    And I get to the question id "final screen" with this data:
+    | var                            | value             | trigger | 
+    | user_need                      | want po           |         | 
+    | options_for_po['AK court']     | True              |         | 
+    | who_needs_the_order            | self and children |         | 
+    | petitioner_related_to_child    | parent            |         | 
+    | domestic_violence_po_criteria  | True              |         | 
+    | po_against_other_parent        | False             |         | 
+    | self_related_to_abuser['None'] | True              |         | 
+    | what_next                      | stop for me       |         | 
+    | children_related_to_abuser     | none              |         | 
+    | other_po                       | sexual contact    |         | 
+    And I take a screenshot
+
+@row244
+Scenario: Row #244
+  Given I start the interview at "protective_orders.yml"
+    And I get to the question id "final screen" with this data:
+    | var                            | value             | trigger | 
+    | user_need                      | want po           |         | 
+    | options_for_po['AK court']     | True              |         | 
+    | who_needs_the_order            | self and children |         | 
+    | petitioner_related_to_child    | parent            |         | 
+    | domestic_violence_po_criteria  | True              |         | 
+    | po_against_other_parent        | False             |         | 
+    | self_related_to_abuser['None'] | True              |         | 
+    | what_next                      | stop for me       |         | 
+    | children_related_to_abuser     | none              |         | 
+    | other_po                       | neither           |         | 
+    And I take a screenshot    
+
 

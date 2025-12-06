@@ -1,5 +1,5 @@
 @want_po_self
-# 2025-12-02
+# 2025-12-05
 
 Feature: User paths
 
@@ -22,34 +22,6 @@ Feature: User paths
 
   @row3
   Scenario: Row #3
-    Given I start the interview at "protective_orders.yml"
-    And I get to the question id "final screen" with this data:
-      | var                                  | value   | trigger |
-      | user_need                            | want po |         |
-      | options_for_po['AK court']           | True    |         |
-      | who_needs_the_order                  | self    |         |
-      | self_related_to_abuser['married']    | True    |         |
-      | self_related_to_abuser['have child'] | False   |         |
-      | child_w_abuser                       | True    |         |
-      | dv_crime                             | no      |         |
-    And I take a screenshot
-
-  @row4
-  Scenario: Row #4
-    Given I start the interview at "protective_orders.yml"
-    And I get to the question id "final screen" with this data:
-      | var                                  | value          | trigger |
-      | user_need                            | want po        |         |
-      | options_for_po['AK court']           | True           |         |
-      | who_needs_the_order                  | self           |         |
-      | self_related_to_abuser['married']    | True           |         |
-      | self_related_to_abuser['have child'] | False          |         |
-      | child_w_abuser                       | True           |         |
-      | dv_crime                             | no             |         |
-    And I take a screenshot
-
-  @row5
-  Scenario: Row #5
     Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
       | var                                  | value   | trigger |
@@ -90,34 +62,6 @@ Feature: User paths
       | dv_crime                             | no      |         |
     And I take a screenshot
 
-  @row8
-  Scenario: Row #8
-    Given I start the interview at "protective_orders.yml"
-    And I get to the question id "final screen" with this data:
-      | var                                  | value          | trigger |
-      | user_need                            | want po        |         |
-      | options_for_po['AK court']           | True           |         |
-      | who_needs_the_order                  | self           |         |
-      | self_related_to_abuser['married']    | True           |         |
-      | self_related_to_abuser['have child'] | False          |         |
-      | child_w_abuser                       | False          |         |
-      | dv_crime                             | no             |         |
-    And I take a screenshot
-
-  @row9
-  Scenario: Row #9
-    Given I start the interview at "protective_orders.yml"
-    And I get to the question id "final screen" with this data:
-      | var                                  | value   | trigger |
-      | user_need                            | want po |         |
-      | options_for_po['AK court']           | True    |         |
-      | who_needs_the_order                  | self    |         |
-      | self_related_to_abuser['married']    | True    |         |
-      | self_related_to_abuser['have child'] | False   |         |
-      | child_w_abuser                       | False   |         |
-      | dv_crime                             | no      |         |
-    And I take a screenshot
-
   @row10
   Scenario: Row #10
     Given I start the interview at "protective_orders.yml"
@@ -134,34 +78,6 @@ Feature: User paths
 
   @row11
   Scenario: Row #11
-    Given I start the interview at "protective_orders.yml"
-    And I get to the question id "final screen" with this data:
-      | var                                  | value   | trigger |
-      | user_need                            | want po |         |
-      | options_for_po['AK court']           | True    |         |
-      | who_needs_the_order                  | self    |         |
-      | self_related_to_abuser['divorced']   | True    |         |
-      | self_related_to_abuser['have child'] | False   |         |
-      | child_w_abuser                       | True    |         |
-      | dv_crime                             | no      |         |
-    And I take a screenshot
-
-  @row12
-  Scenario: Row #12
-    Given I start the interview at "protective_orders.yml"
-    And I get to the question id "final screen" with this data:
-      | var                                  | value          | trigger |
-      | user_need                            | want po        |         |
-      | options_for_po['AK court']           | True           |         |
-      | who_needs_the_order                  | self           |         |
-      | self_related_to_abuser['divorced']   | True           |         |
-      | self_related_to_abuser['have child'] | False          |         |
-      | child_w_abuser                       | True           |         |
-      | dv_crime                             | no             |         |
-    And I take a screenshot
-
-  @row13
-  Scenario: Row #13
     Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
       | var                                  | value   | trigger |
@@ -202,34 +118,6 @@ Feature: User paths
       | dv_crime                             | no      |         |
     And I take a screenshot
 
-  @row16
-  Scenario: Row #16
-    Given I start the interview at "protective_orders.yml"
-    And I get to the question id "final screen" with this data:
-      | var                                  | value          | trigger |
-      | user_need                            | want po        |         |
-      | options_for_po['AK court']           | True           |         |
-      | who_needs_the_order                  | self           |         |
-      | self_related_to_abuser['divorced']   | True           |         |
-      | self_related_to_abuser['have child'] | False          |         |
-      | child_w_abuser                       | False          |         |
-      | dv_crime                             | no             |         |
-    And I take a screenshot
-
-  @row17
-  Scenario: Row #17
-    Given I start the interview at "protective_orders.yml"
-    And I get to the question id "final screen" with this data:
-      | var                                  | value   | trigger |
-      | user_need                            | want po |         |
-      | options_for_po['AK court']           | True    |         |
-      | who_needs_the_order                  | self    |         |
-      | self_related_to_abuser['divorced']   | True    |         |
-      | self_related_to_abuser['have child'] | False   |         |
-      | child_w_abuser                       | False   |         |
-      | dv_crime                             | no      |         |
-    And I take a screenshot
-
   @row18
   Scenario: Row #18
     Given I start the interview at "protective_orders.yml"
@@ -244,30 +132,6 @@ Feature: User paths
 
   @row19
   Scenario: Row #19
-    Given I start the interview at "protective_orders.yml"
-    And I get to the question id "final screen" with this data:
-      | var                                  | value   | trigger |
-      | user_need                            | want po |         |
-      | options_for_po['AK court']           | True    |         |
-      | who_needs_the_order                  | self    |         |
-      | self_related_to_abuser['have child'] | True    |         |
-      | dv_crime                             | no      |         |
-    And I take a screenshot
-
-  @row20
-  Scenario: Row #20
-    Given I start the interview at "protective_orders.yml"
-    And I get to the question id "final screen" with this data:
-      | var                                  | value          | trigger |
-      | user_need                            | want po        |         |
-      | options_for_po['AK court']           | True           |         |
-      | who_needs_the_order                  | self           |         |
-      | self_related_to_abuser['have child'] | True           |         |
-      | dv_crime                             | no             |         |
-    And I take a screenshot
-
-  @row21
-  Scenario: Row #21
     Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
       | var                                  | value   | trigger |
@@ -294,34 +158,6 @@ Feature: User paths
 
   @row23
   Scenario: Row #23
-    Given I start the interview at "protective_orders.yml"
-    And I get to the question id "final screen" with this data:
-      | var                                  | value   | trigger |
-      | user_need                            | want po |         |
-      | options_for_po['AK court']           | True    |         |
-      | who_needs_the_order                  | self    |         |
-      | self_related_to_abuser['dated']      | True    |         |
-      | self_related_to_abuser['have child'] | False   |         |
-      | child_w_abuser                       | True    |         |
-      | dv_crime                             | no      |         |
-    And I take a screenshot
-
-  @row24
-  Scenario: Row #24
-    Given I start the interview at "protective_orders.yml"
-    And I get to the question id "final screen" with this data:
-      | var                                  | value          | trigger |
-      | user_need                            | want po        |         |
-      | options_for_po['AK court']           | True           |         |
-      | who_needs_the_order                  | self           |         |
-      | self_related_to_abuser['dated']      | True           |         |
-      | self_related_to_abuser['have child'] | False          |         |
-      | child_w_abuser                       | True           |         |
-      | dv_crime                             | no             |         |
-    And I take a screenshot
-
-  @row25
-  Scenario: Row #25
     Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
       | var                                  | value   | trigger |
@@ -362,34 +198,6 @@ Feature: User paths
       | dv_crime                             | no      |         |
     And I take a screenshot
 
-  @row28
-  Scenario: Row #28
-    Given I start the interview at "protective_orders.yml"
-    And I get to the question id "final screen" with this data:
-      | var                                  | value          | trigger |
-      | user_need                            | want po        |         |
-      | options_for_po['AK court']           | True           |         |
-      | who_needs_the_order                  | self           |         |
-      | self_related_to_abuser['dated']      | True           |         |
-      | self_related_to_abuser['have child'] | False          |         |
-      | child_w_abuser                       | False          |         |
-      | dv_crime                             | no             |         |
-    And I take a screenshot
-
-  @row29
-  Scenario: Row #29
-    Given I start the interview at "protective_orders.yml"
-    And I get to the question id "final screen" with this data:
-      | var                                  | value   | trigger |
-      | user_need                            | want po |         |
-      | options_for_po['AK court']           | True    |         |
-      | who_needs_the_order                  | self    |         |
-      | self_related_to_abuser['dated']      | True    |         |
-      | self_related_to_abuser['have child'] | False   |         |
-      | child_w_abuser                       | False   |         |
-      | dv_crime                             | no      |         |
-    And I take a screenshot
-
   @row30
   Scenario: Row #30
     Given I start the interview at "protective_orders.yml"
@@ -418,34 +226,6 @@ Feature: User paths
       | dv_crime                             | no      |         |
     And I take a screenshot
 
-  @row32
-  Scenario: Row #32
-    Given I start the interview at "protective_orders.yml"
-    And I get to the question id "final screen" with this data:
-      | var                                  | value          | trigger |
-      | user_need                            | want po        |         |
-      | options_for_po['AK court']           | True           |         |
-      | who_needs_the_order                  | self           |         |
-      | self_related_to_abuser['cohabited']  | True           |         |
-      | self_related_to_abuser['have child'] | False          |         |
-      | child_w_abuser                       | True           |         |
-      | dv_crime                             | no             |         |
-    And I take a screenshot
-
-  @row33
-  Scenario: Row #33
-    Given I start the interview at "protective_orders.yml"
-    And I get to the question id "final screen" with this data:
-      | var                                  | value   | trigger |
-      | user_need                            | want po |         |
-      | options_for_po['AK court']           | True    |         |
-      | who_needs_the_order                  | self    |         |
-      | self_related_to_abuser['cohabited']  | True    |         |
-      | self_related_to_abuser['have child'] | False   |         |
-      | child_w_abuser                       | True    |         |
-      | dv_crime                             | no      |         |
-    And I take a screenshot
-
   @row34
   Scenario: Row #34
     Given I start the interview at "protective_orders.yml"
@@ -462,34 +242,6 @@ Feature: User paths
 
   @row35
   Scenario: Row #35
-    Given I start the interview at "protective_orders.yml"
-    And I get to the question id "final screen" with this data:
-      | var                                  | value   | trigger |
-      | user_need                            | want po |         |
-      | options_for_po['AK court']           | True    |         |
-      | who_needs_the_order                  | self    |         |
-      | self_related_to_abuser['cohabited']  | True    |         |
-      | self_related_to_abuser['have child'] | False   |         |
-      | child_w_abuser                       | False   |         |
-      | dv_crime                             | no      |         |
-    And I take a screenshot
-
-  @row36
-  Scenario: Row #36
-    Given I start the interview at "protective_orders.yml"
-    And I get to the question id "final screen" with this data:
-      | var                                  | value          | trigger |
-      | user_need                            | want po        |         |
-      | options_for_po['AK court']           | True           |         |
-      | who_needs_the_order                  | self           |         |
-      | self_related_to_abuser['cohabited']  | True           |         |
-      | self_related_to_abuser['have child'] | False          |         |
-      | child_w_abuser                       | False          |         |
-      | dv_crime                             | no             |         |
-    And I take a screenshot
-
-  @row37
-  Scenario: Row #37
     Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
       | var                                  | value   | trigger |
@@ -588,34 +340,6 @@ Feature: User paths
       | dv_crime                                   | no      |         |
     And I take a screenshot
 
-  @row44
-  Scenario: Row #44
-    Given I start the interview at "protective_orders.yml"
-    And I get to the question id "final screen" with this data:
-      | var                                        | value          | trigger |
-      | user_need                                  | want po        |         |
-      | options_for_po['AK court']                 | True           |         |
-      | who_needs_the_order                        | self           |         |
-      | self_related_to_abuser['marriage related'] | True           |         |
-      | self_related_to_abuser['have child']       | False          |         |
-      | child_w_abuser                             | False          |         |
-      | dv_crime                                   | no             |         |
-    And I take a screenshot
-
-  @row45
-  Scenario: Row #45
-    Given I start the interview at "protective_orders.yml"
-    And I get to the question id "final screen" with this data:
-      | var                                        | value   | trigger |
-      | user_need                                  | want po |         |
-      | options_for_po['AK court']                 | True    |         |
-      | who_needs_the_order                        | self    |         |
-      | self_related_to_abuser['marriage related'] | True    |         |
-      | self_related_to_abuser['have child']       | False   |         |
-      | child_w_abuser                             | False   |         |
-      | dv_crime                                   | no      |         |
-    And I take a screenshot
-
   @row46
   Scenario: Row #46
     Given I start the interview at "protective_orders.yml"
@@ -658,20 +382,6 @@ Feature: User paths
       | dv_crime                             | no             |         |
     And I take a screenshot
 
-  @row49
-  Scenario: Row #49
-    Given I start the interview at "protective_orders.yml"
-    And I get to the question id "final screen" with this data:
-      | var                                  | value   | trigger |
-      | user_need                            | want po |         |
-      | options_for_po['AK court']           | True    |         |
-      | who_needs_the_order                  | self    |         |
-      | self_related_to_abuser['blood']      | True    |         |
-      | self_related_to_abuser['have child'] | False   |         |
-      | child_w_abuser                       | True    |         |
-      | dv_crime                             | no      |         |
-    And I take a screenshot
-
   @row50
   Scenario: Row #50
     Given I start the interview at "protective_orders.yml"
@@ -712,20 +422,6 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False          |         |
       | child_w_abuser                       | False          |         |
       | dv_crime                             | no             |         |
-    And I take a screenshot
-
-  @row53
-  Scenario: Row #53
-    Given I start the interview at "protective_orders.yml"
-    And I get to the question id "final screen" with this data:
-      | var                                  | value   | trigger |
-      | user_need                            | want po |         |
-      | options_for_po['AK court']           | True    |         |
-      | who_needs_the_order                  | self    |         |
-      | self_related_to_abuser['blood']      | True    |         |
-      | self_related_to_abuser['have child'] | False   |         |
-      | child_w_abuser                       | False   |         |
-      | dv_crime                             | no      |         |
     And I take a screenshot
 
   @row54

@@ -1,5 +1,5 @@
 @want_po_children
-# 2025-12-02
+# 2025-12-05
 
 Feature: User paths
 
@@ -207,7 +207,6 @@ Feature: User paths
       | domestic_violence_po_criteria | True           |         |
       | children_related_to_abuser    | some           |         |
       | what_next_for_children        | order for more |         |
-      | dv_crime                      | no             |         |
       | dv_crime                      | yes more       |         |
     And I take a screenshot
 
