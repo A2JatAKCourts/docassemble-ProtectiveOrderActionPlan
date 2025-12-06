@@ -819,7 +819,7 @@ subquestion: |
   % elif who_needs_the_order == 'children':
    them,
   % elif who_needs_the_order == 'self and children':
-   % if petitioner_related_to_child == 'parent' and not po_against_other_parent and (self_related_to_abuser.all_false() or (children_related_to_abuser == 'one' and what_next_for_children == 'order for more')):
+   % if petitioner_related_to_child == 'parent' and not po_against_other_parent and self_related_to_abuser.all_false():
   them,
   % else:
   you,
