@@ -157,7 +157,7 @@ subquestion: |
   If any of the people involved are tribal members, you may qualify for a protective order from the Tribal Court.
 
 fields: 
-  - I want to learn about : options_for_po
+  - I want to learn about: options_for_po
     datatype: checkboxes
     choices: 
       - "asking for a civil protective order from the Alaska Court System.": AK court
