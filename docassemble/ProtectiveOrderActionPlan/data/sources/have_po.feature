@@ -53,7 +53,7 @@ Scenario: Row #305
     And I take a screenshot
 
 @row306
-Scenari o: Row #306
+Scenario: Row #306
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                           | value            | trigger | 
