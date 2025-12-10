@@ -61,7 +61,7 @@ code: |
   AL_DEFAULT_STATE = "Alaska"
 ---
 code: |
-  github_repo_name =  'ProtectiveOrderssues'
+  github_repo_name =  'ProtectiveOrderIssues'
 ---
 
 code: |
@@ -1193,10 +1193,7 @@ question: |
   Are you married to the other person?
 fields:
   - Married?: married
-    datatype: radio
-    choices:
-      - "Yes.": yes
-      - "No.": no
+    datatype: yesnoradio
 ---
 id: more info petitioner
 question: |

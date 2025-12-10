@@ -141,10 +141,10 @@ code: |
     if options_for_po['AK court'] or (options_for_po.any_true('military', 'tribal') and options_for_po.all_false('AK court') and court_info_also):
       if who_needs_the_order == 'self':
         if self_related_to_abuser['married']:
-          add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
+          add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
         if self_related_to_abuser['have child']:
           if self_related_to_abuser.all_false('married', 'divorced'): 
-            add_unique_step((custody_po_info_step, "custody_po_info_idx"), step_list)
+            add_unique_step((po_custody_info_step, "po_custody_info_idx"), step_list)
           else:
             add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
         if self_related_to_abuser.any_true('married', 'divorced') and not self_related_to_abuser['have child']:
@@ -194,9 +194,9 @@ code: |
             relationship_qualifies = True
             add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
             if parent_married_parent == 'married':
-              add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
+              add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
             if parent_married_parent == 'no':
-              add_unique_step((custody_po_info_step, "custody_po_info_idx"), step_list)
+              add_unique_step((po_custody_info_step, "po_custody_info_idx"), step_list)
             if dv_crime in('yes one', 'yes both'):
               if dv_crime == 'yes one':
                 protective_order_for_one = True
@@ -205,7 +205,7 @@ code: |
               add_unique_step((protective_order_step, "protective_order_idx"), step_list)
           else:
             if self_related_to_abuser['married']:
-              add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
+              add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
             if self_related_to_abuser['have child']:
               add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
             if self_related_to_abuser.any_true():
@@ -239,12 +239,12 @@ code: |
 
         if petitioner_related_to_child in('guardian', 'representative'):
           if self_related_to_abuser['married']:
-            add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
+            add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
           if self_related_to_abuser['have child']:
             add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
           if self_related_to_abuser.any_true():
             if guardian_and_child_child_related_to_abuser['married']:
-              add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
+              add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
             if guardian_and_child_child_related_to_abuser['have child']:
               add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
             if guardian_and_child_child_related_to_abuser.any_true():
@@ -276,7 +276,7 @@ code: |
           if self_related_to_abuser.all_false():
             if what_next == 'stop for me':
               if guardian_for_child_related_to_abuser['married']:
-                add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
+                add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
               if guardian_for_child_related_to_abuser['have child']:
                 add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
               if guardian_for_child_related_to_abuser.any_true():
@@ -327,9 +327,9 @@ code: |
           if po_against_other_parent:
             add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
             if parent_married_parent == 'married':
-              add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
+              add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
             if parent_married_parent == 'no':
-              add_unique_step((custody_po_info_step, "custody_po_info_idx"), step_list)
+              add_unique_step((po_custody_info_step, "po_custody_info_idx"), step_list)
             if dv_crime == 'yes one':
               protective_order_for_one = True
               add_unique_step((protective_order_step, "protective_order_idx"), step_list)
@@ -338,7 +338,7 @@ code: |
               add_unique_step((protective_order_step, "protective_order_idx"), step_list)
           else: ## not po_against_other_parent
             if self_related_to_abuser['married']:
-              add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
+              add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
             if self_related_to_abuser['have child']:
               add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
             if self_related_to_abuser.any_true():
@@ -394,7 +394,7 @@ code: |
         elif petitioner_related_to_child in('guardian', 'combination'):
           # if domestic_violence_po_criteria:
           if self_related_to_abuser['married']:
-            add_unique_step((divorce_po_info_step, "divorce_po_info_idx"), step_list)
+            add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
           if self_related_to_abuser['have child']:
             add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
           if self_related_to_abuser.any_true():
@@ -992,9 +992,9 @@ content: |
   Create a **TrueFiling account** and file your documents at:  
   [https://truefiling.com](https://truefiling.com)
 ---
-template: divorce_po_info_step
+template: po_divorce_info_step
 subject: |
-  Step ${divorce_po_info_idx}:
+  Step ${po_divorce_info_idx}:
   Start a case to end your marriage
 content: |
   <div class="step-subheading">Divorce and protective orders</div>
@@ -1008,9 +1008,9 @@ content: |
 
   Answer questions for an action plan with steps for starting a case to end your marriage.
 ---
-template: custody_po_info_step
+template: po_custody_info_step
 subject: |
-  Step ${custody_po_info_idx}:
+  Step ${po_custody_info_idx}:
   Start a case for a Parenting Plan (also known as a "Custody Order")
 content: |
   <div class="step-subheading">Custody and protective orders</div>
