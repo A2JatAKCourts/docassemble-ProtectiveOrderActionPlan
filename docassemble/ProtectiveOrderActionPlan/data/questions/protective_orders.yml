@@ -1218,10 +1218,7 @@ question: |
     Has the long-term protective order expired yet?
 fields:
   - Expired?: expired
-    datatype: radio
-    choices:
-      - "Yes.": yes
-      - "No.": no
+    datatype: yesnoradio
 ---
 id: how long ago
 question: |
