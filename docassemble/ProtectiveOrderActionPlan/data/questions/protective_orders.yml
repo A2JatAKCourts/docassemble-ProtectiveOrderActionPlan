@@ -1259,10 +1259,7 @@ subquestion: |
   If you think you would be safer if the protective order has more protections, you can ask the judge to change the order and add more protections for you.  
 fields:
   - Would you like more information?: also_change
-    datatype: radio
-    choices:
-      - "Yes.": yes
-      - "No.": no
+    datatype: yesnoradio
 ---
 id: what type of case
 question: |
