@@ -303,7 +303,6 @@ Scenario: Row #321
     | expired                      | True              |         |
     | expired_days_ago             | more than 60 days |         |
     | new_order_info               | False             |         |
-    | po_case_type                 | more than 1       |         |
     And I take a screenshot    
 
 
@@ -432,7 +431,6 @@ Scenario: Row #329
     | expired                      | True              |         |
     | expired_days_ago             | more than 60 days |         |
     | new_order_info               | False             |         |
-    | po_case_type                 | stalking       |         |
     And I take a screenshot
 
 
