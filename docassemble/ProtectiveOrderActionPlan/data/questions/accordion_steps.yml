@@ -125,7 +125,7 @@ code: |
             has_expired = True
       else:
         will_expire
-    if petitioner_choices.any_true() and not (petitioner_choices['extend'] and expired and expired_days_ago == 'more than 60 days'):
+    if petitioner_choices.any_true() and not (((term == 'long' or (term == 'short' and request_long)) and petitioner_choices ['extend']) and expired and expired_days_ago == 'more than 60 days'):
       po_case_type
       add_unique_step((change_end_extend_dismiss_petition_step, "change_end_extend_dismiss_petition_idx"), step_list)
   
@@ -514,7 +514,7 @@ content: |
   * State Trooper [locations and phone numbers](https://dps.alaska.gov/ast/contacts) 
   * Village Public Safety Officer [home page](https://dps.alaska.gov/AST/VPSO/Home)
 
-  % if user_need == 'have po' and petitioner_choices['extend'] and expired and expired_days_ago == 'more than 60 days':
+  % if user_need == 'have po' and (term == 'long' or (term == 'short' and request_long)) and petitioner_choices ['extend'] and expired and expired_days_ago == 'more than 60 days':
   <div class="step-subheading">Decide if you want to ask for a new protective order</div>
   If your protective order expired more than 60 days ago, it cannot be extended. Read the information below and stay safe. If you want to ask for a new protective order, you can retake this interview and answer questions about asking for a protective order in Alaska.
   % endif
@@ -845,7 +845,7 @@ content: |
     * Contacting the victim.
     * Entering or following the victim's home or vehicle.
 
-  % if petitioner_choices.all_true('change', 'extend') or (petitioner_choices['extend'] and not petitioner_choices['change'] and also_change):
+  % if (petitioner_choices['change'] and ((term == 'long' or (term == 'short' and request_long)) and petitioner_choices ['extend'])) or ((((term == 'long' or (term == 'short' and request_long)) and petitioner_choices ['extend']) and not petitioner_choices['change'] and also_change)):
   <div class="step-subheading">Ask to change the order</div>
   If you think you would be safer if the protective order has more protections, you can ask the judge to change the order and add more protections for you. Read steps ?: Fill out the form to ask the court to change your order.
   % endif
