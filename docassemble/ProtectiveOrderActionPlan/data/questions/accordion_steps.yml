@@ -101,7 +101,7 @@ code: |
         add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
     if petitioner_choices['options']:
       add_unique_step((other_side_violated_order_step, "other_side_violated_order_idx"), step_list)
-    if petitioner_choices.any_true('change', 'end', 'extend', 'dismiss'):
+    if petitioner_choices.any_true('change', 'end', 'dismiss'):
       add_unique_step((change_end_extend_dismiss_petition_step, "change_end_extend_dismiss_petition_idx"), step_list)
     if petitioner_choices['respond to change']:
       add_unique_step((respond_change_end_extend_dismiss_petition_step, "respond_change_end_extend_dismiss_petition_idx"), step_list)
@@ -123,6 +123,7 @@ code: |
           po_case_type
     if petitioner_choices.any_true() and not (petitioner_choices['extend'] and expired_days_ago == 'more than 60 days' and new_order_info):
       po_case_type
+      add_unique_step((respond_change_end_extend_dismiss_petition_step, "respond_change_end_extend_dismiss_petition_idx"), step_list)
   
   if user_need == 'register po':
     add_unique_step((stay_safe_step, "stay_safe_idx"), step_list)
@@ -511,7 +512,7 @@ content: |
   Contact law enforcement if needed. If you are in immediate danger, call 911. Tell your concerns to your local law enforcement. You can find your local police department's non-emergency phone numbers on-line:
 
   * State Trooper [locations and phone numbers](https://dps.alaska.gov/ast/contacts) 
-  * Village Public Safety Officer [home page](https://dps.alaska.gov/AST/VPSO/Contact)
+  * Village Public Safety Officer [home page](https://dps.alaska.gov/AST/VPSO/Home)
 
   % if user_need == 'have po' and expired_days_ago == 'more than 60 days':
   <div class="step-subheading">Decide if you want to ask for a new protective order</div>
