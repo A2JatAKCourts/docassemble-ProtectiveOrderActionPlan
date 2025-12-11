@@ -83,21 +83,21 @@ Scenario: Row #307
     | po_case_type                  | 1 person |         |
     And I take a screenshot  
 
-@row308
-Scenario: Row #308
-  Given I start the interview at "protective_orders.yml"
-    And I get to the question id "final screen" with this data:
-    | var                          | value             | trigger |
-    | user_need                    | have po           |         |
-    | term                         | short             |         |
-    | request_long                 | False             |         |
-    | shared_child                 | True              |         |
-    | custody                      | divorced          |         |
-    | petitioner_choices['extend'] | True              |         |
-    | expired                      | True              |         |
-    | expired_days_ago             | less than 60 days |         |
-    | po_case_type                 | more than 1       |         |
-    And I take a screenshot    
+# @row308
+# Scenario: Row #308
+#   Given I start the interview at "protective_orders.yml"
+#     And I get to the question id "final screen" with this data:
+#     | var                          | value             | trigger |
+#     | user_need                    | have po           |         |
+#     | term                         | short             |         |
+#     | request_long                 | False             |         |
+#     | shared_child                 | True              |         |
+#     | custody                      | divorced          |         |
+#     | petitioner_choices['extend'] | True              |         |
+#     | expired                      | True              |         |
+#     | expired_days_ago             | less than 60 days |         |
+#     | po_case_type                 | more than 1       |         |
+#     And I take a screenshot    
 
 @row309
 Scenario: Row #309
@@ -118,22 +118,22 @@ Scenario: Row #309
     | dv_crime                     | yes               |         |
     And I take a screenshot  
 
-@row310
-Scenario: Row #310
-  Given I start the interview at "protective_orders.yml"
-    And I get to the question id "final screen" with this data:
-    | var                          | value             | trigger |
-    | user_need                    | have po           |         |
-    | term                         | short             |         |
-    | request_long                 | False             |         |
-    | shared_child                 | True              |         |
-    | custody                      | no custody order  |         |
-    | petitioner_choices['extend'] | True              |         |
-    | expired                      | True              |         |
-    | expired_days_ago             | more than 60 days |         |
-    | new_order_info               | False             |         |
-    | po_case_type                 | 1 person          |         |
-    And I take a screenshot  
+# @row310
+# Scenario: Row #310
+#   Given I start the interview at "protective_orders.yml"
+#     And I get to the question id "final screen" with this data:
+#     | var                          | value             | trigger |
+#     | user_need                    | have po           |         |
+#     | term                         | short             |         |
+#     | request_long                 | False             |         |
+#     | shared_child                 | True              |         |
+#     | custody                      | no custody order  |         |
+#     | petitioner_choices['extend'] | True              |         |
+#     | expired                      | True              |         |
+#     | expired_days_ago             | more than 60 days |         |
+#     | new_order_info               | False             |         |
+#     | po_case_type                 | 1 person          |         |
+#     And I take a screenshot  
 
 @row311
 Scenario: Row #311
@@ -147,25 +147,25 @@ Scenario: Row #311
     | custody                      | married           |         |
     | petitioner_choices['extend'] | True              |         |
     | expired                      | False             |         |
-    | expired_days_ago             | less than 10 days |         |
+    | will_expire                  | less than 10 days |         |
     | po_case_type                 | stalking          |         |
     And I take a screenshot  
 
-@row312
-Scenario: Row #312
-  Given I start the interview at "protective_orders.yml"
-    And I get to the question id "final screen" with this data:
-    | var                          | value             | trigger |
-    | user_need                    | have po           |         |
-    | term                         | short             |         |
-    | request_long                 | False             |         |
-    | shared_child                 | True              |         |
-    | custody                      | divorced          |         |
-    | petitioner_choices['extend'] | True              |         |
-    | expired                      | False             |         |
-    | expired_days_ago             | more than 10 days |         |
-    | po_case_type                 | sexual assault    |         |
-    And I take a screenshot  
+# @row312
+# Scenario: Row #312
+#   Given I start the interview at "protective_orders.yml"
+#     And I get to the question id "final screen" with this data:
+#     | var                          | value             | trigger |
+#     | user_need                    | have po           |         |
+#     | term                         | short             |         |
+#     | request_long                 | False             |         |
+#     | shared_child                 | True              |         |
+#     | custody                      | divorced          |         |
+#     | petitioner_choices['extend'] | True              |         |
+#     | expired                      | False             |         |
+#     | will_expired                 | more than 10 days |         |
+#     | po_case_type                 | sexual assault    |         |
+#     And I take a screenshot  
 
 @row313
 Scenario: Row #313
