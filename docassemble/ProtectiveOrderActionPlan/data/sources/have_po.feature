@@ -1,5 +1,5 @@
 @have_po
-# 2025-12-10
+# 2025-12-11
 
 Feature: User paths
 
@@ -132,6 +132,7 @@ Scenario: Row #310
     | expired                      | True              |         |
     | expired_days_ago             | more than 60 days |         |
     | new_order_info               | False             |         |
+    | po_case_type                 | 1 person          |         |
     And I take a screenshot  
 
 @row311
@@ -268,7 +269,6 @@ Scenario: Row #319
     | petitioner_choices['extend'] | True              |         |
     | expired                      | True              |         |
     | expired_days_ago             | less than 60 days |         |
-    | new_order_info               | True              |         |
     And I take a screenshot    
 
 @row320
@@ -303,6 +303,7 @@ Scenario: Row #321
     | expired                      | True              |         |
     | expired_days_ago             | more than 60 days |         |
     | new_order_info               | False             |         |
+    | po_case_type                 | more than 1       |         |
     And I take a screenshot    
 
 
@@ -431,6 +432,7 @@ Scenario: Row #329
     | expired                      | True              |         |
     | expired_days_ago             | more than 60 days |         |
     | new_order_info               | False             |         |
+    | po_case_type                 | stalking       |         |
     And I take a screenshot
 
 
