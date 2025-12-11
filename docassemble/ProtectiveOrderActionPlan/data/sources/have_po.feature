@@ -269,6 +269,7 @@ Scenario: Row #319
     | petitioner_choices['extend'] | True              |         |
     | expired                      | True              |         |
     | expired_days_ago             | less than 60 days |         |
+    | po_case_type                 | sexual assault    |         |
     And I take a screenshot    
 
 @row320

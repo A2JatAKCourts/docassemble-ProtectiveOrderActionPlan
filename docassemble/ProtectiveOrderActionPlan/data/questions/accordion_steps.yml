@@ -111,7 +111,10 @@ code: |
     if petitioner_choices['options'] and not petitioner_choices['change']:
       if also_change:
         add_unique_step((change_end_extend_dismiss_petition_step, "change_end_extend_dismiss_petition_idx"), step_list)
-    if petitioner_choices ['extend']:
+    
+  
+  
+    if (term == 'long' or (term == 'short' and request_long)) and petitioner_choices ['extend']:
       if expired:
         if expired_days_ago == 'less than 60 days':
           po_case_type
@@ -851,7 +854,7 @@ template: change_end_extend_dismiss_petition_step
 subject: |
   Step ${ change_end_extend_dismiss_petition_idx }:
   Fill out the form to ask the court to
-  % if petitioner_choices.any_true('change', 'end', 'extend'):
+  % if petitioner_choices.any_true('change', 'end') or ((term == 'long' or (term == 'short' and request_long)) and petitioner_choices['extend']):
   ${ petitioner_choices.true_values() } the order
   % elif petitioner_choices.all_true('options', exclusive = True) and also_change:
   change the order
@@ -864,7 +867,7 @@ subject: |
   % endif
 content: |
   % if user_need == 'have po':
-  % if petitioner_choices['extend']:
+  % if (term == 'long' or (term == 'short' and request_long)) and petitioner_choices['extend']:
   <div class="step-subheading">Learn about the process</div>
   
   % if expired and expired_days_ago == 'less than 60 days':
@@ -898,7 +901,7 @@ content: |
     **DV-131 Request to Modify Protective Order, (One Petitioner)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-131-one.pdf)]
   % elif petitioner_choices['end'] and po_case_type in ('1 person', 'stalking', 'sexual assault'):
     **DV-133 Request to Dissolve Protective Order, (One Petitioner)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-133-one.pdf)]
-  % elif petitioner_choices['extend'] and po_case_type in ('1 person', 'stalking', 'sexual assault'):
+  % elif (term == 'long' or (term == 'short' and request_long)) and petitioner_choices['extend'] and po_case_type in ('1 person', 'stalking', 'sexual assault'):
     **DV-132 Request to Extend Long-Term Protective Order, (One Petitioner)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-132-one.pdf)]
   % elif petitioner_choices['dismiss'] and po_case_type in ('1 person', 'stalking', 'sexual assault'):
     **DV-134 Request to Dismiss Long-Term Petition, (One Petitioner)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-134-one.pdf)]
@@ -906,7 +909,7 @@ content: |
     **DV-131-M Request to Modify Protective Order, (Multiple Petitioners)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-131-multi.pdf)]
   % elif petitioner_choices['end'] and po_case_type == 'more than 1':
     **DV-133-M Request to Dissolve Protective Order, (Multiple Petitioners)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-133-multi.pdf)]
-  % elif petitioner_choices['extend'] and po_case_type == 'more than 1':
+  % elif (term == 'long' or (term == 'short' and request_long)) and petitioner_choices['extend'] and po_case_type == 'more than 1':
     **DV-132-M Request to Extend Long-Term Protective Order, (Multiple Petitioners)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-132-multi.pdf)]
   % elif petitioner_choices['dismiss'] and po_case_type == 'more than 1':
     **DV-134-M Request to Dismiss Long-Term Petition, Multiple Petitioners** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-134-multi.pdf)]
