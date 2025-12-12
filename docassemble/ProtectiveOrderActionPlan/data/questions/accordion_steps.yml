@@ -860,7 +860,7 @@ code: |
     po_order_name = 'Domestic Violence'
   elif po_case_type == 'stalking':
     po_order_name = 'Stalking'
-  elif po_case_type == 'sexual contact':
+  elif po_case_type == 'sexual assault':
     po_order_name = 'Sexual Assault'
 ---
 template: change_end_extend_dismiss_petition_step
