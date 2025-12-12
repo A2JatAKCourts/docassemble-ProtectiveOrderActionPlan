@@ -104,13 +104,13 @@ code: |
         add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
     if petitioner_choices['options']:
       add_unique_step((other_side_violated_order_step, "other_side_violated_order_idx"), step_list)
-    if petitioner_choices.any_true('change', 'end', 'dismiss'):
-      add_unique_step((change_end_extend_dismiss_petition_step, "change_end_extend_dismiss_petition_idx"), step_list)
-    if petitioner_choices['respond to change']:
-      add_unique_step((respond_change_end_extend_dismiss_petition_step, "respond_change_end_extend_dismiss_petition_idx"), step_list)
-    if petitioner_choices['options'] and not petitioner_choices['change']:
-      if also_change:
-        add_unique_step((change_end_extend_dismiss_petition_step, "change_end_extend_dismiss_petition_idx"), step_list)
+    # if petitioner_choices.any_true('change', 'end', 'dismiss'):
+    #   add_unique_step((change_end_extend_dismiss_petition_step, "change_end_extend_dismiss_petition_idx"), step_list)
+    # if petitioner_choices['respond to change']:
+    #  add_unique_step((respond_change_end_extend_dismiss_petition_step, "respond_change_end_extend_dismiss_petition_idx"), step_list)
+    # if petitioner_choices['options'] and not petitioner_choices['change']:
+    #   if also_change:
+    #    add_unique_step((change_end_extend_dismiss_petition_step, "change_end_extend_dismiss_petition_idx"), step_list)
     
   
   
@@ -125,7 +125,7 @@ code: |
             has_expired = True
       else:
         will_expire
-    if petitioner_choices.any_true() and not (((term == 'long' or (term == 'short' and request_long)) and petitioner_choices ['extend']) and expired and expired_days_ago == 'more than 60 days'):
+    if (petitioner_choices.any_true('change', 'end', 'extend', 'respond', 'dismiss') or (petitioner_choices['options'] and not petitioner_choices['change'] and also_change)) and not (((term == 'long' or (term == 'short' and request_long)) and petitioner_choices ['extend']) and expired and expired_days_ago == 'more than 60 days'):
       po_case_type
       add_unique_step((change_end_extend_dismiss_petition_step, "change_end_extend_dismiss_petition_idx"), step_list)
   
