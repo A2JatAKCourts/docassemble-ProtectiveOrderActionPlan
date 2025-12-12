@@ -853,17 +853,20 @@ content: |
 template: change_end_extend_dismiss_petition_step
 subject: |
   Step ${ change_end_extend_dismiss_petition_idx }:
-  Fill out the form to ask the court to
+  Fill out the form to 
   % if petitioner_choices.any_true('change', 'end') or ((term == 'long' or (term == 'short' and request_long)) and petitioner_choices['extend']):
-  ${ petitioner_choices.true_values() } the order
+  ask the court to ${ petitioner_choices.true_values() } the order
   % elif petitioner_choices.all_true('options', exclusive = True) and also_change:
-  change the order
+  ask the court to change the order
   % endif
-  % if len(petitioner_choices) > 1 and petitioner_choices['dismiss']:
+  % if len(petitioner_choices) > 1 and petitioner_choices.any_true('respond','dismiss'):
   or
   % endif
   % if petitioner_choices['dismiss']:
-  dismiss the petition
+  ask the court to dismiss the petition
+  % endif
+  % if petitioner_choices['respond']:
+  respond if the other side asks to change or end the order.
   % endif
 content: |
   % if user_need == 'have po':
