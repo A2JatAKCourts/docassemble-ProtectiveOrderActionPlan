@@ -94,7 +94,6 @@ Scenario: Row #308
     | shared_child                  | True     |         |
     | custody                       | married  |         |
     | petitioner_choices['respond'] | True     |         |
-    | also_change                   | False    |         |
     | po_case_type                  | stalking |         |
     And I take a screenshot  
 
