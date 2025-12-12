@@ -1,5 +1,5 @@
 @have_po
-# 2025-12-11
+# 2025-12-12
 
 Feature: User paths
 
@@ -72,19 +72,34 @@ Scenario: Row #306
 Scenario: Row #307
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
+    | var                           | value       | trigger |
+    | user_need                     | have po     |         |
+    | term                          | short       |         |
+    | request_long                  | True        |         |
+    | shared_child                  | True        |         |
+    | custody                       | married     |         |
+    | petitioner_choices['dismiss'] | True        |         |
+    | also_change                   | False       |         |
+    | po_case_type                  | more than 1 |         |
+    And I take a screenshot  
+
+@row308
+Scenario: Row #308
+  Given I start the interview at "protective_orders.yml"
+    And I get to the question id "final screen" with this data:
     | var                           | value    | trigger |
     | user_need                     | have po  |         |
     | term                          | short    |         |
-    | request_long                  | True     |         |
+    | request_long                  | False    |         |
     | shared_child                  | True     |         |
     | custody                       | married  |         |
-    | petitioner_choices['dismiss'] | True     |         |
+    | petitioner_choices['respond'] | True     |         |
     | also_change                   | False    |         |
-    | po_case_type                  | 1 person |         |
+    | po_case_type                  | stalking |         |
     And I take a screenshot  
 
-# @row308
-# Scenario: Row #308
+# @row309
+# Scenario: Row #309
 #   Given I start the interview at "protective_orders.yml"
 #     And I get to the question id "final screen" with this data:
 #     | var                          | value             | trigger |
@@ -99,8 +114,8 @@ Scenario: Row #307
 #     | po_case_type                 | more than 1       |         |
 #     And I take a screenshot    
 
-@row309
-Scenario: Row #309
+@row310
+Scenario: Row #310
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                          | value             | trigger |
@@ -118,8 +133,8 @@ Scenario: Row #309
     | dv_crime                     | yes               |         |
     And I take a screenshot  
 
-# @row310
-# Scenario: Row #310
+# @row311
+# Scenario: Row #311
 #   Given I start the interview at "protective_orders.yml"
 #     And I get to the question id "final screen" with this data:
 #     | var                          | value             | trigger |
@@ -135,8 +150,8 @@ Scenario: Row #309
 #     | po_case_type                 | 1 person          |         |
 #     And I take a screenshot  
 
-@row311
-Scenario: Row #311
+@row312
+Scenario: Row #312
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                          | value             | trigger |
@@ -151,8 +166,8 @@ Scenario: Row #311
     | po_case_type                 | stalking          |         |
     And I take a screenshot  
 
-# @row312
-# Scenario: Row #312
+# @row313
+# Scenario: Row #313
 #   Given I start the interview at "protective_orders.yml"
 #     And I get to the question id "final screen" with this data:
 #     | var                          | value             | trigger |
@@ -167,8 +182,8 @@ Scenario: Row #311
 #     | po_case_type                 | sexual assault    |         |
 #     And I take a screenshot  
 
-@row313
-Scenario: Row #313
+@row314
+Scenario: Row #314
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                           | value    | trigger |
@@ -182,8 +197,8 @@ Scenario: Row #313
     | po_case_type                  | 1 person |         |
     And I take a screenshot
 
-@row314
-Scenario: Row #314
+@row315
+Scenario: Row #315
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                           | value       | trigger |
@@ -197,8 +212,8 @@ Scenario: Row #314
     | po_case_type                  | more than 1 |         |
     And I take a screenshot  
 
-@row315
-Scenario: Row #315
+@row316
+Scenario: Row #316
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                           | value         | trigger |
@@ -214,8 +229,8 @@ Scenario: Row #315
     And I take a screenshot
 
 
-@row316
-Scenario: Row #316
+@row317
+Scenario: Row #317
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                           | value            | trigger |
@@ -228,8 +243,8 @@ Scenario: Row #316
     | po_case_type                  | sexual assault   |         |
     And I take a screenshot
 
-@row317
-Scenario: Row #317
+@row318
+Scenario: Row #318
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                           | value            | trigger |
@@ -240,10 +255,10 @@ Scenario: Row #317
     | petitioner_choices['options'] | True             |         |
     | also_change                   | False            |         |
     | po_case_type                  | more than 1      |         |
-    And I take a screenshot  
+    And I take a screenshot
 
-@row318
-Scenario: Row #318
+@row319
+Scenario: Row #319
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                           | value         | trigger |
@@ -257,8 +272,22 @@ Scenario: Row #318
     | po_case_type                  | stalking      |         |
     And I take a screenshot
 
-@row319
-Scenario: Row #319
+@row320
+Scenario: Row #320
+  Given I start the interview at "protective_orders.yml"
+    And I get to the question id "final screen" with this data:
+    | var                           | value          | trigger |
+    | user_need                     | have po        |         |
+    | term                          | long           |         |
+    | shared_child                  | True           |         |
+    | custody                       | married        |         |
+    | petitioner_choices['change']  | True           |         |
+    | petitioner_choices['respond'] | True           |         |
+    | po_case_type                  | sexual assault |         |
+    And I take a screenshot
+
+@row321
+Scenario: Row #321
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                          | value             | trigger |
@@ -272,8 +301,8 @@ Scenario: Row #319
     | po_case_type                 | sexual assault    |         |
     And I take a screenshot    
 
-@row320
-Scenario: Row #320
+@row322
+Scenario: Row #322
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                          | value             | trigger |
@@ -291,8 +320,8 @@ Scenario: Row #320
     | dv_crime                           | yes               |         |
     And I take a screenshot    
 
-@row321
-Scenario: Row #321
+@row323
+Scenario: Row #323
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                          | value             | trigger |
@@ -307,8 +336,8 @@ Scenario: Row #321
     And I take a screenshot    
 
 
-@row322
-Scenario: Row #322
+@row324
+Scenario: Row #324
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                          | value             | trigger |
@@ -322,8 +351,8 @@ Scenario: Row #322
     | po_case_type                 | more than 1       |         |
     And I take a screenshot
 
-@row323
-Scenario: Row #323
+@row325
+Scenario: Row #325
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                          | value             | trigger |
@@ -335,10 +364,10 @@ Scenario: Row #323
     | expired                      | False             |         |
     | will_expire                  | more than 10 days |         |
     | po_case_type                 | stalking          |         |
-    And I take a screenshot  
+    And I take a screenshot
 
-@row324
-Scenario: Row #324
+@row326
+Scenario: Row #326
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                           | value            | trigger |
@@ -351,8 +380,8 @@ Scenario: Row #324
     | po_case_type                  | sexual assault   |         |
     And I take a screenshot
 
-@row325
-Scenario: Row #325
+@row327
+Scenario: Row #327
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                           | value    | trigger |
@@ -366,8 +395,8 @@ Scenario: Row #325
     And I take a screenshot
 
 
-@row326
-Scenario: Row #326
+@row328
+Scenario: Row #328
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                           | value            | trigger |
@@ -378,12 +407,42 @@ Scenario: Row #326
     | petitioner_choices['options'] | True             |         |
     | petitioner_choices['dismiss'] | True             |         |
     | also_change                   | True             |         |
+    | po_case_type                  | more than 1      |         |
+    And I take a screenshot
+
+@row329
+Scenario: Row #329
+  Given I start the interview at "protective_orders.yml"
+    And I get to the question id "final screen" with this data:
+    | var                           | value            | trigger |
+    | user_need                     | have po          |         |
+    | term                          | long             |         |
+    | shared_child                  | False            |         |
+    | married                       | False            |         |
+    | petitioner_choices['options'] | True             |         |
+    | petitioner_choices['respond'] | True             |         |
+    | also_change                   | True             |         |
+    | po_case_type                  | stalking         |         |
+    And I take a screenshot
+
+@row330
+Scenario: Row #330
+  Given I start the interview at "protective_orders.yml"
+    And I get to the question id "final screen" with this data:
+    | var                           | value            | trigger |
+    | user_need                     | have po          |         |
+    | term                          | long             |         |
+    | shared_child                  | False            |         |
+    | married                       | False            |         |
+    | petitioner_choices['options'] | True             |         |
+    | petitioner_choices['respond'] | True             |         |
+    | also_change                   | False            |         |
     | po_case_type                  | sexual assault   |         |
     And I take a screenshot
 
 
-@row327
-Scenario: Row #327
+@row331
+Scenario: Row #331
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                          | value             | trigger |
@@ -397,8 +456,8 @@ Scenario: Row #327
     | po_case_type                 | 1 person          |         |
     And I take a screenshot
 
-@row328
-Scenario: Row #328
+@row332
+Scenario: Row #332
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                          | value             | trigger |
@@ -418,8 +477,8 @@ Scenario: Row #328
     | dv_crime                     | yes more          |         |
     And I take a screenshot  
 
-@row329
-Scenario: Row #329
+@row333
+Scenario: Row #333
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                          | value             | trigger |
@@ -435,8 +494,8 @@ Scenario: Row #329
     And I take a screenshot
 
 
-@row330
-Scenario: Row #330
+@row334
+Scenario: Row #334
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                          | value             | trigger |
@@ -450,8 +509,8 @@ Scenario: Row #330
     | po_case_type                 | more than 1       |         |
     And I take a screenshot
 
-@row331
-Scenario: Row #331
+@row335
+Scenario: Row #335
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                          | value             | trigger |
