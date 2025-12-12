@@ -856,7 +856,7 @@ code: |
   petition_action_keys = ('change', 'end', 'extend')
 ---
 code: |
-  if po_case_type in ('1 person', 'more than one'):
+  if po_case_type in ('1 person', 'more than 1'):
     po_order_name = 'Domestic Violence'
   elif po_case_type == 'stalking':
     po_order_name = 'Stalking'
