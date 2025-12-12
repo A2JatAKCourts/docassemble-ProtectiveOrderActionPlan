@@ -1213,7 +1213,7 @@ code: |
       {'options': "Options if the other side violates the protective order ."},
       {'change': "Asking the judge to change the protective order."},
       {'end': "Asking the judge to end the protective order."},
-      {'respond to change': "Responding if the other side asks to change or end the order."},
+      {'respond': "Responding if the other side asks to change or end the order."},
       {'dismiss': "Ask the judge to dismiss a petition for a long-term protective order before deciding if it should be granted."
       }
     ]
