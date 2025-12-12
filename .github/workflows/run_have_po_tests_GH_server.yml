@@ -1,7 +1,7 @@
-name: Automatic tests on GitHub Server
+name: Automatic have po tests on GitHub Server
 
 on:
-  # push:
+  push:
   workflow_dispatch:
     inputs:
       tags:
@@ -51,5 +51,5 @@ jobs:
           INSTALL_METHOD: "server"
           # To learn more about these optional inputs, see
           # https://assemblyline.suffolklitlab.org/docs/alkiln/writing/#optional-inputs
-          # ALKILN_TAG_EXPRESSION: "${{ env.ALKILN_TAG_EXPRESSION }}"
+          ALKILN_TAG_EXPRESSION: "@have_po"
           # ALKILN_VERSION: ""
