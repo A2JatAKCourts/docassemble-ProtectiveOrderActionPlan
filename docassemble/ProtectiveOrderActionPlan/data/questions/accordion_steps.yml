@@ -1,5 +1,5 @@
 comment: |
-    last updated: 2025-12-08
+    last updated: 2025-12-11
 ---
 generic object: ALDocumentBundle
 template: x.get_email_copy
@@ -92,6 +92,9 @@ code: |
   # if len(type_of_response.true_values()) > 1:
   #   add_unique_step((pick_a_step_step, "pick_a_step_idx"), step_list)
   
+  if user_need in('want po', 'have po', 'register po'):
+    add_unique_step((stay_safe_step, "stay_safe_idx"), step_list)
+  
   if user_need == 'have po':
     if term == 'short':
       if request_long:
@@ -101,14 +104,17 @@ code: |
         add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
     if petitioner_choices['options']:
       add_unique_step((other_side_violated_order_step, "other_side_violated_order_idx"), step_list)
-    if petitioner_choices.any_true('change', 'end', 'extend', 'dismiss'):
+    if petitioner_choices.any_true('change', 'end', 'dismiss'):
       add_unique_step((change_end_extend_dismiss_petition_step, "change_end_extend_dismiss_petition_idx"), step_list)
     if petitioner_choices['respond to change']:
       add_unique_step((respond_change_end_extend_dismiss_petition_step, "respond_change_end_extend_dismiss_petition_idx"), step_list)
     if petitioner_choices['options'] and not petitioner_choices['change']:
       if also_change:
         add_unique_step((change_end_extend_dismiss_petition_step, "change_end_extend_dismiss_petition_idx"), step_list)
-    if petitioner_choices ['extend']:
+    
+  
+  
+    if (term == 'long' or (term == 'short' and request_long)) and petitioner_choices ['extend']:
       if expired:
         if expired_days_ago == 'less than 60 days':
           po_case_type
@@ -117,20 +123,15 @@ code: |
           if new_order_info:
             ### variable to get questions from ask user_need == 'want po' ###
             has_expired = True
-          else:
-            po_case_type
-      elif not expired:
-          po_case_type
-    if petitioner_choices.any_true() and not (petitioner_choices['extend'] and expired_days_ago == 'more than 60 days' and new_order_info):
+      else:
+        will_expire
+    if petitioner_choices.any_true() and not (((term == 'long' or (term == 'short' and request_long)) and petitioner_choices ['extend']) and expired and expired_days_ago == 'more than 60 days'):
       po_case_type
+      add_unique_step((change_end_extend_dismiss_petition_step, "change_end_extend_dismiss_petition_idx"), step_list)
   
   if user_need == 'register po':
-    add_unique_step((stay_safe_step, "stay_safe_idx"), step_list)
     add_unique_step((register_foreign_po_step, "register_foreign_po_idx"), step_list)
     add_unique_step((file_po_step, "file_po_idx"), step_list)
-
-  if user_need == 'want po' or has_expired:
-    add_unique_step((stay_safe_step, "stay_safe_idx"), step_list)
   
   if user_need == 'want po':
     if options_for_po['military']:
@@ -502,7 +503,7 @@ code: |
 template: stay_safe_step
 subject: |
   Step ${stay_safe_idx}:
-  Stay safe step
+  Stay safe
 content: |
   % if user_need == 'want po':
   ${ dont_qualify_placeholder_language.content }
@@ -511,9 +512,9 @@ content: |
   Contact law enforcement if needed. If you are in immediate danger, call 911. Tell your concerns to your local law enforcement. You can find your local police department's non-emergency phone numbers on-line:
 
   * State Trooper [locations and phone numbers](https://dps.alaska.gov/ast/contacts) 
-  * Village Public Safety Officer [home page](https://dps.alaska.gov/AST/VPSO/Contact)
+  * Village Public Safety Officer [home page](https://dps.alaska.gov/AST/VPSO/Home)
 
-  % if user_need == 'have po' and expired_days_ago == 'more than 60 days':
+  % if user_need == 'have po' and (term == 'long' or (term == 'short' and request_long)) and petitioner_choices ['extend'] and expired and expired_days_ago == 'more than 60 days':
   <div class="step-subheading">Decide if you want to ask for a new protective order</div>
   If your protective order expired more than 60 days ago, it cannot be extended. Read the information below and stay safe. If you want to ask for a new protective order, you can retake this interview and answer questions about asking for a protective order in Alaska.
   % endif
@@ -844,7 +845,7 @@ content: |
     * Contacting the victim.
     * Entering or following the victim's home or vehicle.
 
-  % if petitioner_choices.all_true('change', 'extend') or (petitioner_choices['extend'] and not petitioner_choices['change'] and also_change):
+  % if (petitioner_choices['change'] and ((term == 'long' or (term == 'short' and request_long)) and petitioner_choices ['extend'])) or ((((term == 'long' or (term == 'short' and request_long)) and petitioner_choices ['extend']) and not petitioner_choices['change'] and also_change)):
   <div class="step-subheading">Ask to change the order</div>
   If you think you would be safer if the protective order has more protections, you can ask the judge to change the order and add more protections for you. Read steps ?: Fill out the form to ask the court to change your order.
   % endif
@@ -853,7 +854,7 @@ template: change_end_extend_dismiss_petition_step
 subject: |
   Step ${ change_end_extend_dismiss_petition_idx }:
   Fill out the form to ask the court to
-  % if petitioner_choices.any_true('change', 'end', 'extend'):
+  % if petitioner_choices.any_true('change', 'end') or ((term == 'long' or (term == 'short' and request_long)) and petitioner_choices['extend']):
   ${ petitioner_choices.true_values() } the order
   % elif petitioner_choices.all_true('options', exclusive = True) and also_change:
   change the order
@@ -866,7 +867,7 @@ subject: |
   % endif
 content: |
   % if user_need == 'have po':
-  % if petitioner_choices['extend']:
+  % if (term == 'long' or (term == 'short' and request_long)) and petitioner_choices['extend']:
   <div class="step-subheading">Learn about the process</div>
   
   % if expired and expired_days_ago == 'less than 60 days':
@@ -886,9 +887,9 @@ content: |
   % elif expired and expired_days_ago == 'more than 60 days':
   If the order expired more than 60 days ago, it cannot be extended.
 
-  % elif not expired and will_expire == 'less than 10':
+  % elif not expired and will_expire == 'less than 10 days':
   <div class="step-subheading">Stay safe</div>
-  Because your protective order expires in less than 10 days, the hearing will be after it expires. To figure out a plan to stay safe, review Step 1 of this action plan: Stay Safe.
+  Because your protective order expires in less than 10 days, the hearing will be after it expires. To figure out a plan to stay safe, review Step 1: Stay safe.
 
   File your request as soon as possible to reduce the amount of time you do not have a protective order.
   % endif
@@ -900,7 +901,7 @@ content: |
     **DV-131 Request to Modify Protective Order, (One Petitioner)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-131-one.pdf)]
   % elif petitioner_choices['end'] and po_case_type in ('1 person', 'stalking', 'sexual assault'):
     **DV-133 Request to Dissolve Protective Order, (One Petitioner)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-133-one.pdf)]
-  % elif petitioner_choices['extend'] and po_case_type in ('1 person', 'stalking', 'sexual assault'):
+  % elif (term == 'long' or (term == 'short' and request_long)) and petitioner_choices['extend'] and po_case_type in ('1 person', 'stalking', 'sexual assault'):
     **DV-132 Request to Extend Long-Term Protective Order, (One Petitioner)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-132-one.pdf)]
   % elif petitioner_choices['dismiss'] and po_case_type in ('1 person', 'stalking', 'sexual assault'):
     **DV-134 Request to Dismiss Long-Term Petition, (One Petitioner)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-134-one.pdf)]
@@ -908,7 +909,7 @@ content: |
     **DV-131-M Request to Modify Protective Order, (Multiple Petitioners)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-131-multi.pdf)]
   % elif petitioner_choices['end'] and po_case_type == 'more than 1':
     **DV-133-M Request to Dissolve Protective Order, (Multiple Petitioners)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-133-multi.pdf)]
-  % elif petitioner_choices['extend'] and po_case_type == 'more than 1':
+  % elif (term == 'long' or (term == 'short' and request_long)) and petitioner_choices['extend'] and po_case_type == 'more than 1':
     **DV-132-M Request to Extend Long-Term Protective Order, (Multiple Petitioners)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-132-multi.pdf)]
   % elif petitioner_choices['dismiss'] and po_case_type == 'more than 1':
     **DV-134-M Request to Dismiss Long-Term Petition, Multiple Petitioners** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-134-multi.pdf)]
