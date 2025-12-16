@@ -25,13 +25,18 @@ decoration: pen-to-square
 event: confirmation_and_download
 question: |
   % if len(step_list) < 2:
-  Get more information or help
+  % if user_need == 'want po':
+  Stay safe
   % else:
+  Get more information or help
   # <i class="fa-thin fa-list"></i>Your Action Plan is ready!
   % endif
+  % endif
 subquestion: |
+  % if len(step_list) > 1:
   #### Your Protective Order Action Plan in ${ len(step_list) } steps
-
+ 
+  
   % if get_config("debug", False):
   <button id="akc_expand_all" class="btn other stuff">Expand all</button>
   <button id="akc_collapse_all" class="btn other stuff">Collapse all</button>
@@ -50,7 +55,9 @@ subquestion: |
   % if get_config("debug", False):
   [get the docx file](${ docx_protective_order_action_plan_attachment.docx.url_for() })
   % endif
-
+  % else:
+  ${ stay_safe_step.content }
+  % endif
 buttons:
   - Start over: restart
 script: |
@@ -100,6 +107,7 @@ code: |
       request_long
     if not shared_child:
       married
+    petitioner_choices
     if not petitioner_choices['change']:
         also_change
   
@@ -746,8 +754,10 @@ code: |
 ---
 template: stay_safe_step
 subject: |
+  % if len(step_list) > 1:
   Step ${stay_safe_idx}:
   Stay safe
+  % endif 
 content: |
   % if user_need == 'want po':
   ${ dont_qualify_placeholder_language.content }
@@ -1192,9 +1202,9 @@ content: |
     **DV-132-M Request to Extend Long-Term Protective Order, (Multiple Petitioners)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-132-multi.pdf)]
   % endif
   <br> Use this form to ask the court to extend a long-term ${ po_order_name } Protective Order.
-  % endif
   % if (petitioner_choices.all_true('options', exclusive=True) and also_change) or petitioner_choices['change']:
   <br> If you need the court to change your order as well as extend it, the form includes a place to ask for any changes you may need. 
+  % endif
   % endif
   
   % if term == 'short' and request_long and petitioner_choices['dismiss']:
