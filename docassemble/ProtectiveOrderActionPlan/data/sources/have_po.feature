@@ -43,7 +43,7 @@ Scenario: Row #305
     | var                           | value         | trigger |
     | user_need                     | have po       |         |
     | term                          | short         |         |
-    | request_long                  | True          |         |
+    | request_long                  | False          |         |
     | shared_child                  | True          |         |
     | custody                       | custody order |         |
     | petitioner_choices['options'] | True          |         |
@@ -53,13 +53,13 @@ Scenario: Row #305
     And I take a screenshot
 
 @row306
-Scenario: Row #306
+Scenario: Row #306 - ## cannot have all 3 of these in 1 test
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                           | value            | trigger |
     | user_need                     | have po          |         |
     | term                          | short            |         |
-    | request_long                  | False            |         |
+    | request_long                  | True            |         |
     | shared_child                  | True             |         |
     | custody                       | no custody order |         |
     | petitioner_choices['end']     | True             |         |
@@ -266,7 +266,6 @@ Scenario: Row #319
     | shared_child                  | True          |         |
     | custody                       | married       |         |
     | petitioner_choices['end']     | True          |         |
-    | petitioner_choices['dismiss'] | True          |         |
     | also_change                   | True          |         |
     | po_case_type                  | stalking      |         |
     And I take a screenshot
@@ -403,8 +402,8 @@ Scenario: Row #328
     | term                          | long             |         |
     | shared_child                  | False            |         |
     | married                       | False            |         |
-    | petitioner_choices['options'] | True             |         |
-    | petitioner_choices['dismiss'] | True             |         |
+    | petitioner_choices['change']  | True             |         |
+    | petitioner_choices['end']     | True             |         |
     | also_change                   | True             |         |
     | po_case_type                  | more than 1      |         |
     And I take a screenshot
