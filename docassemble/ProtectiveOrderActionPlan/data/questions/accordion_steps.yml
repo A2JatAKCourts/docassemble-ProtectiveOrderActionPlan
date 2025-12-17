@@ -107,8 +107,7 @@ code: |
       request_long
     if not shared_child:
       married
-    petitioner_choices
-    if not petitioner_choices['change']:
+    if petitioner_choices['options'] and not petitioner_choices['change']:
         also_change
   
     if (term == 'long' or (term == 'short' and request_long)) and petitioner_choices['extend']:
@@ -126,6 +125,7 @@ code: |
   ## Build step list for users who have a protective order  ##
   if user_need == 'have po':
     add_unique_step((stay_safe_step, "stay_safe_idx"), step_list)
+    add_unique_step((ak_court_po_info_step, "ak_court_po_info_idx"), step_list)
     if term == 'short' and request_long:
       add_unique_step((prepare_for_long_term_hearing_petitioner_step, "prepare_for_long_term_hearing_petitioner_idx"), step_list)
     if petitioner_choices['options']:
@@ -146,19 +146,17 @@ code: |
 
   if user_need == 'want po':
     options_for_po
-    if (user_need == 'want po' and (options_for_po['AK court'] or (options_for_po.any_true('military', 'tribal') and options_for_po.all_false('AK court') and court_info_also))) or has_expired:
-      if who_needs_the_order == 'self':
-        if self_related_to_abuser.any_true('married', 'divorced') and not self_related_to_abuser['have child']:
-          child_w_abuser
-        if self_related_to_abuser.any_true():
-          relationship_qualifies = True
-          if dv_crime == 'yes':
-            protective_order_for_one = True
-        else:
-          no_qualifying_relationship = True
-          other_po
-
-
+  if (user_need == 'want po' and (options_for_po['AK court'] or (options_for_po.any_true('military', 'tribal') and options_for_po.all_false('AK court') and court_info_also))) or has_expired:
+    if who_needs_the_order == 'self':
+      if self_related_to_abuser.any_true('married', 'divorced') and not self_related_to_abuser['have child']:
+        child_w_abuser
+      if self_related_to_abuser.any_true():
+        relationship_qualifies = True
+        if dv_crime == 'yes':
+          protective_order_for_one = True
+      else:
+        no_qualifying_relationship = True
+        other_po
     if who_needs_the_order == 'child':
       if petitioner_related_to_child == 'parent':
         if child_related_to_abuser.any_true() or (child_related_to_abuser.all_false() and petitioner_related_to_child == 'parent' and parent_related_to_abuser.any_true()) or (child_related_to_abuser.all_false() and petitioner_related_to_child == 'parent' and parent_related_to_abuser.all_false() and other_parent_related_to_abuser.any_true()):
@@ -177,7 +175,6 @@ code: |
         else:
           no_qualifying_relationship = True
           other_po
-
     if who_needs_the_order == 'self and child':
       if petitioner_related_to_child == 'parent':
         if po_against_other_parent:
@@ -499,35 +496,34 @@ code: |
 
     if who_needs_the_order == 'children':
       if petitioner_related_to_child != 'other':
-        if domestic_violence_po_criteria:
-          if children_related_to_abuser == 'all':
+        if children_related_to_abuser == 'all':
+          if dv_crime == 'yes more':
+            protective_order_for_more = True
+            add_unique_step((protective_order_step, "protective_order_idx"), step_list)
+          if dv_crime == 'yes one':
+            protective_order_for_one = True
+            add_unique_step((protective_order_step, "protective_order_idx"), step_list)
+        elif children_related_to_abuser in('one', 'some'):
+          if what_next_for_children == 'order for one':
+            if dv_crime == 'yes':
+              protective_order_for_one = True
+              add_unique_step((protective_order_step, "protective_order_idx"), step_list)
+          if what_next_for_children == 'order for more':
             if dv_crime == 'yes more':
               protective_order_for_more = True
               add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-            if dv_crime == 'yes one':
+            elif dv_crime == 'yes one':
               protective_order_for_one = True
               add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-          elif children_related_to_abuser in('one', 'some'):
-            if what_next_for_children == 'order for one':
-              if dv_crime == 'yes':
-                protective_order_for_one = True
-                add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-            if what_next_for_children == 'order for more':
-              if dv_crime == 'yes more':
-                protective_order_for_more = True
-                add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-              elif dv_crime == 'yes one':
-                protective_order_for_one = True
-                add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-            if what_next_for_children == 'stop':
-              no_qualifying_relationship = True
-              relationship_qualifies = False
-              if other_po in('stalked', 'sexual contact'):
-                add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-          else:
+          if what_next_for_children == 'stop':
             no_qualifying_relationship = True
+            relationship_qualifies = False
             if other_po in('stalked', 'sexual contact'):
               add_unique_step((protective_order_step, "protective_order_idx"), step_list)
+        else:
+          no_qualifying_relationship = True
+          if other_po in('stalked', 'sexual contact'):
+            add_unique_step((protective_order_step, "protective_order_idx"), step_list)
 
     if who_needs_the_order == 'self and children':
       if petitioner_related_to_child == 'parent':
@@ -858,7 +854,7 @@ content: |
 
   * **Direct services for providers**
   * [Alaska Legal Services Corporation](https://www.alsc-law.org/apply-for-services)
-
+  % if ((user_need == 'want po' or has_expired) and not no_qualifying_relationship and dv_crime) or (user_need == 'have po' and po_case_type in('1 person','more than 1')):
   <div class="step-subheading">Learn about filling out the forms to ask for a domestic violence protective order</div>
 
   * Watch **How to File for a Domestic Violence Protective Order** using form [DV-100](https://public.courts.alaska.gov/web/forms/docs/dv-100.pdf)
@@ -880,12 +876,12 @@ content: |
   <div class="step-subheading">Learn about resources for the legal process</div>
 
   * Read *How to Represent Yourself in Alaska's Domestic Violence Protective Order Process*, [PUB-22](https://public.courts.alaska.gov/web/forms/docs/pub-22.pdf)
-  % if dv_crime:
+  
   * Watch **Domestic Violence Protective Orders** videos
-  * Read the court’s webpage: [Domestic Violence, Stalking or Sexual Assault](https://courts.alaska.gov/shc/dv/index.htm)
   % endif
-  * Contact [the Family Law Self-Help Center](https://courts.alaska.gov/shc/family/shcabout.htm)</ br>
-  Call **(907) 264-0851** or **(866) 279-0851**
+  * Read the court’s webpage: [Domestic Violence, Stalking or Sexual Assault](https://courts.alaska.gov/shc/dv/index.htm)
+  * Contact [the Family Law Self-Help Center](https://courts.alaska.gov/shc/family/shcabout.htm)
+  <br>Call **(907) 264-0851** or **(866) 279-0851**
 ---
 template: po_against_you_resources_step
 subject: |
@@ -1120,15 +1116,15 @@ subject: |
   Step ${ change_end_extend_dismiss_petition_idx }:
   Fill out the form to
   % if petitioner_choices['options'] and not petitioner_choices['change'] and also_change:
-  ask the court to change
+  ask the court to change the order
   % if len(petitioner_choices.true_values()) > 1 and petitioner_choices['end'] or (((term == 'long') or (term == 'short' and request_long)) and petitioner_choices.get('extend', False)):
   , or 
   % endif
   % endif
   % if petitioner_choices.any_true('change', 'end') or (((term == 'long') or (term == 'short' and request_long)) and petitioner_choices.get('extend', False)):
   ask the court to ${ comma_and_list([ k for k in petition_action_keys if petitioner_choices.get(k, False) ], and_string = 'or') } 
-  % endif
   the order
+  % endif
   % if len(petitioner_choices.true_values()) > 1 and petitioner_choices['respond']:
   , or
   % endif
