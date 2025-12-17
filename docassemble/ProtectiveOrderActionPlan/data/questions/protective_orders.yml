@@ -1,5 +1,5 @@
 Comment: |
-  2025-12-11
+  2025-12-16
 ---
 include:
   - docassemble.AssemblyLine:assembly_line.yml
@@ -137,7 +137,7 @@ fields:
     datatype: radio
     choices:
       - "I want a protective order to protect myself or my child from another person.": want po
-      - "I have a protective order from Alaska against someone else. I want to change or end it, prepare for a long-term hearing, report a violation, or respond to a request to change or end it.": have po
+      - "I have a protective order from Alaska against someone else. I want to change or end it, ask the court to dismiss the petition, prepare for a long-term hearing, report a violation, or respond to a request to change or end it.": have po
       - "I have a protective order from another state or a tribal court against someone else. I want to register it with the Alaska Court System": register po
       - "Someone has a protective order against me.": po respondent
 under: |
@@ -1213,20 +1213,30 @@ code: |
       {'options': "Options if the other side violates the protective order ."},
       {'change': "Asking the judge to change the protective order."},
       {'end': "Asking the judge to end the protective order."},
-      {'respond to change': "Responding if the other side asks to change or end the order."},
-      {'dismiss': "Ask the judge to dismiss a petition for a long-term protective order before deciding if it should be granted."
+      {'respond': "Responding if the other side asks to change or end the order."
       }
     ]
   
-  ### If petitioner has a long term protective order or a 20 day, short term order and has asked for long term order
-  elif term == 'long' or (term == 'short' and request_long):
+  ### If petitioner only has a 20-day, short-term protective order
+  elif term == 'short' and request_long:
     petitioner_choices_choices = [
       {'options': "Options if the other side violates the protective order ."},
       {'change': "Asking the judge to change the protective order."},
       {'extend': "Asking the judge to extend the protective order."},
       {'end': "Asking the judge to end the protective order."},
-      {'respond to change': "Responding if the other side asks to change or end the order."},
-      {'dismiss': "Ask the judge to dismiss a petition for a long-term protective order before deciding if it should be granted."
+      {'respond': "Responding if the other side asks to change or end the order."},
+      {'dismiss': "Asking the judge to dismiss a petition for a long-term protective order before deciding if it should be granted."
+      }
+    ]
+  
+  ### If petitioner has a long term protective order or a 20 day, short term order and has asked for long term order
+  elif term == 'long':
+    petitioner_choices_choices = [
+      {'options': "Options if the other side violates the protective order ."},
+      {'change': "Asking the judge to change the protective order."},
+      {'extend': "Asking the judge to extend the protective order."},
+      {'end': "Asking the judge to end the protective order."},
+      {'respond': "Responding if the other side asks to change or end the order."
       }
     ]
 ---

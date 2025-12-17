@@ -1,5 +1,6 @@
 comment: |
-    last updated: 2025-12-11
+    last updated: 2025-12-16
+    use interview order first then build accordion_steps
 ---
 generic object: ALDocumentBundle
 template: x.get_email_copy
@@ -24,13 +25,18 @@ decoration: pen-to-square
 event: confirmation_and_download
 question: |
   % if len(step_list) < 2:
-  Get more information or help
+  % if user_need == 'want po':
+  Stay safe
   % else:
+  Get more information or help
   # <i class="fa-thin fa-list"></i>Your Action Plan is ready!
   % endif
+  % endif
 subquestion: |
+  % if len(step_list) > 1:
   #### Your Protective Order Action Plan in ${ len(step_list) } steps
-
+ 
+  
   % if get_config("debug", False):
   <button id="akc_expand_all" class="btn other stuff">Expand all</button>
   <button id="akc_collapse_all" class="btn other stuff">Collapse all</button>
@@ -49,7 +55,9 @@ subquestion: |
   % if get_config("debug", False):
   [get the docx file](${ docx_protective_order_action_plan_attachment.docx.url_for() })
   % endif
-
+  % else:
+  ${ stay_safe_step.content }
+  % endif
 buttons:
   - Start over: restart
 script: |
@@ -92,29 +100,17 @@ code: |
   # if len(type_of_response.true_values()) > 1:
   #   add_unique_step((pick_a_step_step, "pick_a_step_idx"), step_list)
   
-  if user_need in('want po', 'have po', 'register po'):
-    add_unique_step((stay_safe_step, "stay_safe_idx"), step_list)
-  
+
+  ## Interview order for users who have a protective order  ##
   if user_need == 'have po':
     if term == 'short':
-      if request_long:
-        add_unique_step((prepare_for_long_term_hearing_petitioner_step, "prepare_for_long_term_hearing_petitioner_idx"), step_list)
+      request_long
     if not shared_child:
-      if married:
-        add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
-    if petitioner_choices['options']:
-      add_unique_step((other_side_violated_order_step, "other_side_violated_order_idx"), step_list)
-    if petitioner_choices.any_true('change', 'end', 'dismiss'):
-      add_unique_step((change_end_extend_dismiss_petition_step, "change_end_extend_dismiss_petition_idx"), step_list)
-    if petitioner_choices['respond to change']:
-      add_unique_step((respond_change_end_extend_dismiss_petition_step, "respond_change_end_extend_dismiss_petition_idx"), step_list)
+      married
     if petitioner_choices['options'] and not petitioner_choices['change']:
-      if also_change:
-        add_unique_step((change_end_extend_dismiss_petition_step, "change_end_extend_dismiss_petition_idx"), step_list)
-    
+        also_change
   
-  
-    if (term == 'long' or (term == 'short' and request_long)) and petitioner_choices ['extend']:
+    if (term == 'long' or (term == 'short' and request_long)) and petitioner_choices['extend']:
       if expired:
         if expired_days_ago == 'less than 60 days':
           po_case_type
@@ -125,28 +121,248 @@ code: |
             has_expired = True
       else:
         will_expire
-    if petitioner_choices.any_true() and not (((term == 'long' or (term == 'short' and request_long)) and petitioner_choices ['extend']) and expired and expired_days_ago == 'more than 60 days'):
+
+  ## Build step list for users who have a protective order  ##
+  if user_need == 'have po':
+    add_unique_step((stay_safe_step, "stay_safe_idx"), step_list)
+    add_unique_step((ak_court_po_info_step, "ak_court_po_info_idx"), step_list)
+    if term == 'short' and request_long:
+      add_unique_step((prepare_for_long_term_hearing_petitioner_step, "prepare_for_long_term_hearing_petitioner_idx"), step_list)
+    if petitioner_choices['options']:
+      add_unique_step((other_side_violated_order_step, "other_side_violated_order_idx"), step_list)
+
+    if petitioner_choices.any_true('change', 'end', 'respond')  or (term == 'short' and request_long and petitioner_choices['dismiss']) or (petitioner_choices['options'] and not petitioner_choices['change'] and also_change) or (((term == 'long' or (term == 'short' and request_long)) and petitioner_choices ['extend']) and (not expired or (expired and expired_days_ago == 'less than 60 days'))):
       po_case_type
       add_unique_step((change_end_extend_dismiss_petition_step, "change_end_extend_dismiss_petition_idx"), step_list)
+
   
   if user_need == 'register po':
+    add_unique_step((stay_safe_step, "stay_safe_idx"), step_list)
     add_unique_step((register_foreign_po_step, "register_foreign_po_idx"), step_list)
     add_unique_step((file_po_step, "file_po_idx"), step_list)
-  
+
+
+  #### Interview order for users who want a protective order ####
+
   if user_need == 'want po':
+    options_for_po
+  if (user_need == 'want po' and (options_for_po['AK court'] or (options_for_po.any_true('military', 'tribal') and options_for_po.all_false('AK court') and court_info_also))) or has_expired:
+    if who_needs_the_order == 'self':
+      if self_related_to_abuser.any_true('married', 'divorced') and not self_related_to_abuser['have child']:
+        child_w_abuser
+      if self_related_to_abuser.any_true():
+        relationship_qualifies = True
+        if dv_crime == 'yes':
+          protective_order_for_one = True
+      else:
+        no_qualifying_relationship = True
+        other_po
+    if who_needs_the_order == 'child':
+      if petitioner_related_to_child == 'parent':
+        if child_related_to_abuser.any_true() or (child_related_to_abuser.all_false() and petitioner_related_to_child == 'parent' and parent_related_to_abuser.any_true()) or (child_related_to_abuser.all_false() and petitioner_related_to_child == 'parent' and parent_related_to_abuser.all_false() and other_parent_related_to_abuser.any_true()):
+          relationship_qualifies = True
+          if dv_crime == 'yes':
+            protective_order_for_one = True
+        else:
+          no_qualifying_relationship = True
+          other_po
+
+      elif petitioner_related_to_child in('guardian', 'representative'):
+        if guardian_for_child_related_to_abuser.any_true():
+          relationship_qualifies = True
+          if dv_crime == 'yes':
+            protective_order_for_one = True
+        else:
+          no_qualifying_relationship = True
+          other_po
+    if who_needs_the_order == 'self and child':
+      if petitioner_related_to_child == 'parent':
+        if po_against_other_parent:
+          relationship_qualifies = True
+          if dv_crime == 'yes one':
+            protective_order_for_one = True
+          if dv_crime == 'yes both':
+            protective_order_for_more = True
+        else:
+          if self_related_to_abuser.any_true():
+            relationship_qualifies = True
+            if dv_crime == 'yes one':
+              protective_order_for_one = True
+            if dv_crime == 'yes both':
+              protective_order_for_more = True
+
+          else: # parent related to abuser.all_false()
+            if what_next == 'other po for me':
+              no_qualifying_relationship = True
+              other_po
+
+
+            if what_next == 'stop for me':
+              if child_related_to_abuser.any_true() or (child_related_to_abuser.all_false() and filing_parent_does_not_qualify_other_parent_related_to_abuser.any_true()):
+                relationship_qualifies = True
+                if dv_crime == 'yes':
+                  protective_order_for_one = True
+              else:
+                no_qualifying_relationship = True
+                other_po
+
+      if petitioner_related_to_child in('guardian', 'representative'):
+        if self_related_to_abuser.any_true():
+          if guardian_and_child_child_related_to_abuser.any_true():
+            relationship_qualifies = True
+            if dv_crime == 'yes both':
+              protective_order_for_more = True
+            if dv_crime == 'yes one':
+              protective_order_for_one = True
+              
+          else: ## guardian_and_child_child_related_to_abuser.all_false
+            if what_next == 'stop for child':
+              relationship_qualifies = True
+              if dv_crime == 'yes':
+                protective_order_for_one = True
+            elif what_next == 'continue for both':
+              relationship_qualifies = True
+              if dv_crime == 'yes both':
+                protective_order_for_more = True
+              if dv_crime == 'yes one':
+                protective_order_for_one = True
+            else: ## what_next == 'stop for me'
+              no_qualifying_relationship = True
+              other_po
+
+        if self_related_to_abuser.all_false():
+          if what_next == 'stop for me':
+            if guardian_for_child_related_to_abuser.any_true():
+              relationship_qualifies = True
+              if dv_crime == 'yes':
+                protective_order_for_one = True
+          if what_next == 'other po for me':
+              no_qualifying_relationship = True
+              other_po
+
+    if who_needs_the_order == 'children':
+      if petitioner_related_to_child != 'other':
+        if domestic_violence_po_criteria:
+          if children_related_to_abuser == 'all':
+            if dv_crime == 'yes more':
+              protective_order_for_more = True
+            if dv_crime == 'yes one':
+              protective_order_for_one = True
+          elif children_related_to_abuser in('one', 'some'):
+            if what_next_for_children == 'order for one':
+              if dv_crime == 'yes':
+                protective_order_for_one = True
+            if what_next_for_children == 'order for more':
+              if dv_crime == 'yes more':
+                protective_order_for_more = True
+              elif dv_crime == 'yes one':
+                protective_order_for_one = True
+            if what_next_for_children == 'stop':
+              no_qualifying_relationship = True
+              relationship_qualifies = False
+              other_po
+          else:
+            no_qualifying_relationship = True
+            other_po
+
+    if who_needs_the_order == 'self and children':
+      if petitioner_related_to_child == 'parent':
+        if po_against_other_parent:
+          parent_married_parent 
+          if dv_crime == 'yes one':
+            protective_order_for_one = True
+          elif dv_crime in('yes all', 'yes some'):
+            protective_order_for_more = True
+        else: ## not po_against_other_parent
+          if self_related_to_abuser.any_true():
+            if dv_crime in('yes all', 'yes some'):
+              protective_order_for_more = True
+            if dv_crime == 'yes one':
+              protective_order_for_one = True
+
+          else: ## self_related_to_abuser.all_false()
+            if what_next == 'other po for me':
+              no_qualifying_relationship = True
+              other_po
+
+            elif what_next == 'stop for me':
+              no_qualifying_relationship = True
+              if children_related_to_abuser == 'all':
+                relationship_qualifies = True
+                if dv_crime == 'yes more':
+                  protective_order_for_more = True
+                elif dv_crime == 'yes one':
+                  protective_order_for_one = True
+              elif children_related_to_abuser == 'one':
+                if what_next_for_children == 'order for one':
+                  relationship_qualifies = True
+                  if dv_crime == 'yes':
+                    protective_order_for_one = True
+                elif what_next_for_children == 'order for more':
+                  relationship_qualifies = True
+                  if dv_crime == 'yes more':
+                    protective_order_for_more = True
+                  elif dv_crime == 'yes one':
+                    protective_order_for_one = True
+                elif what_next_for_children == 'stop':
+                  no_qualifying_relationship = True
+                  relationship_qualifies = False
+                  other_po
+
+              elif children_related_to_abuser == 'none':
+                no_qualifying_relationship = True
+                other_po
+
+      elif petitioner_related_to_child in('guardian', 'combination'):
+        if self_related_to_abuser.any_true():
+          if children_related_to_abuser in('all', 'one'):
+            relationship_qualifies = True
+            if dv_crime in('yes all', 'yes some'):
+              protective_order_for_more = True
+            elif dv_crime == 'yes one':
+              protective_order_for_one = True
+          elif children_related_to_abuser == 'none':
+            if what_next == 'stop for child':
+              if dv_crime == 'yes':
+                protective_order_for_one = True
+            if what_next == 'continue for both':
+              if dv_crime in('yes all', 'yes some'):
+                protective_order_for_more = True
+              if dv_crime == 'yes one':
+                protective_order_for_one = True
+            if what_next == 'stop for me':
+              no_qualifying_relationship = True
+              other_po
+
+
+        elif self_related_to_abuser.all_false():
+          no_qualifying_relationship = True
+          if what_next == 'other po for me':
+            other_po
+          elif what_next == 'stop for me':
+            if children_related_to_abuser in('all', 'one'):
+              relationship_qualifies = True
+              if dv_crime == 'yes more':
+                protective_order_for_more = True
+              elif dv_crime == 'yes one':
+                protective_order_for_one = True
+
+            elif children_related_to_abuser == 'none':
+              no_qualifying_relationship = True
+              other_po
+
+
+
+  #### Build step list for users who want a protective order ####
+
+  if user_need == 'want po':
+    add_unique_step((stay_safe_step, "stay_safe_idx"), step_list)
     if options_for_po['military']:
       add_unique_step((military_po_info_step, "military_po_info_idx"), step_list)
     if options_for_po['tribal']:
       add_unique_step((tribal_po_info_step, "tribal_po_info_idx"), step_list)
   if (user_need == 'want po' and (options_for_po['AK court'] or (options_for_po.any_true('military', 'tribal') and options_for_po.all_false('AK court') and court_info_also))) or has_expired:
     if who_needs_the_order == 'self':
-      if self_related_to_abuser['married']:
-        add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
-      if self_related_to_abuser['have child']:
-        if self_related_to_abuser.all_false('married', 'divorced'): 
-          add_unique_step((po_custody_info_step, "po_custody_info_idx"), step_list)
-        else:
-          add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
       if self_related_to_abuser.any_true('married', 'divorced') and not self_related_to_abuser['have child']:
         if child_w_abuser:
           add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
@@ -193,10 +409,6 @@ code: |
         if po_against_other_parent:
           relationship_qualifies = True
           add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
-          if parent_married_parent == 'married':
-            add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
-          if parent_married_parent == 'no':
-            add_unique_step((po_custody_info_step, "po_custody_info_idx"), step_list)
           if dv_crime in('yes one', 'yes both'):
             if dv_crime == 'yes one':
               protective_order_for_one = True
@@ -204,8 +416,6 @@ code: |
               protective_order_for_more = True
             add_unique_step((protective_order_step, "protective_order_idx"), step_list)
         else:
-          if self_related_to_abuser['married']:
-            add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
           if self_related_to_abuser['have child']:
             add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
           if self_related_to_abuser.any_true():
@@ -238,13 +448,8 @@ code: |
                   add_unique_step((protective_order_step, "protective_order_idx"), step_list)
 
       if petitioner_related_to_child in('guardian', 'representative'):
-        if self_related_to_abuser['married']:
-          add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
         if self_related_to_abuser['have child']:
           add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
-        if self_related_to_abuser.any_true():
-          if guardian_and_child_child_related_to_abuser['married']:
-            add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
           if guardian_and_child_child_related_to_abuser['have child']:
             add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
           if guardian_and_child_child_related_to_abuser.any_true():
@@ -291,45 +496,39 @@ code: |
 
     if who_needs_the_order == 'children':
       if petitioner_related_to_child != 'other':
-        if domestic_violence_po_criteria:
-          if children_related_to_abuser == 'all':
+        if children_related_to_abuser == 'all':
+          if dv_crime == 'yes more':
+            protective_order_for_more = True
+            add_unique_step((protective_order_step, "protective_order_idx"), step_list)
+          if dv_crime == 'yes one':
+            protective_order_for_one = True
+            add_unique_step((protective_order_step, "protective_order_idx"), step_list)
+        elif children_related_to_abuser in('one', 'some'):
+          if what_next_for_children == 'order for one':
+            if dv_crime == 'yes':
+              protective_order_for_one = True
+              add_unique_step((protective_order_step, "protective_order_idx"), step_list)
+          if what_next_for_children == 'order for more':
             if dv_crime == 'yes more':
               protective_order_for_more = True
               add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-            if dv_crime == 'yes one':
+            elif dv_crime == 'yes one':
               protective_order_for_one = True
               add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-          elif children_related_to_abuser in('one', 'some'):
-            if what_next_for_children == 'order for one':
-              if dv_crime == 'yes':
-                protective_order_for_one = True
-                add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-            if what_next_for_children == 'order for more':
-              if dv_crime == 'yes more':
-                protective_order_for_more = True
-                add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-              elif dv_crime == 'yes one':
-                protective_order_for_one = True
-                add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-            if what_next_for_children == 'stop':
-              no_qualifying_relationship = True
-              relationship_qualifies = False
-              if other_po in('stalked', 'sexual contact'):
-                add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-          else:
+          if what_next_for_children == 'stop':
             no_qualifying_relationship = True
+            relationship_qualifies = False
             if other_po in('stalked', 'sexual contact'):
               add_unique_step((protective_order_step, "protective_order_idx"), step_list)
+        else:
+          no_qualifying_relationship = True
+          if other_po in('stalked', 'sexual contact'):
+            add_unique_step((protective_order_step, "protective_order_idx"), step_list)
 
     if who_needs_the_order == 'self and children':
       if petitioner_related_to_child == 'parent':
-      # if domestic_violence_po_criteria:
         if po_against_other_parent:
           add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
-          if parent_married_parent == 'married':
-            add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
-          if parent_married_parent == 'no':
-            add_unique_step((po_custody_info_step, "po_custody_info_idx"), step_list)
           if dv_crime == 'yes one':
             protective_order_for_one = True
             add_unique_step((protective_order_step, "protective_order_idx"), step_list)
@@ -337,8 +536,6 @@ code: |
             protective_order_for_more = True
             add_unique_step((protective_order_step, "protective_order_idx"), step_list)
         else: ## not po_against_other_parent
-          if self_related_to_abuser['married']:
-            add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
           if self_related_to_abuser['have child']:
             add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
           if self_related_to_abuser.any_true():
@@ -392,9 +589,6 @@ code: |
 
 
       elif petitioner_related_to_child in('guardian', 'combination'):
-        # if domestic_violence_po_criteria:
-        if self_related_to_abuser['married']:
-          add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
         if self_related_to_abuser['have child']:
           add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
         if self_related_to_abuser.any_true():
@@ -445,7 +639,61 @@ code: |
               if other_po in('stalked', 'sexual contact'):
                 add_unique_step((protective_order_step, "protective_order_idx"), step_list)
 
-  # if user_need == 'have po':
+  #### Adding starting divorce and custody case steps ####
+
+  if (user_need == 'want po' and (options_for_po['AK court'] or (options_for_po.any_true('military', 'tribal') and options_for_po.all_false('AK court') and court_info_also))) or has_expired:
+    if who_needs_the_order == 'self':
+      if self_related_to_abuser['married']:
+        add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
+      if self_related_to_abuser['have child']:
+        if self_related_to_abuser.all_false('married', 'divorced'): 
+          add_unique_step((po_custody_info_step, "po_custody_info_idx"), step_list)
+
+
+    if who_needs_the_order == 'self and child':
+      if petitioner_related_to_child == 'parent':
+        if po_against_other_parent:
+          if parent_married_parent == 'married':
+            add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
+          if parent_married_parent == 'no':
+            add_unique_step((po_custody_info_step, "po_custody_info_idx"), step_list)
+        else:
+          if self_related_to_abuser['married']:
+            add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
+
+      if petitioner_related_to_child in('guardian', 'representative'):
+        if self_related_to_abuser['married']:
+          add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
+        if self_related_to_abuser.any_true():
+          if guardian_and_child_child_related_to_abuser['married']:
+            add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
+
+
+    if who_needs_the_order == 'self and children':
+      if petitioner_related_to_child == 'parent':
+        if po_against_other_parent:
+          if parent_married_parent == 'married':
+            add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
+          if parent_married_parent == 'no':
+            add_unique_step((po_custody_info_step, "po_custody_info_idx"), step_list)
+        else: ## not po_against_other_parent
+          if self_related_to_abuser['married']:
+            add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
+
+      elif petitioner_related_to_child in('guardian', 'combination'):
+        if self_related_to_abuser['married']:
+          add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
+
+
+  if user_need == 'have po':
+    if shared_child:
+      if custody == 'married':
+        add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
+      elif custody == 'no custody order':
+        add_unique_step((po_custody_info_step, "po_custody_info_idx"), step_list)
+    if not shared_child:
+        if married:
+          add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
 
 
 
@@ -502,8 +750,10 @@ code: |
 ---
 template: stay_safe_step
 subject: |
+  % if len(step_list) > 1:
   Step ${stay_safe_idx}:
   Stay safe
+  % endif 
 content: |
   % if user_need == 'want po':
   ${ dont_qualify_placeholder_language.content }
@@ -511,7 +761,7 @@ content: |
 
   Contact law enforcement if needed. If you are in immediate danger, call 911. Tell your concerns to your local law enforcement. You can find your local police department's non-emergency phone numbers on-line:
 
-  * State Trooper [locations and phone numbers](https://dps.alaska.gov/ast/contacts) 
+  * State Trooper [locations and phone numbers](https://dps.alaska.gov/ast/contacts)
   * Village Public Safety Officer [home page](https://dps.alaska.gov/AST/VPSO/Home)
 
   % if user_need == 'have po' and (term == 'long' or (term == 'short' and request_long)) and petitioner_choices ['extend'] and expired and expired_days_ago == 'more than 60 days':
@@ -604,7 +854,7 @@ content: |
 
   * **Direct services for providers**
   * [Alaska Legal Services Corporation](https://www.alsc-law.org/apply-for-services)
-
+  % if ((user_need == 'want po' or has_expired) and not no_qualifying_relationship and dv_crime) or (user_need == 'have po' and (petitioner_choices.any_true('change', 'end', 'respond')  or (term == 'short' and request_long and petitioner_choices['dismiss']) or (petitioner_choices['options'] and not petitioner_choices['change'] and also_change) or (((term == 'long' or (term == 'short' and request_long)) and petitioner_choices ['extend']) and (not expired or (expired and expired_days_ago == 'less than 60 days')))) and po_case_type in('1 person','more than 1')):
   <div class="step-subheading">Learn about filling out the forms to ask for a domestic violence protective order</div>
 
   * Watch **How to File for a Domestic Violence Protective Order** using form [DV-100](https://public.courts.alaska.gov/web/forms/docs/dv-100.pdf)
@@ -626,18 +876,18 @@ content: |
   <div class="step-subheading">Learn about resources for the legal process</div>
 
   * Read *How to Represent Yourself in Alaska's Domestic Violence Protective Order Process*, [PUB-22](https://public.courts.alaska.gov/web/forms/docs/pub-22.pdf)
-  % if dv_crime:
+  
   * Watch **Domestic Violence Protective Orders** videos
-  * Read the court’s webpage: [Domestic Violence, Stalking or Sexual Assault](https://courts.alaska.gov/shc/dv/index.htm)
   % endif
-  * Contact [the Family Law Self-Help Center](https://courts.alaska.gov/shc/family/shcabout.htm)</ br>
-  Call **(907) 264-0851** or **(866) 279-0851**
+  * Read the court’s webpage: [Domestic Violence, Stalking or Sexual Assault](https://courts.alaska.gov/shc/dv/index.htm)
+  * Contact [the Family Law Self-Help Center](https://courts.alaska.gov/shc/family/shcabout.htm)
+  <br>Call **(907) 264-0851** or **(866) 279-0851**
 ---
 template: po_against_you_resources_step
 subject: |
   Step ${ po_against_you_resources_idx }:
   Tips and resources for when someone
-  % if user_need == 'have po':
+  % if term in('short', 'long'):
   has
   % else:
   asks for
@@ -683,7 +933,7 @@ content: |
 
   * Contact the Family Law Self-Help Center at **(907) 264-0851** or **(866) 279-0851**
 
-  * Learn about resources for those who commit violence
+  * Learn about [resources for those who commit violence](https://dps.alaska.gov/CDVSA/Services/ForThoseWhoCommitDV)
 
 ---
 template: child_w_other_side_step
@@ -712,9 +962,9 @@ content: |
   % elif user_need == 'po defendant':
   <div class="step-subheading">Bring income information</div>
   Bring income information.
-  % endif
 
   The other parent may ask for child support. You may want to bring income information to make sure any child support order is based on your actual income.
+  % endif
 ---
 template: protective_order_step
 subject: |
@@ -850,20 +1100,162 @@ content: |
   If you think you would be safer if the protective order has more protections, you can ask the judge to change the order and add more protections for you. Read steps ?: Fill out the form to ask the court to change your order.
   % endif
 ---
+code: |
+  petition_action_keys = ('change', 'end', 'extend')
+---
+code: |
+  if po_case_type in ('1 person', 'more than 1'):
+    po_order_name = 'Domestic Violence'
+  elif po_case_type == 'stalking':
+    po_order_name = 'Stalking'
+  elif po_case_type == 'sexual assault':
+    po_order_name = 'Sexual Assault'
+---
 template: change_end_extend_dismiss_petition_step
 subject: |
   Step ${ change_end_extend_dismiss_petition_idx }:
-  Fill out the form to ask the court to
+  Fill out the form to
+  % if petitioner_choices['options'] and not petitioner_choices['change'] and also_change:
+  ask the court to change the order
+  % if len(petitioner_choices.true_values()) > 1 and petitioner_choices['end'] or (((term == 'long') or (term == 'short' and request_long)) and petitioner_choices.get('extend', False)):
+  , or 
+  % endif
+  % endif
+  % if petitioner_choices.any_true('change', 'end') or (((term == 'long') or (term == 'short' and request_long)) and petitioner_choices.get('extend', False)):
+  ask the court to ${ comma_and_list([ k for k in petition_action_keys if petitioner_choices.get(k, False) ], and_string = 'or') } 
+  the order
+  % endif
+  % if len(petitioner_choices.true_values()) > 1 and petitioner_choices['respond']:
+  , or
+  % endif
+  % if petitioner_choices['respond']:
+  respond if the other side asks to change or end the order
+  % endif
+  % if len(petitioner_choices.true_values()) > 1 and (term == 'short' and request_long) and petitioner_choices['dismiss']:
+  , or
+  % endif
+  % if term == 'short' and request_long and petitioner_choices['dismiss']:
+  ask the court to dismiss the petition
+  % endif
+  
+content: |
+  % if user_need == 'have po':
+  % if (term == 'long' or (term == 'short' and request_long)) and petitioner_choices['extend']:
+  <div class="step-subheading">Learn about the process</div>
+  
+  % if expired and expired_days_ago == 'less than 60 days':
+  The law allows a person to extend a protective order for up to 1 year if the court finds an extension is necessary to protect the person from
+  % if po_case_type in('1 person', ' more than 1'):
+  domestic violence if the original protective order was for domestic violence.
+  % elif po_case_type == 'stalking':
+  stalking if your original protective order was for stalking.
+  % elif po_case_type == 'sexual assault':
+  sexual assault if your original protective order was for sexual assault.
+  % endif
+
+  You can file a request for an extension 30 days before the protective order expires until 60 days after it expired.
+
+  The court will set a hearing at least 10 days after the request to hear both sides' arguments.
+  
+  % elif expired and expired_days_ago == 'more than 60 days':
+  If the order expired more than 60 days ago, it cannot be extended.
+
+  % elif not expired and will_expire == 'less than 10 days':
+  <div class="step-subheading">Stay safe</div>
+  Because your protective order expires in less than 10 days, the hearing will be after it expires. To figure out a plan to stay safe, review Step 1: Stay safe.
+
+  File your request as soon as possible to reduce the amount of time you do not have a protective order.
+  % endif
+  % endif
+
+  <div class="step-subheading">Fill out the form</div>
+  % if (petitioner_choices['options'] and not petitioner_choices['change'] and also_change) or (petitioner_choices['change'] and not petitioner_choices.get('extend', False)):
+  % if po_case_type in ('1 person', 'stalking', 'sexual assault'):
+    **DV-131 Request to Modify Protective Order, (One Petitioner)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-131-one.pdf)]
+  % elif po_case_type == 'more than 1':
+    **DV-131-M Request to Modify Protective Order, (Multiple Petitioners)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-131-multi.pdf)]
+  % endif
+  <br> Use this form to ask the court to change an existing ${ po_order_name } Protective Order.
+  % endif
+
+  
+  % if petitioner_choices['end']:
+  % if po_case_type in ('1 person', 'stalking', 'sexual assault'):
+    **DV-133 Request to Dissolve Protective Order, (One Petitioner)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-133-one.pdf)]
+  % elif po_case_type == 'more than 1':
+    **DV-133-M Request to Dissolve Protective Order, (Multiple Petitioners)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-133-multi.pdf)]
+  % endif
+  <br> Use this form to ask the court to end an existing ${ po_order_name } Protective Order. 
+  % endif 
+  % endif
+
+
+  
+  % if (term == 'long' or (term == 'short' and request_long)) and petitioner_choices['extend']:
+  % if po_case_type in ('1 person', 'stalking', 'sexual assault'):
+    **DV-132 Request to Extend Long-Term Protective Order, (One Petitioner)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-132-one.pdf)]
+  % elif po_case_type == 'more than 1':
+    **DV-132-M Request to Extend Long-Term Protective Order, (Multiple Petitioners)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-132-multi.pdf)]
+  % endif
+  <br> Use this form to ask the court to extend a long-term ${ po_order_name } Protective Order.
+  % if (petitioner_choices.all_true('options', exclusive=True) and also_change) or petitioner_choices['change']:
+  <br> If you need the court to change your order as well as extend it, the form includes a place to ask for any changes you may need. 
+  % endif
+  % endif
+  
+  % if term == 'short' and request_long and petitioner_choices['dismiss']:
+  % if po_case_type in ('1 person', 'stalking', 'sexual assault'):
+    **DV-134 Request to Dismiss Long-Term Petition, (One Petitioner)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-134-one.pdf)]
+  % elif po_case_type == 'more than 1':
+    **DV-134-M Request to Dismiss Long-Term Petition, Multiple Petitioners** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-134-multi.pdf)]
+  % endif
+  <br> Use this form to ask the court to dismiss a petition for a long-term ${ po_order_name } Protective Order. 
+  % endif
+
+  
+  % if petitioner_choices['respond']:
+  % if po_case_type in ('1 person', 'stalking', 'sexual assault'):
+   **Response to Request to Modify, Extend, or Dissolve Protective Order (One petitioner)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-140-one.pdf)]
+  % elif po_case_type == 'more than 1':
+    **Response to Request to Modify, Extend, or Dissolve Protective Order (Multiple petitioners)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-140-multi.pdf)]
+  % endif
+  <br> Use this form to respond if the other side files a motion to change or end a ${ po_order_name } Protective Order. 
+  % endif
+
+
+
+  % if user_need == 'po respondent':
+  <div class="step-subheading">Follow the protective order</div>
+  After you file a request, you must follow the protective order until the court signs an order deciding whether or not to grant your request.
+
+  The court may or may not hold a hearing.
+
+  If the court signs a new order, you will get a copy.
+
+  If the court does not change the protective order, you must follow the order until it expires, even if you and the other side both want to change it.
+  % endif
+
+---
+template: older_change_end_extend_dismiss_petition_step
+subject: |
+  Step ${ older_change_end_extend_dismiss_petition_idx }:
+  Fill out the form to 
   % if petitioner_choices.any_true('change', 'end') or ((term == 'long' or (term == 'short' and request_long)) and petitioner_choices['extend']):
-  ${ petitioner_choices.true_values() } the order
+  ask the court to ${ petitioner_choices.true_values('change', 'end') } the order
   % elif petitioner_choices.all_true('options', exclusive = True) and also_change:
-  change the order
+  ask the court to change the order
   % endif
-  % if len(petitioner_choices) > 1 and petitioner_choices['dismiss']:
-  or
+  % if len(petitioner_choices.true_values()) > 1 and petitioner_choices['respond']:
+  , or
   % endif
-  % if petitioner_choices['dismiss']:
-  dismiss the petition
+  % if petitioner_choices['respond']:
+  respond if the other side asks to change or end the order
+  % endif
+  % if len(petitioner_choices.true_values()) > 1 and term == 'short' and request_long and petitioner_choices['dismiss']:
+  , or
+  % endif
+  % if term == 'short' and request_long and petitioner_choices['dismiss']:
+  ask the court to dismiss the petition
   % endif
 content: |
   % if user_need == 'have po':
@@ -903,7 +1295,7 @@ content: |
     **DV-133 Request to Dissolve Protective Order, (One Petitioner)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-133-one.pdf)]
   % elif (term == 'long' or (term == 'short' and request_long)) and petitioner_choices['extend'] and po_case_type in ('1 person', 'stalking', 'sexual assault'):
     **DV-132 Request to Extend Long-Term Protective Order, (One Petitioner)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-132-one.pdf)]
-  % elif petitioner_choices['dismiss'] and po_case_type in ('1 person', 'stalking', 'sexual assault'):
+  % elif term == 'short' and request_long and petitioner_choices['dismiss'] and po_case_type in ('1 person', 'stalking', 'sexual assault'):
     **DV-134 Request to Dismiss Long-Term Petition, (One Petitioner)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-134-one.pdf)]
   % elif ((petitioner_choices.all_true('options', exclusive=True) and also_change) or petitioner_choices['change']) and po_case_type == 'more than 1':
     **DV-131-M Request to Modify Protective Order, (Multiple Petitioners)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-131-multi.pdf)]
@@ -911,8 +1303,12 @@ content: |
     **DV-133-M Request to Dissolve Protective Order, (Multiple Petitioners)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-133-multi.pdf)]
   % elif (term == 'long' or (term == 'short' and request_long)) and petitioner_choices['extend'] and po_case_type == 'more than 1':
     **DV-132-M Request to Extend Long-Term Protective Order, (Multiple Petitioners)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-132-multi.pdf)]
-  % elif petitioner_choices['dismiss'] and po_case_type == 'more than 1':
+  % elif term == 'short' and request_long and petitioner_choices['dismiss'] and po_case_type == 'more than 1':
     **DV-134-M Request to Dismiss Long-Term Petition, Multiple Petitioners** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-134-multi.pdf)]
+  % elif petitioner_choices['respond'] and po_case_type in ('1 person', 'stalking', 'sexual assault'):
+   **Response to Request to Modify, Extend, or Dissolve Protective Order (One petitioner)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-140-one.pdf)]
+  % elif petitioner_choices['respond'] and po_case_type == 'more than 1':
+    **Response to Request to Modify, Extend, or Dissolve Protective Order (Multiple petitioners)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-140-multi.pdf)]
   % endif
 
 
@@ -927,9 +1323,9 @@ content: |
   If the court does not change the protective order, you must follow the order until it expires, even if you and the other side both want to change it.
   % endif
 ---
-template: respond_change_end_extend_dismiss_petition_step
+template: old_respond_change_end_extend_dismiss_petition_step
 subject: |
-  Step ${ respond_change_end_extend_dismiss_petition_idx }:
+  Step ${ old_respond_change_end_extend_dismiss_petition_idx }:
   Respond to a Request [to change/end/extend/dismiss] your order  
 content: |
   <div class="step-subheading">Learn about the process</div>
