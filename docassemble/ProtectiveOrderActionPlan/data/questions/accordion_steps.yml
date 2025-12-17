@@ -887,7 +887,7 @@ template: po_against_you_resources_step
 subject: |
   Step ${ po_against_you_resources_idx }:
   Tips and resources for when someone
-  % if user_need == 'have po':
+  % if term in('short', 'long'):
   has
   % else:
   asks for
@@ -933,7 +933,7 @@ content: |
 
   * Contact the Family Law Self-Help Center at **(907) 264-0851** or **(866) 279-0851**
 
-  * Learn about resources for those who commit violence
+  * Learn about [resources for those who commit violence](https://dps.alaska.gov/CDVSA/Services/ForThoseWhoCommitDV)
 
 ---
 template: child_w_other_side_step
@@ -962,9 +962,9 @@ content: |
   % elif user_need == 'po defendant':
   <div class="step-subheading">Bring income information</div>
   Bring income information.
-  % endif
 
   The other parent may ask for child support. You may want to bring income information to make sure any child support order is based on your actual income.
+  % endif
 ---
 template: protective_order_step
 subject: |
