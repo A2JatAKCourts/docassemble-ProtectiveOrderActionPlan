@@ -131,7 +131,7 @@ code: |
     if petitioner_choices['options']:
       add_unique_step((other_side_violated_order_step, "other_side_violated_order_idx"), step_list)
 
-    if ((petitioner_choices.any_true('change', 'end') or petitioner_choices.get('extend', False) or petitioner_choices.get('respond', False) or (term == 'short' and request_long and petitioner_choices['dismiss'])) or (petitioner_choices['options'] and not petitioner_choices['change'] and also_change)) and not (((term == 'long' or (term == 'short' and request_long)) and petitioner_choices ['extend']) and expired and expired_days_ago == 'more than 60 days'):
+    if petitioner_choices.any_true('change', 'end', 'respond')  or (term == 'short' and request_long and petitioner_choices['dismiss']) or (petitioner_choices['options'] and not petitioner_choices['change'] and also_change) or (((term == 'long' or (term == 'short' and request_long)) and petitioner_choices ['extend']) and (not expired or (expired and expired_days_ago == 'less than 60 days'))):
       po_case_type
       add_unique_step((change_end_extend_dismiss_petition_step, "change_end_extend_dismiss_petition_idx"), step_list)
 
@@ -854,7 +854,7 @@ content: |
 
   * **Direct services for providers**
   * [Alaska Legal Services Corporation](https://www.alsc-law.org/apply-for-services)
-  % if ((user_need == 'want po' or has_expired) and not no_qualifying_relationship and dv_crime) or (user_need == 'have po' and po_case_type in('1 person','more than 1')):
+  % if ((user_need == 'want po' or has_expired) and not no_qualifying_relationship and dv_crime) or (user_need == 'have po' and (petitioner_choices.any_true('change', 'end', 'respond')  or (term == 'short' and request_long and petitioner_choices['dismiss']) or (petitioner_choices['options'] and not petitioner_choices['change'] and also_change) or (((term == 'long' or (term == 'short' and request_long)) and petitioner_choices ['extend']) and (not expired or (expired and expired_days_ago == 'less than 60 days')))) and po_case_type in('1 person','more than 1')):
   <div class="step-subheading">Learn about filling out the forms to ask for a domestic violence protective order</div>
 
   * Watch **How to File for a Domestic Violence Protective Order** using form [DV-100](https://public.courts.alaska.gov/web/forms/docs/dv-100.pdf)
