@@ -1167,10 +1167,10 @@ subject: |
   % if respondent_choices['respond to extend']:
   respond if the other side asks to extend the order
   % endif
-  % if len(respondent_choices.true_values()) > 1 and respondent_choices['dismiss']:
+  % if len(respondent_choices.true_values()) > 1 and  term == 'short' and request_long and respondent_choices['dismiss']:
   , or
   % endif
-  % if respondent_choices['dismiss']:
+  % if term == 'short' and request_long and respondent_choices['dismiss']:
   ask the court to dismiss the petition
   % endif
   % endif
@@ -1220,9 +1220,7 @@ content: |
   The court will set a hearing at least 10 days after the request to hear both sides' arguments.
 
   If the order expired more than 60 days ago, it cannot be extended.
-
   % endif #user_need 
-
 
 
   <div class="step-subheading">Fill out the form</div>
@@ -1259,7 +1257,7 @@ content: |
     % endif
   % endif #user_need == 'have po' and petitioner_choices['extend']
 
-  % if (user_need == 'have po' and term == 'short' and request_long and petitioner_choices['dismiss']) or (user_need == 'po respondent' and respondent_choices['dismiss']):
+  % if (user_need == 'have po' and term == 'short' and request_long and petitioner_choices['dismiss']) or (user_need == 'po respondent' and  term == 'short' and request_long and respondent_choices['dismiss']):
     % if po_case_type in ('1 person', 'stalking', 'sexual assault'):
       **DV-134 Request to Dismiss Long-Term Petition, (One Petitioner)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-134-one.pdf)]
     % elif po_case_type == 'more than 1':

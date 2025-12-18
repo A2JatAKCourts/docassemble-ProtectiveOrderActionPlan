@@ -1273,14 +1273,24 @@ code: |
       ]
   
   elif user_need == 'po respondent':
-    choices_choices = [
-      {'dismiss': "Asking the judge to dismiss a petition for a long-term protective order before deciding if it should be granted."},
-      {'change': "Asking the judge to change the protective order."},
-      {'end': "Asking the judge to end the protective order."},
-      {'respond': "Responding if the other side asks to change or end the order."},
-      {'respond to extend': "Responding if the other side asks to extend the order."
-      }
-    ]
+    if term == 'short' and request_long: 
+      choices_choices = [
+        {'dismiss': "Asking the judge to dismiss a petition for a long-term protective order before deciding if it should be granted."},
+        {'change': "Asking the judge to change the protective order."},
+        {'end': "Asking the judge to end the protective order."},
+        {'respond': "Responding if the other side asks to change or end the order."},
+        {'respond to extend': "Responding if the other side asks to extend the order."
+        }
+      ]
+  
+    else: # Nothing to dismiss if petitioner didn't ask for a long-term order
+      choices_choices = [
+        {'change': "Asking the judge to change the protective order."},
+        {'end': "Asking the judge to end the protective order."},
+        {'respond': "Responding if the other side asks to change or end the order."},
+        {'respond to extend': "Responding if the other side asks to extend the order."
+        }
+      ]
 ---
 id: expired yet
 question: |
