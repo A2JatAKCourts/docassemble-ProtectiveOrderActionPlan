@@ -1,6 +1,5 @@
 comment: |
-    last updated: 2025-12-17
-    adding user_need == 'po respondent' 
+    last updated: 2025-12-18
 ---
 generic object: ALDocumentBundle
 template: x.get_email_copy
@@ -900,11 +899,11 @@ subject: |
   Step ${ po_against_you_resources_idx }:
   Tips and resources for when someone
   % if term in('short', 'long'):
-  has
+  has a ${ po_order_name } Protective Order
   % else:
-  asks for
+  asks for a Protective Order
   % endif 
-  you
+  against you
 content: |
   <div class="step-subheading">Follow all court orders</div>
   The same event can have several different court cases and several different orders not to contact the other person.
@@ -1151,7 +1150,7 @@ subject: |
   ask the court to dismiss the petition
   % endif
   % elif user_need == 'po respondent':
-  % if respondent_choices.any_true('change', 'extend', 'end'):
+  % if respondent_choices.any_true('change', 'end'):
   ask the court to ${ comma_and_list([ k for k in petition_action_keys if respondent_choices.get(k, False) ], and_string = 'or') }
   the order
   % endif
