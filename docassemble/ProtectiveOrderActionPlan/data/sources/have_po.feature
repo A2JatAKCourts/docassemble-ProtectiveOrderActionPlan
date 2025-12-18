@@ -177,7 +177,7 @@ Scenario: Row #312
 #     | custody                      | divorced          |         |
 #     | petitioner_choices['extend'] | True              |         |
 #     | expired                      | False             |         |
-#     | will_expired                 | more than 10 days |         |
+#     | will_expire                  | more than 10 days |         |
 #     | po_case_type                 | sexual assault    |         |
 #     And I take a screenshot  
 
