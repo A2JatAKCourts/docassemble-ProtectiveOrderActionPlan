@@ -1154,7 +1154,7 @@ subject: |
   ask the court to ${ comma_and_list([ k for k in petition_action_keys if respondent_choices.get(k, False) ], and_string = 'or') }
   the order
   % endif
-  % if len(respondent_choices.true_values()) > 1 and respondent_choices['respond']:
+  % if respondent_choices.any_true('change', 'end') and len(respondent_choices.true_values()) > 1 and respondent_choices['respond']:
   , or
   % endif
   % if respondent_choices['respond']:
