@@ -700,7 +700,7 @@ code: |
   
   
   
-  if user_need in('have po', 'po respondent'):
+  if user_need == 'have po' or (user_need == 'po respondent' and term in('short', 'long')):
     if shared_child:
       if custody == 'married':
         add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)

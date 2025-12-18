@@ -1,5 +1,5 @@
 Comment: |
-  2025-12-16
+  2025-12-18 limited dismiss choice for respondents only when term == 'short' and request_long is True
 ---
 include:
   - docassemble.AssemblyLine:assembly_line.yml
@@ -1163,9 +1163,6 @@ fields:
     datatype: radio
     code: |
       term_choices
-    choices:
-      - "20-day order": short
-      - "long-term (1 year) order": long 
 ---
 code: |
   if user_need == 'have po':
