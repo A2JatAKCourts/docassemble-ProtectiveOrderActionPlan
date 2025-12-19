@@ -1,5 +1,5 @@
 Comment: |
-  2025-12-16
+  2025-12-18
 ---
 include:
   - docassemble.AssemblyLine:assembly_line.yml
@@ -1154,20 +1154,38 @@ fields:
       - Asking for a Domestic Violence Protective Order for more than 1 person: multi person dv form
  
 ---
-###### Step 6 2025-11-18 ######
+###### Step 7 2025-11-12 ######
 id: short or long term
 question: |
   Is your Alaska protective order a 20-day order or long-term (1 year) order?
 fields:
   - Short or long-term?: term
     datatype: radio
-    choices:
-      - "20-day order": short
-      - "long-term (1 year) order": long
+    code: |
+      term_choices
+---
+code: |
+  if user_need == 'have po':
+    term_choices = [
+      {'short': "20-day order."},
+      {'long': "long-term (1 year) order."
+      }
+    ] 
+  elif user_need == 'po respondent':
+    term_choices = [
+      {'short': "20-day order."},
+      {'long': "long-term (1 year) order."},
+      {'hearing': "There is no protective order against me right now. There is a hearing for a long term protective order."
+      }
+    ] 
 ---
 id: request long
 question: |
+  % if user_need == 'have po':
   When you asked for the 20-day order, did you also ask for a long-term protective order?
+  % elif user_need == 'po respondent':
+  Did the other side request a long-term protective order as well?
+  % endif 
 fields:
   - Request long-term?: request_long
     datatype: yesnoradio
@@ -1195,7 +1213,7 @@ fields:
   - Married?: married
     datatype: yesnoradio
 ---
-id: more info petitioner
+id: more info petitioner or respondent
 question: |
   What would you like to learn about?
 subquestion: |
@@ -1204,41 +1222,72 @@ fields:
   - I want to learn about: petitioner_choices
     datatype: checkboxes
     code: |
-      petitioner_choices_choices
+      choices_choices
+    show if:
+      code: |
+        user_need == 'have po'
+        
+  - I want to learn about: respondent_choices
+    datatype: checkboxes
+    code: |
+      choices_choices
+    show if:
+      code: |
+        user_need == 'po respondent'
 ---
 code: |
-  ### If petitioner only has a 20-day, short-term protective order
-  if term == 'short' and not request_long:
-    petitioner_choices_choices = [
-      {'options': "Options if the other side violates the protective order ."},
-      {'change': "Asking the judge to change the protective order."},
-      {'end': "Asking the judge to end the protective order."},
-      {'respond': "Responding if the other side asks to change or end the order."
-      }
-    ]
+  if user_need == 'have po':
+    ### If petitioner only has a 20-day, short-term protective order
+    if term == 'short' and not request_long:
+      choices_choices = [
+        {'options': "Options if the other side violates the protective order."},
+        {'change': "Asking the judge to change the protective order."},
+        {'end': "Asking the judge to end the protective order."},
+        {'respond': "Responding if the other side asks to change or end the order."
+        }
+      ]
+    
+    ### If petitioner only has a 20-day, short-term protective order
+    elif term == 'short' and request_long:
+      choices_choices = [
+        {'options': "Options if the other side violates the protective order."},
+        {'change': "Asking the judge to change the protective order."},
+        {'end': "Asking the judge to end the protective order."},
+        {'respond': "Responding if the other side asks to change or end the order."},
+        {'dismiss': "Asking the judge to dismiss a petition for a long-term protective order before deciding if it should be granted."
+        }
+      ]
+    
+    ### If petitioner has a long term protective order or a 20 day, short term order and has asked for long term order
+    elif term == 'long':
+      choices_choices = [
+        {'options': "Options if the other side violates the protective order."},
+        {'change': "Asking the judge to change the protective order."},
+        {'extend': "Asking the judge to extend the protective order."},
+        {'end': "Asking the judge to end the protective order."},
+        {'respond': "Responding if the other side asks to change or end the order."
+        }
+      ]
   
-  ### If petitioner only has a 20-day, short-term protective order
-  elif term == 'short' and request_long:
-    petitioner_choices_choices = [
-      {'options': "Options if the other side violates the protective order ."},
-      {'change': "Asking the judge to change the protective order."},
-      {'extend': "Asking the judge to extend the protective order."},
-      {'end': "Asking the judge to end the protective order."},
-      {'respond': "Responding if the other side asks to change or end the order."},
-      {'dismiss': "Asking the judge to dismiss a petition for a long-term protective order before deciding if it should be granted."
-      }
-    ]
+  elif user_need == 'po respondent':
+    if term == 'short' and request_long: 
+      choices_choices = [
+        {'dismiss': "Asking the judge to dismiss a petition for a long-term protective order before deciding if it should be granted."},
+        {'change': "Asking the judge to change the protective order."},
+        {'end': "Asking the judge to end the protective order."},
+        {'respond': "Responding if the other side asks to change or end the order."},
+        {'respond to extend': "Responding if the other side asks to extend the order."
+        }
+      ]
   
-  ### If petitioner has a long term protective order or a 20 day, short term order and has asked for long term order
-  elif term == 'long':
-    petitioner_choices_choices = [
-      {'options': "Options if the other side violates the protective order ."},
-      {'change': "Asking the judge to change the protective order."},
-      {'extend': "Asking the judge to extend the protective order."},
-      {'end': "Asking the judge to end the protective order."},
-      {'respond': "Responding if the other side asks to change or end the order."
-      }
-    ]
+    else: # Nothing to dismiss if petitioner didn't ask for a long-term order
+      choices_choices = [
+        {'change': "Asking the judge to change the protective order."},
+        {'end': "Asking the judge to end the protective order."},
+        {'respond': "Responding if the other side asks to change or end the order."},
+        {'respond to extend': "Responding if the other side asks to extend the order."
+        }
+      ]
 ---
 id: expired yet
 question: |
@@ -1285,20 +1334,31 @@ fields:
   - Would you like more information?: also_change
     datatype: yesnoradio
 ---
-id: what type of case
+id: what type of order
 question: |
-  What type of protective order case do you have?
+  What type of protective order do you have?
 fields:
   - I have: po_case_type
     datatype: radio
     choices:
-      - "A Domestic violence protective order with 1 petitioner": 1 person
-      - "A Domestic violence protective order with more than 1 petitioner.": more than 1
+      - "A Domestic Violence Protective Order with 1 petitioner": 1 person
+      - "A Domestic Violence Protective Order with more than 1 petitioner.": more than 1
       - "A Stalking Protective Order.": stalking
       - "A Sexual Assault Protective Order.": sexual assault
 ---
+###### Step 7 2025-11-18 ######
+id: Info on different types of orders	
+question: |
+  The same event can have several different court cases and several different orders not to contact the other person
+subquestion: |
+  If the police arrested you for the same reason that led to the protective order against you, you may have a criminal case.  The criminal case may have a condition that you not contact the other person as part of your bail conditions for release.  If you violate the condition, you may no longer be released on bail and it may be a new crime.
 
-      
+  If someone has a civil protective order against you, it orders you not to contact them.  If you violate the order, it can be a new criminal case separate from the civil protective order case.
+  
+  Each case has different restrictions.  If one case is dismissed, it usually does not change the restrictions in the other cases.
+  
+  If you have multiple court cases, be sure you understand what each case requires so that you do not violate any of them.
+continue button field: respondent_intro
 ---
 # ALDocument objects specify the metadata for each template
 objects:

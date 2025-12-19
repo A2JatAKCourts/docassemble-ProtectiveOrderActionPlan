@@ -1,6 +1,6 @@
 comment: |
-    last updated: 2025-12-16
-    use interview order first then build accordion_steps
+    last updated: 2025-12-18
+    fix for space before comma or in respond_change_end_extend_step heading
 ---
 generic object: ALDocumentBundle
 template: x.get_email_copy
@@ -110,7 +110,7 @@ code: |
     if petitioner_choices['options'] and not petitioner_choices['change']:
         also_change
   
-    if (term == 'long' or (term == 'short' and request_long)) and petitioner_choices['extend']:
+    if term == 'long' and petitioner_choices['extend']:
       if expired:
         if expired_days_ago == 'less than 60 days':
           po_case_type
@@ -131,9 +131,9 @@ code: |
     if petitioner_choices['options']:
       add_unique_step((other_side_violated_order_step, "other_side_violated_order_idx"), step_list)
 
-    if petitioner_choices.any_true('change', 'end', 'respond')  or (term == 'short' and request_long and petitioner_choices['dismiss']) or (petitioner_choices['options'] and not petitioner_choices['change'] and also_change) or (((term == 'long' or (term == 'short' and request_long)) and petitioner_choices ['extend']) and (not expired or (expired and expired_days_ago == 'less than 60 days'))):
+    if petitioner_choices.any_true('change', 'end', 'respond')  or (term == 'short' and request_long and petitioner_choices['dismiss']) or (petitioner_choices['options'] and not petitioner_choices['change'] and also_change) or (term == 'long' and petitioner_choices ['extend'] and (not expired or (expired and expired_days_ago == 'less than 60 days'))):
       po_case_type
-      add_unique_step((change_end_extend_dismiss_petition_step, "change_end_extend_dismiss_petition_idx"), step_list)
+      add_unique_step((respond_change_end_extend_dismiss_petition_step, "respond_change_end_extend_dismiss_petition_idx"), step_list)
 
   
   if user_need == 'register po':
@@ -684,8 +684,23 @@ code: |
         if self_related_to_abuser['married']:
           add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
 
-
-  if user_need == 'have po':
+  if user_need == 'po respondent':
+    respondent_intro
+    add_unique_step((po_against_you_resources_step, "po_against_you_resources_idx"), step_list)
+    if (term == 'short' and request_long) or term == 'hearing':
+      add_unique_step((prepare_for_long_term_hearing_respondent_step, "prepare_for_long_term_hearing_respondent_idx"), step_list)
+    if term in ('short', 'long'):
+      if shared_child:
+        add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
+      if not shared_child:
+        married
+      respondent_choices
+      po_case_type
+      add_unique_step((respond_change_end_extend_dismiss_petition_step, "respond_change_end_extend_dismiss_petition_idx"), step_list)
+  
+  
+  
+  if user_need == 'have po' or (user_need == 'po respondent' and term in('short', 'long')):
     if shared_child:
       if custody == 'married':
         add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
@@ -696,9 +711,6 @@ code: |
           add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
 
 
-
-  # if user_need == 'register po':
-  # if user_need == 'po defendant':
 
 
   #  add_unique_image({'image': service_cert_image, 'text': "Certificate of Service"}, images_list)
@@ -764,7 +776,7 @@ content: |
   * State Trooper [locations and phone numbers](https://dps.alaska.gov/ast/contacts)
   * Village Public Safety Officer [home page](https://dps.alaska.gov/AST/VPSO/Home)
 
-  % if user_need == 'have po' and (term == 'long' or (term == 'short' and request_long)) and petitioner_choices ['extend'] and expired and expired_days_ago == 'more than 60 days':
+  % if user_need == 'have po' and term == 'long' and petitioner_choices ['extend'] and expired and expired_days_ago == 'more than 60 days':
   <div class="step-subheading">Decide if you want to ask for a new protective order</div>
   If your protective order expired more than 60 days ago, it cannot be extended. Read the information below and stay safe. If you want to ask for a new protective order, you can retake this interview and answer questions about asking for a protective order in Alaska.
   % endif
@@ -854,7 +866,7 @@ content: |
 
   * **Direct services for providers**
   * [Alaska Legal Services Corporation](https://www.alsc-law.org/apply-for-services)
-  % if ((user_need == 'want po' or has_expired) and not no_qualifying_relationship and dv_crime) or (user_need == 'have po' and (petitioner_choices.any_true('change', 'end', 'respond')  or (term == 'short' and request_long and petitioner_choices['dismiss']) or (petitioner_choices['options'] and not petitioner_choices['change'] and also_change) or (((term == 'long' or (term == 'short' and request_long)) and petitioner_choices ['extend']) and (not expired or (expired and expired_days_ago == 'less than 60 days')))) and po_case_type in('1 person','more than 1')):
+  % if ((user_need == 'want po' or has_expired) and not no_qualifying_relationship and dv_crime) or (user_need == 'have po' and (petitioner_choices.any_true('change', 'end', 'respond')  or (term == 'short' and request_long and petitioner_choices['dismiss']) or (petitioner_choices['options'] and not petitioner_choices['change'] and also_change) or (term == 'long' and petitioner_choices ['extend'] and (not expired or (expired and expired_days_ago == 'less than 60 days')))) and po_case_type in('1 person','more than 1')):
   <div class="step-subheading">Learn about filling out the forms to ask for a domestic violence protective order</div>
 
   * Watch **How to File for a Domestic Violence Protective Order** using form [DV-100](https://public.courts.alaska.gov/web/forms/docs/dv-100.pdf)
@@ -888,11 +900,11 @@ subject: |
   Step ${ po_against_you_resources_idx }:
   Tips and resources for when someone
   % if term in('short', 'long'):
-  has
+  has a ${ po_order_name } Protective Order
   % else:
-  asks for
+  asks for a Protective Order
   % endif 
-  you
+  against you
 content: |
   <div class="step-subheading">Follow all court orders</div>
   The same event can have several different court cases and several different orders not to contact the other person.
@@ -1077,7 +1089,7 @@ content: |
 template: other_side_violated_order_step
 subject: |
   Step ${ other_side_violated_order_idx }:
-  Review options if respondent violates Protective Order
+  Review options when the respondent violates the Protective Order
 content: |
   <div class="step-subheading">Call the police</div>
   If you are in immediate danger, call 911.
@@ -1095,9 +1107,14 @@ content: |
     * Contacting the victim.
     * Entering or following the victim's home or vehicle.
 
-  % if (petitioner_choices['change'] and ((term == 'long' or (term == 'short' and request_long)) and petitioner_choices ['extend'])) or ((((term == 'long' or (term == 'short' and request_long)) and petitioner_choices ['extend']) and not petitioner_choices['change'] and also_change)):
+  % if (petitioner_choices['change'] or (not petitioner_choices['change'] and also_change)) or (term == 'long'  and petitioner_choices ['extend']):
   <div class="step-subheading">Ask to change the order</div>
-  If you think you would be safer if the protective order has more protections, you can ask the judge to change the order and add more protections for you. Read steps ?: Fill out the form to ask the court to change your order.
+  If you think you would be safer if the protective order has more protections, you can ask the judge to change the order and add more protections for you. 
+  % if petitioner_choices['change'] or (not petitioner_choices['change'] and also_change):
+  Fill out the form to ask the court to change your order.
+  % elif term == 'long'  and petitioner_choices ['extend']:
+  The form for asking the court to extend your Protective Order has a place to ask for changes to the order also.
+  % endif
   % endif
 ---
 code: |
@@ -1111,38 +1128,45 @@ code: |
   elif po_case_type == 'sexual assault':
     po_order_name = 'Sexual Assault'
 ---
-template: change_end_extend_dismiss_petition_step
+template: respond_change_end_extend_dismiss_petition_step
 subject: |
-  Step ${ change_end_extend_dismiss_petition_idx }:
+  Step ${ respond_change_end_extend_dismiss_petition_idx }:
   Fill out the form to
+  % if user_need == 'have po':
   % if petitioner_choices['options'] and not petitioner_choices['change'] and also_change:
-  ask the court to change the order
-  % if len(petitioner_choices.true_values()) > 1 and petitioner_choices['end'] or (((term == 'long') or (term == 'short' and request_long)) and petitioner_choices.get('extend', False)):
-  , or 
+  ask the court to change the order${ ', or' if len(petitioner_choices.true_values()) > 1 and petitioner_choices['end'] else ''}${ ', or' if len(petitioner_choices.true_values()) > 1 and term == 'long' and petitioner_choices['extend'] else '' }${ ', or' if len(petitioner_choices.true_values()) > 1 and petitioner_choices['respond'] else '' }${ ', or' if len(petitioner_choices.true_values()) > 1 and term == 'short' and request_long and petitioner_choices['dismiss'] else '' }
   % endif
-  % endif
-  % if petitioner_choices.any_true('change', 'end') or (((term == 'long') or (term == 'short' and request_long)) and petitioner_choices.get('extend', False)):
+  % if petitioner_choices.any_true('change', 'end') or (term == 'long' and petitioner_choices['extend']):
   ask the court to ${ comma_and_list([ k for k in petition_action_keys if petitioner_choices.get(k, False) ], and_string = 'or') } 
-  the order
-  % endif
-  % if len(petitioner_choices.true_values()) > 1 and petitioner_choices['respond']:
-  , or
+  the order${ ', or' if len(petitioner_choices.true_values()) > 1 and petitioner_choices['respond'] else '' }${ ', or' if len(petitioner_choices.true_values()) > 1 and term == 'short' and request_long and petitioner_choices['dismiss'] else '' }
   % endif
   % if petitioner_choices['respond']:
-  respond if the other side asks to change or end the order
-  % endif
-  % if len(petitioner_choices.true_values()) > 1 and (term == 'short' and request_long) and petitioner_choices['dismiss']:
-  , or
+  respond if the other side asks to change or end the order${ ', or' if len(petitioner_choices.true_values()) > 1 and term == 'short' and request_long and petitioner_choices['dismiss'] else '' }
   % endif
   % if term == 'short' and request_long and petitioner_choices['dismiss']:
   ask the court to dismiss the petition
+  % endif 
+  % elif user_need == 'po respondent':
+  % if respondent_choices.any_true('change', 'end'):
+  ask the court to ${ comma_and_list([ k for k in petition_action_keys if respondent_choices.get(k, False) ], and_string = 'or') }
+  the order${ ', or' if len(respondent_choices.true_values()) > 1 and respondent_choices['respond'] else '' }${ ', or' if len(respondent_choices.true_values()) > 1 and respondent_choices['respond to extend'] else '' }${ ', or' if len(respondent_choices.true_values()) > 1 and  term == 'short' and request_long and respondent_choices['dismiss'] else '' }
   % endif
-  
+  % if respondent_choices['respond']:
+  respond if the other side asks to change or end the order${ ', or' if len(respondent_choices.true_values()) > 1 and respondent_choices['respond to extend'] else '' }${ ', or' if len(respondent_choices.true_values()) > 1 and  term == 'short' and request_long and respondent_choices['dismiss'] else '' }
+  % endif
+  % if respondent_choices['respond to extend']:
+  respond if the other side asks to extend the order${ ', or' if len(respondent_choices.true_values()) > 1 and  term == 'short' and request_long and respondent_choices['dismiss'] else '' }
+  % endif
+  % if term == 'short' and request_long and respondent_choices['dismiss']:
+  ask the court to dismiss the petition
+  % endif
+  % endif
+
 content: |
   % if user_need == 'have po':
-  % if (term == 'long' or (term == 'short' and request_long)) and petitioner_choices['extend']:
+  % if term == 'long'  and petitioner_choices['extend']:
   <div class="step-subheading">Learn about the process</div>
-  
+
   % if expired and expired_days_ago == 'less than 60 days':
   The law allows a person to extend a protective order for up to 1 year if the court finds an extension is necessary to protect the person from
   % if po_case_type in('1 person', ' more than 1'):
@@ -1151,12 +1175,12 @@ content: |
   stalking if your original protective order was for stalking.
   % elif po_case_type == 'sexual assault':
   sexual assault if your original protective order was for sexual assault.
-  % endif
+  % endif  #  po_case_type
 
-  You can file a request for an extension 30 days before the protective order expires until 60 days after it expired.
+  You can file a request for an extension 30 days before the protective order expires until 60 days after it expires.
 
   The court will set a hearing at least 10 days after the request to hear both sides' arguments.
-  
+
   % elif expired and expired_days_ago == 'more than 60 days':
   If the order expired more than 60 days ago, it cannot be extended.
 
@@ -1165,198 +1189,97 @@ content: |
   Because your protective order expires in less than 10 days, the hearing will be after it expires. To figure out a plan to stay safe, review Step 1: Stay safe.
 
   File your request as soon as possible to reduce the amount of time you do not have a protective order.
-  % endif
-  % endif
+  % endif #expired and expired_days_ago == 'less than 60 days'
+  % endif #term == 'long'  and petitioner_choices['extend']
+  % elif user_need == 'po respondent':
+  <div class="step-subheading">Learn about the process</div>
+  The law allows a person to extend a protective order for up to 1 year if the court finds an extension is necessary to protect the person from
+  % if po_case_type in('1 person', ' more than 1'):
+  domestic violence if the original protective order was for domestic violence.
+  % elif po_case_type == 'stalking':
+  stalking if your original protective order was for stalking.
+  % elif po_case_type == 'sexual assault':
+  sexual assault if your original protective order was for sexual assault.
+  % endif  #po_case_type
+
+  The other person can file a request for an extension 30 days before the protective order expires until 60 days after it expires.
+
+  The court will set a hearing at least 10 days after the request to hear both sides' arguments.
+
+  If the order expired more than 60 days ago, it cannot be extended.
+  % endif #user_need 
+
 
   <div class="step-subheading">Fill out the form</div>
-  % if (petitioner_choices['options'] and not petitioner_choices['change'] and also_change) or (petitioner_choices['change'] and not petitioner_choices.get('extend', False)):
-  % if po_case_type in ('1 person', 'stalking', 'sexual assault'):
+
+  % if (user_need == 'have po' and ((petitioner_choices['options'] and not petitioner_choices['change'] and also_change) or (petitioner_choices['change'] and not petitioner_choices.get('extend', False)))) or (user_need == 'po respondent' and respondent_choices['change']):
+      % if po_case_type in ('1 person', 'stalking', 'sexual assault'):
     **DV-131 Request to Modify Protective Order, (One Petitioner)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-131-one.pdf)]
-  % elif po_case_type == 'more than 1':
+      % elif po_case_type == 'more than 1':
     **DV-131-M Request to Modify Protective Order, (Multiple Petitioners)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-131-multi.pdf)]
-  % endif
+      % endif #po_case_type 
   <br> Use this form to ask the court to change an existing ${ po_order_name } Protective Order.
   % endif
 
-  
-  % if petitioner_choices['end']:
+
+  % if (user_need == 'have po' and petitioner_choices['end']) or (user_need == 'po respondent' and respondent_choices['end']):
   % if po_case_type in ('1 person', 'stalking', 'sexual assault'):
-    **DV-133 Request to Dissolve Protective Order, (One Petitioner)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-133-one.pdf)]
+  **DV-133 Request to Dissolve Protective Order, (One Petitioner)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-133-one.pdf)]
   % elif po_case_type == 'more than 1':
-    **DV-133-M Request to Dissolve Protective Order, (Multiple Petitioners)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-133-multi.pdf)]
+  **DV-133-M Request to Dissolve Protective Order, (Multiple Petitioners)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-133-multi.pdf)]
   % endif
-  <br> Use this form to ask the court to end an existing ${ po_order_name } Protective Order. 
-  % endif 
+  <br>Use this form to ask the court to end an existing ${ po_order_name } Protective Order. 
   % endif
 
 
-  
-  % if (term == 'long' or (term == 'short' and request_long)) and petitioner_choices['extend']:
+  % if user_need == 'have po' and term == 'long' and petitioner_choices['extend'] :
   % if po_case_type in ('1 person', 'stalking', 'sexual assault'):
     **DV-132 Request to Extend Long-Term Protective Order, (One Petitioner)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-132-one.pdf)]
   % elif po_case_type == 'more than 1':
     **DV-132-M Request to Extend Long-Term Protective Order, (Multiple Petitioners)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-132-multi.pdf)]
   % endif
   <br> Use this form to ask the court to extend a long-term ${ po_order_name } Protective Order.
-  % if (petitioner_choices.all_true('options', exclusive=True) and also_change) or petitioner_choices['change']:
-  <br> If you need the court to change your order as well as extend it, the form includes a place to ask for any changes you may need. 
-  % endif
-  % endif
-  
-  % if term == 'short' and request_long and petitioner_choices['dismiss']:
+  % if user_need == 'have po' and ((petitioner_choices.all_true('options', exclusive=True) and also_change) or petitioner_choices['change']):
+  <br> If you need the court to change your order as well as extend it, the form includes a place to ask for any changes you may need.
+    % endif
+  % endif #user_need == 'have po' and petitioner_choices['extend']
+
+  % if (user_need == 'have po' and term == 'short' and request_long and petitioner_choices['dismiss']) or (user_need == 'po respondent' and  term == 'short' and request_long and respondent_choices['dismiss']):
   % if po_case_type in ('1 person', 'stalking', 'sexual assault'):
-    **DV-134 Request to Dismiss Long-Term Petition, (One Petitioner)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-134-one.pdf)]
+  **DV-134 Request to Dismiss Long-Term Petition, (One Petitioner)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-134-one.pdf)]
   % elif po_case_type == 'more than 1':
-    **DV-134-M Request to Dismiss Long-Term Petition, Multiple Petitioners** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-134-multi.pdf)]
+  **DV-134-M Request to Dismiss Long-Term Petition, Multiple Petitioners** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-134-multi.pdf)]
   % endif
   <br> Use this form to ask the court to dismiss a petition for a long-term ${ po_order_name } Protective Order. 
   % endif
 
-  
-  % if petitioner_choices['respond']:
+
+  % if (user_need == 'have po' and petitioner_choices['respond']) or (user_need == 'po respondent' and respondent_choices.any_true('respond', 'respond to extend')):
   % if po_case_type in ('1 person', 'stalking', 'sexual assault'):
    **Response to Request to Modify, Extend, or Dissolve Protective Order (One petitioner)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-140-one.pdf)]
   % elif po_case_type == 'more than 1':
     **Response to Request to Modify, Extend, or Dissolve Protective Order (Multiple petitioners)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-140-multi.pdf)]
   % endif
-  <br> Use this form to respond if the other side files a motion to change or end a ${ po_order_name } Protective Order. 
+  <br> Use this form to respond if the other side files a motion to change or end a ${ po_order_name } Protective Order.
   % endif
-
 
 
   % if user_need == 'po respondent':
   <div class="step-subheading">Follow the protective order</div>
   After you file a request, you must follow the protective order until the court signs an order deciding whether or not to grant your request.
-
+   % elif user_need == 'have po':
+  <div class="step-subheading">The other side must still follow the protective order</div>
+  After you file a request, the other side must keep following the protective order until the court signs an order deciding whether or not to grant your request.
+  % endif 
+  
   The court may or may not hold a hearing.
 
   If the court signs a new order, you will get a copy.
-
-  If the court does not change the protective order, you must follow the order until it expires, even if you and the other side both want to change it.
-  % endif
-
----
-template: older_change_end_extend_dismiss_petition_step
-subject: |
-  Step ${ older_change_end_extend_dismiss_petition_idx }:
-  Fill out the form to 
-  % if petitioner_choices.any_true('change', 'end') or ((term == 'long' or (term == 'short' and request_long)) and petitioner_choices['extend']):
-  ask the court to ${ petitioner_choices.true_values('change', 'end') } the order
-  % elif petitioner_choices.all_true('options', exclusive = True) and also_change:
-  ask the court to change the order
-  % endif
-  % if len(petitioner_choices.true_values()) > 1 and petitioner_choices['respond']:
-  , or
-  % endif
-  % if petitioner_choices['respond']:
-  respond if the other side asks to change or end the order
-  % endif
-  % if len(petitioner_choices.true_values()) > 1 and term == 'short' and request_long and petitioner_choices['dismiss']:
-  , or
-  % endif
-  % if term == 'short' and request_long and petitioner_choices['dismiss']:
-  ask the court to dismiss the petition
-  % endif
-content: |
-  % if user_need == 'have po':
-  % if (term == 'long' or (term == 'short' and request_long)) and petitioner_choices['extend']:
-  <div class="step-subheading">Learn about the process</div>
-  
-  % if expired and expired_days_ago == 'less than 60 days':
-  The law allows a person to extend a protective order for up to 1 year if the court finds an extension is necessary to protect the person from
-  % if po_case_type in('1 person', ' more than 1'):
-  domestic violence if the original protective order was for domestic violence.
-  % elif po_case_type == 'stalking':
-  stalking if your original protective order was for stalking.
-  % elif po_case_type == 'sexual assault':
-  sexual assault if your original protective order was for sexual assault.
-  % endif
-
-  You can file a request for an extension 30 days before the protective order expires until 60 days after it expired.
-
-  The court will set a hearing at least 10 days after the request to hear both sides' arguments.
-  
-  % elif expired and expired_days_ago == 'more than 60 days':
-  If the order expired more than 60 days ago, it cannot be extended.
-
-  % elif not expired and will_expire == 'less than 10 days':
-  <div class="step-subheading">Stay safe</div>
-  Because your protective order expires in less than 10 days, the hearing will be after it expires. To figure out a plan to stay safe, review Step 1: Stay safe.
-
-  File your request as soon as possible to reduce the amount of time you do not have a protective order.
-  % endif
-  % endif
-
-  <div class="step-subheading">Fill out the form</div>
-  
-  % if ((petitioner_choices.all_true('options', exclusive=True) and also_change) or petitioner_choices['change']) and po_case_type in ('1 person', 'stalking', 'sexual assault'):
-    **DV-131 Request to Modify Protective Order, (One Petitioner)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-131-one.pdf)]
-  % elif petitioner_choices['end'] and po_case_type in ('1 person', 'stalking', 'sexual assault'):
-    **DV-133 Request to Dissolve Protective Order, (One Petitioner)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-133-one.pdf)]
-  % elif (term == 'long' or (term == 'short' and request_long)) and petitioner_choices['extend'] and po_case_type in ('1 person', 'stalking', 'sexual assault'):
-    **DV-132 Request to Extend Long-Term Protective Order, (One Petitioner)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-132-one.pdf)]
-  % elif term == 'short' and request_long and petitioner_choices['dismiss'] and po_case_type in ('1 person', 'stalking', 'sexual assault'):
-    **DV-134 Request to Dismiss Long-Term Petition, (One Petitioner)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-134-one.pdf)]
-  % elif ((petitioner_choices.all_true('options', exclusive=True) and also_change) or petitioner_choices['change']) and po_case_type == 'more than 1':
-    **DV-131-M Request to Modify Protective Order, (Multiple Petitioners)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-131-multi.pdf)]
-  % elif petitioner_choices['end'] and po_case_type == 'more than 1':
-    **DV-133-M Request to Dissolve Protective Order, (Multiple Petitioners)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-133-multi.pdf)]
-  % elif (term == 'long' or (term == 'short' and request_long)) and petitioner_choices['extend'] and po_case_type == 'more than 1':
-    **DV-132-M Request to Extend Long-Term Protective Order, (Multiple Petitioners)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-132-multi.pdf)]
-  % elif term == 'short' and request_long and petitioner_choices['dismiss'] and po_case_type == 'more than 1':
-    **DV-134-M Request to Dismiss Long-Term Petition, Multiple Petitioners** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-134-multi.pdf)]
-  % elif petitioner_choices['respond'] and po_case_type in ('1 person', 'stalking', 'sexual assault'):
-   **Response to Request to Modify, Extend, or Dissolve Protective Order (One petitioner)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-140-one.pdf)]
-  % elif petitioner_choices['respond'] and po_case_type == 'more than 1':
-    **Response to Request to Modify, Extend, or Dissolve Protective Order (Multiple petitioners)** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/dv-140-multi.pdf)]
-  % endif
-
-
-  % elif user_need == 'po respondent':
-  <div class="step-subheading">Follow the protective order</div>
-  After you file a request, you must follow the protective order until the court signs an order deciding whether or not to grant your request.
-
-  The court may or may not hold a hearing.
-
-  If the court signs a new order, you will get a copy.
-
-  If the court does not change the protective order, you must follow the order until it expires, even if you and the other side both want to change it.
-  % endif
----
-template: old_respond_change_end_extend_dismiss_petition_step
-subject: |
-  Step ${ old_respond_change_end_extend_dismiss_petition_idx }:
-  Respond to a Request [to change/end/extend/dismiss] your order  
-content: |
-  <div class="step-subheading">Learn about the process</div>
-  The law allows a person to extend a protective order for up to 1 year if the court finds an extension is necessary to protect the person from:
-
-    * Domestic violence if the original protective order was for domestic violence
-    * Sexual assault if your original protective order was for sexual assault
-    * Stalking if your original protective order was for stalking
-
-  A party in the case can file a request for an extension 30 days before the protective order expires until 60 days after it expired.
-
-  The court will set a hearing at least 10 days after the request to hear both side's arguments.
-
-  If the order expired more than 60 days ago, it cannot be extended.
-
-  <div class="step-subheading">Fill out the form</div>
-
-    * [Response to Request to Modify, Extend, or Dissolve Protective Order (one petitioner)](https://public.courts.alaska.gov/web/forms/docs/dv-140-one.pdf)
-    * [Response to Request to Modify, Extend, or Dissolve Protective Order (multiple petitioners)](https://public.courts.alaska.gov/web/forms/docs/dv-140-multi.pdf)
-
   % if user_need == 'po respondent':
-  <div class="step-subheading">Follow the protective order</div>
-  After you file a request, you must follow the protective order until the court signs an order deciding whether or not to grant your request.
-
-  The court may or may not hold a hearing.
-
-  If the court signs a new order, you will get a copy.
-
   If the court does not change the protective order, you must follow the order until it expires, even if you and the other side both want to change it.
+   % elif user_need == 'have po':
+  If the court does not change the protective order, the other side must still follow the order you have until it expires, even if you both want to change it.
   % endif
-
 ---
 template: file_po_step
 subject: |
