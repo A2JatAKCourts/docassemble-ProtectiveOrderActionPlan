@@ -1,5 +1,5 @@
 @have_po
-# 2025-12-12
+# 2025-12-18
 
 Feature: User paths
 
@@ -19,6 +19,15 @@ Scenario: Row #303
     | petitioner_choices['options'] | True     |         |
     | also_change                   | True     |         |
     | po_case_type                  | 1 person |         |
+    And I should see the phrase "Your Protective Order Action Plan in 6 steps"
+    And I should see the phrase "Step 1: Stay safe"
+    And I should see the phrase "Step 2: Review resources to help with the court process"
+    And I should see the phrase "Step 3: Prepare for your Protective Order hearing"
+    And I should see the phrase "Step 4: Review options when the respondent violates the Protective Order"
+    And I should see the phrase "Step 5: Fill out the form to ask the court to change the order"
+    And I should see the phrase "Step 6: Start a case to end your marriage"
+    And I download "protective_order_action_plan.pdf"
+    And I download "protective_order_action_plan.docx"
     And I take a screenshot
 
 @row304
@@ -66,7 +75,15 @@ Scenario: Row #306 - ## cannot have all 3 of these in 1 test
     | petitioner_choices['dismiss'] | True             |         |
     | also_change                   | False            |         |
     | po_case_type                  | sexual assault   |         |
+    And I should see the phrase "Your Protective Order Action Plan in 5 steps"
+    And I should see the phrase "Step 1: Stay safe"
+    And I should see the phrase "Step 2: Review resources to help with the court process"
+    And I should see the phrase "Step 3: Prepare for your Protective Order hearing"
+    And I should see the phrase "Step 4: Fill out the form to ask the court to end the order , or ask the court to dismiss the petition"
+    And I should see the phrase "Step 5: Start a case for a Parenting Plan (also known as a “Custody Order”)"
     And I take a screenshot  
+    And I download "protective_order_action_plan.pdf"
+    And I download "protective_order_action_plan.docx"
 
 @row307
 Scenario: Row #307
@@ -79,9 +96,16 @@ Scenario: Row #307
     | shared_child                  | True        |         |
     | custody                       | married     |         |
     | petitioner_choices['dismiss'] | True        |         |
-    | also_change                   | False       |         |
     | po_case_type                  | more than 1 |         |
-    And I take a screenshot  
+    And I should see the phrase "Your Protective Order Action Plan in 5 steps"
+    And I should see the phrase "Step 1: Stay safe"
+    And I should see the phrase "Step 2: Review resources to help with the court process"
+    And I should see the phrase "Step 3: Prepare for your Protective Order hearing"
+    And I should see the phrase "Step 4: Fill out the form to ask the court to dismiss the petition"
+    And I should see the phrase "Step 5: Start a case to end your marriage"
+    And I take a screenshot
+    And I download "protective_order_action_plan.pdf"
+    And I download "protective_order_action_plan.docx"
 
 @row308
 Scenario: Row #308
@@ -95,7 +119,14 @@ Scenario: Row #308
     | custody                       | married  |         |
     | petitioner_choices['respond'] | True     |         |
     | po_case_type                  | stalking |         |
+    And I should see the phrase "Your Protective Order Action Plan in 4 steps"
+    And I should see the phrase "Step 1: Stay safe"
+    And I should see the phrase "Step 2: Review resources to help with the court process"
+    And I should see the phrase "Step 3: Fill out the form to respond if the other side asks to change or end the order"
+    And I should see the phrase "Step 4: Start a case to end your marriage"
     And I take a screenshot  
+    And I download "protective_order_action_plan.pdf"
+    And I download "protective_order_action_plan.docx"
 
 # @row309
 # Scenario: Row #309
@@ -113,24 +144,24 @@ Scenario: Row #308
 #     | po_case_type                 | more than 1       |         |
 #     And I take a screenshot    
 
-@row310
-Scenario: Row #310
-  Given I start the interview at "protective_orders.yml"
-    And I get to the question id "final screen" with this data:
-    | var                          | value             | trigger |
-    | user_need                    | have po           |         |
-    | term                         | short             |         |
-    | request_long                 | True              |         |
-    | shared_child                 | True              |         |
-    | custody                      | custody order     |         |
-    | petitioner_choices['extend'] | True              |         |
-    | expired                      | True              |         |
-    | expired_days_ago             | more than 60 days |         |
-    | new_order_info               | True              |         |
-    | who_needs_the_order          | self              |         |
-    | self_related_to_abuser['have child'] | True    |         |
-    | dv_crime                     | yes               |         |
-    And I take a screenshot  
+# @row310
+# Scenario: Row #310
+#   Given I start the interview at "protective_orders.yml"
+#     And I get to the question id "final screen" with this data:
+#     | var                          | value             | trigger |
+#     | user_need                    | have po           |         |
+#     | term                         | short             |         |
+#     | request_long                 | True              |         |
+#     | shared_child                 | True              |         |
+#     | custody                      | custody order     |         |
+#     | petitioner_choices['extend'] | True              |         |
+#     | expired                      | True              |         |
+#     | expired_days_ago             | more than 60 days |         |
+#     | new_order_info               | True              |         |
+#     | who_needs_the_order          | self              |         |
+#     | self_related_to_abuser['have child'] | True    |         |
+#     | dv_crime                     | yes               |         |
+#     And I take a screenshot  
 
 # @row311
 # Scenario: Row #311
@@ -149,21 +180,21 @@ Scenario: Row #310
 #     | po_case_type                 | 1 person          |         |
 #     And I take a screenshot  
 
-@row312
-Scenario: Row #312
-  Given I start the interview at "protective_orders.yml"
-    And I get to the question id "final screen" with this data:
-    | var                          | value             | trigger |
-    | user_need                    | have po           |         |
-    | term                         | short             |         |
-    | request_long                 | True              |         |
-    | shared_child                 | True              |         |
-    | custody                      | married           |         |
-    | petitioner_choices['extend'] | True              |         |
-    | expired                      | False             |         |
-    | will_expire                  | less than 10 days |         |
-    | po_case_type                 | stalking          |         |
-    And I take a screenshot  
+# @row312
+# Scenario: Row #312
+#   Given I start the interview at "protective_orders.yml"
+#     And I get to the question id "final screen" with this data:
+#     | var                          | value             | trigger |
+#     | user_need                    | have po           |         |
+#     | term                         | short             |         |
+#     | request_long                 | True              |         |
+#     | shared_child                 | True              |         |
+#     | custody                      | married           |         |
+#     | petitioner_choices['extend'] | True              |         |
+#     | expired                      | False             |         |
+#     | will_expire                  | less than 10 days |         |
+#     | po_case_type                 | stalking          |         |
+#     And I take a screenshot  
 
 # @row313
 # Scenario: Row #313

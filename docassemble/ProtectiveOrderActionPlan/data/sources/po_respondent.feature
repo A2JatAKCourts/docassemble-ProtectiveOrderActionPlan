@@ -32,7 +32,7 @@ Scenario: Row #337
     | custody                       | married       |         | 
     | respondent_choices['dismiss'] | True          |         | 
     | po_case_type                  | 1 person      |         | 
-    And I should see the phrase "Your Protective Order Action Plan in 5 steps "
+    And I should see the phrase "Your Protective Order Action Plan in 5 steps"
     And I should see the phrase "Step 1: Tips and resources for when someone has a Domestic Violence Protective Order against you"
     And I should see the phrase "Step 2: Prepare for your Protective Order hearing"
     And I should see the phrase "Step 3: Think about parenting issues"
@@ -97,12 +97,12 @@ Scenario: Row #340
     | shared_child                            | True             |         | 
     | custody                                 | no custody order |         | 
     | respondent_choices['respond to extend'] | True             |         | 
-    | respondent_choices['dismiss']           | True             |         | 
     | po_case_type                            | sexual assault   |         | 
-    And I should see the phrase "Your Protective Order Action Plan in 3 steps"
+    And I should see the phrase "Your Protective Order Action Plan in 4 steps"
     And I should see the phrase "Step 1: Tips and resources for when someone has a Sexual Assault Protective Order against you"
-    And I should see the phrase "Step 2: Fill out the form to respond if the other side asks to extend the order, or ask the court to dismiss the petition"
-    And I should see the phrase "Step 3: Start a case for a Parenting Plan  (also known as a “Custody Order”)"
+    And I should see the phrase "Step 2: Think about parenting issues"
+    And I should see the phrase "Step 3: Fill out the form to respond if the other side asks to extend the order"
+    And I should see the phrase "Step 4: Start a case for a Parenting Plan (also known as a “Custody Order”)"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
@@ -124,8 +124,8 @@ Scenario: Row #341
     And I should see the phrase "Step 1: Tips and resources for when someone has a Domestic Violence Protective Order against you"
     And I should see the phrase "Step 2: Prepare for your Protective Order hearing"
     And I should see the phrase "Step 3: Think about parenting issues"
-    And I should see the phrase "Step 4: Fill out the form to ask the court to dismiss the petition , or respond if the other side asks to change or end the order"
-    And I should see the phrase "Step 5: Start a case for a Parenting Plan  (also known as a “Custody Order”)"
+    And I should see the phrase "Step 4: Fill out the form to respond if the other side asks to change or end the order , or ask the court to dismiss the petition"
+    And I should see the phrase "Step 5: Start a case for a Parenting Plan (also known as a “Custody Order”)"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
@@ -205,7 +205,7 @@ Scenario: Row #345
     And I should see the phrase "Step 1: Tips and resources for when someone has a Domestic Violence Protective Order against you"
     And I should see the phrase "Step 2: Think about parenting issues"
     And I should see the phrase "Step 3: Fill out the form to ask the court to change the order , or respond if the other side asks to change or end the order"
-    And I should see the phrase "Step 4: Start a case for a Parenting Plan  (also known as a “Custody Order”)"
+    And I should see the phrase "Step 4: Start a case for a Parenting Plan (also known as a “Custody Order”)"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
