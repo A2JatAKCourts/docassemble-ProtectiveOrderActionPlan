@@ -1,5 +1,6 @@
 comment: |
     last updated: 2025-12-18
+    fix for space before comma or in respond_change_end_extend_step heading
 ---
 generic object: ALDocumentBundle
 template: x.get_email_copy
@@ -1133,46 +1134,28 @@ subject: |
   Fill out the form to
   % if user_need == 'have po':
   % if petitioner_choices['options'] and not petitioner_choices['change'] and also_change:
-  ask the court to change the order
-  % if len(petitioner_choices.true_values()) > 1 and (petitioner_choices['end'] or (term == 'long' and petitioner_choices.get('extend', False))):
-  , or 
+  ask the court to change the order${ ', or' if len(petitioner_choices.true_values()) > 1 and petitioner_choices['end'] else ''}${ ', or' if len(petitioner_choices.true_values()) > 1 and term == 'long' and petitioner_choices['extend'] else '' }${ ', or' if len(petitioner_choices.true_values()) > 1 and petitioner_choices['respond'] else '' }${ ', or' if len(petitioner_choices.true_values()) > 1 and term == 'short' and request_long and petitioner_choices['dismiss'] else '' }
   % endif
-  % endif
-  % if petitioner_choices.any_true('change', 'end') or (((term == 'long') or (term == 'short' and request_long)) and petitioner_choices.get('extend', False)):
+  % if petitioner_choices.any_true('change', 'end') or (term == 'long' and petitioner_choices['extend']):
   ask the court to ${ comma_and_list([ k for k in petition_action_keys if petitioner_choices.get(k, False) ], and_string = 'or') } 
-  the order
-  % endif
-  % if len(petitioner_choices.true_values()) > 1 and petitioner_choices['respond']:
-  , or
+  the order${ ', or' if len(petitioner_choices.true_values()) > 1 and petitioner_choices['respond'] else '' }${ ', or' if len(petitioner_choices.true_values()) > 1 and term == 'short' and request_long and petitioner_choices['dismiss'] else '' }
   % endif
   % if petitioner_choices['respond']:
-  respond if the other side asks to change or end the order
-  % endif
-  % if len(petitioner_choices.true_values()) > 1 and (term == 'short' and request_long) and petitioner_choices['dismiss']:
-  , or
+  respond if the other side asks to change or end the order${ ', or' if len(petitioner_choices.true_values()) > 1 and term == 'short' and request_long and petitioner_choices['dismiss'] else '' }
   % endif
   % if term == 'short' and request_long and petitioner_choices['dismiss']:
   ask the court to dismiss the petition
-  % endif
+  % endif 
   % elif user_need == 'po respondent':
   % if respondent_choices.any_true('change', 'end'):
   ask the court to ${ comma_and_list([ k for k in petition_action_keys if respondent_choices.get(k, False) ], and_string = 'or') }
-  the order
-  % endif
-  % if respondent_choices.any_true('change', 'end') and len(respondent_choices.true_values()) > 1 and respondent_choices['respond']:
-  , or
+  the order${ ', or' if len(respondent_choices.true_values()) > 1 and respondent_choices['respond'] else '' }${ ', or' if len(respondent_choices.true_values()) > 1 and respondent_choices['respond'] else '' }${ ', or' if len(respondent_choices.true_values()) > 1 and respondent_choices['respond to extend'] else '' }${ ', or' if len(respondent_choices.true_values()) > 1 and  term == 'short' and request_long and respondent_choices['dismiss'] else '' }
   % endif
   % if respondent_choices['respond']:
-  respond if the other side asks to change or end the order
-  % endif
-  % if len(respondent_choices.true_values()) > 1 and respondent_choices['respond to extend']:
-  , or
+  respond if the other side asks to change or end the order${ ', or' if len(respondent_choices.true_values()) > 1 and respondent_choices['respond to extend'] else '' }${ ', or' if len(respondent_choices.true_values()) > 1 and  term == 'short' and request_long and respondent_choices['dismiss'] else '' }
   % endif
   % if respondent_choices['respond to extend']:
-  respond if the other side asks to extend the order
-  % endif
-  % if len(respondent_choices.true_values()) > 1 and  term == 'short' and request_long and respondent_choices['dismiss']:
-  , or
+  respond if the other side asks to extend the order${ ', or' if len(respondent_choices.true_values()) > 1 and  term == 'short' and request_long and respondent_choices['dismiss'] else '' }
   % endif
   % if term == 'short' and request_long and respondent_choices['dismiss']:
   ask the court to dismiss the petition

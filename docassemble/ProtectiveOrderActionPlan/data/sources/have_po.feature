@@ -79,7 +79,7 @@ Scenario: Row #306 - ## cannot have all 3 of these in 1 test
     And I should see the phrase "Step 1: Stay safe"
     And I should see the phrase "Step 2: Review resources to help with the court process"
     And I should see the phrase "Step 3: Prepare for your Protective Order hearing"
-    And I should see the phrase "Step 4: Fill out the form to ask the court to end the order , or ask the court to dismiss the petition"
+    And I should see the phrase "Step 4: Fill out the form to ask the court to end the order, or ask the court to dismiss the petition"
     And I should see the phrase "Step 5: Start a case for a Parenting Plan (also known as a “Custody Order”)"
     And I take a screenshot  
     And I download "protective_order_action_plan.pdf"
