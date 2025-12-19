@@ -80,7 +80,7 @@ Scenario: Row #339
     And I should see the phrase "Step 1: Tips and resources for when someone has a Stalking Protective Order against you"
     And I should see the phrase "Step 2: Prepare for your Protective Order hearing"
     And I should see the phrase "Step 3: Think about parenting issues"
-    And I should see the phrase "Step 4: Fill out the form to ask the court to end the order, or respond if the other side asks to change or end the order"
+    And I should see the phrase "Step 4: Fill out the form to ask the court to end the order , or respond if the other side asks to change or end the order"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
