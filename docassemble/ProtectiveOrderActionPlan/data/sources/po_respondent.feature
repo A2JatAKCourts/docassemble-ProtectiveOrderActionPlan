@@ -1,5 +1,5 @@
 @po_respondent
-# 2025-12-18
+# 2025-12-22
 
 Feature: User paths
 
@@ -32,12 +32,16 @@ Scenario: Row #337
     | custody                       | married       |         | 
     | respondent_choices['dismiss'] | True          |         | 
     | po_case_type                  | 1 person      |         | 
-    And I should see the phrase "Your Protective Order Action Plan in 5 steps"
+    | have_petition                 | yes           |         | 
+    | other_party_exempt            | yes           |         | 
+    | other_party_enter_email       | True          |         | 
+    And I should see the phrase "Your Protective Order Action Plan in 6 steps"
     And I should see the phrase "Step 1: Tips and resources for when someone has a Domestic Violence Protective Order against you"
     And I should see the phrase "Step 2: Prepare for your Protective Order hearing"
     And I should see the phrase "Step 3: Think about parenting issues"
     And I should see the phrase "Step 4: Fill out the form to ask the court to dismiss the petition"
-    And I should see the phrase "Step 5: Start a case to end your marriage"
+    And I should see the phrase "Step 5: File and serve electronically"
+    And I should see the phrase "Step 6: Start a case to end your marriage"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
@@ -54,10 +58,12 @@ Scenario: Row #338
     | custody                      | divorced      |         | 
     | respondent_choices['change'] | True          |         | 
     | po_case_type                 | more than 1   |         | 
-    And I should see the phrase "Your Protective Order Action Plan in 3 steps"
+    | have_petition                | no            |         | 
+    And I should see the phrase "Your Protective Order Action Plan in 4 steps"
     And I should see the phrase "Step 1: Tips and resources for when someone has a Domestic Violence Protective Order against you"
     And I should see the phrase "Step 2: Think about parenting issues"
     And I should see the phrase "Step 3: Fill out the form to ask the court to change the order"
+    And I should see the phrase "Step 4: File and serve electronically"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
@@ -76,11 +82,14 @@ Scenario: Row #339
     | respondent_choices['end']     | True          |         | 
     | respondent_choices['respond'] | True          |         | 
     | po_case_type                  | stalking      |         | 
-    And I should see the phrase "Your Protective Order Action Plan in 4 steps"
+    | have_petition                 | yes           |         | 
+    | other_party_exempt            | no            |         | 
+    And I should see the phrase "Your Protective Order Action Plan in 5 steps"
     And I should see the phrase "Step 1: Tips and resources for when someone has a Stalking Protective Order against you"
     And I should see the phrase "Step 2: Prepare for your Protective Order hearing"
     And I should see the phrase "Step 3: Think about parenting issues"
     And I should see the phrase "Step 4: Fill out the form to ask the court to end the order, or respond if the other side asks to change or end the order"
+    And I should see the phrase "Step 5: File and serve electronically"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
@@ -98,11 +107,13 @@ Scenario: Row #340
     | custody                                 | no custody order |         | 
     | respondent_choices['respond to extend'] | True             |         | 
     | po_case_type                            | sexual assault   |         | 
-    And I should see the phrase "Your Protective Order Action Plan in 4 steps"
+    | have_petition                           | no               |         | 
+    And I should see the phrase "Your Protective Order Action Plan in 5 steps"
     And I should see the phrase "Step 1: Tips and resources for when someone has a Sexual Assault Protective Order against you"
     And I should see the phrase "Step 2: Think about parenting issues"
     And I should see the phrase "Step 3: Fill out the form to respond if the other side asks to extend the order"
-    And I should see the phrase "Step 4: Start a case for a Parenting Plan (also known as a “Custody Order”)"
+    And I should see the phrase "Step 4: File and serve electronically"
+    And I should see the phrase "Step 5: Start a case for a Parenting Plan (also known as a "Custody Order")"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
@@ -120,12 +131,15 @@ Scenario: Row #341
     | respondent_choices['dismiss'] | True             |         | 
     | respondent_choices['respond'] | True             |         | 
     | po_case_type                  | more than 1      |         | 
-    And I should see the phrase "Your Protective Order Action Plan in 5 steps"
+    | have_petition                 | yes              |         | 
+    | other_party_exempt            | none             |         | 
+    And I should see the phrase "Your Protective Order Action Plan in 6 steps"
     And I should see the phrase "Step 1: Tips and resources for when someone has a Domestic Violence Protective Order against you"
     And I should see the phrase "Step 2: Prepare for your Protective Order hearing"
     And I should see the phrase "Step 3: Think about parenting issues"
     And I should see the phrase "Step 4: Fill out the form to respond if the other side asks to change or end the order, or ask the court to dismiss the petition"
-    And I should see the phrase "Step 5: Start a case for a Parenting Plan (also known as a “Custody Order”)"
+    And I should see the phrase "Step 5: File and serve electronically"
+    And I should see the phrase "Step 6: Start a case for a Parenting Plan (also known as a "Custody Order")"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
@@ -142,10 +156,12 @@ Scenario: Row #342
     | married                       | True          |         | 
     | respondent_choices['respond'] | True          |         | 
     | po_case_type                  | 1 person      |         | 
-    And I should see the phrase "Your Protective Order Action Plan in 3 steps"
+    | have_petition                 | no            |         | 
+    And I should see the phrase "Your Protective Order Action Plan in 4 steps"
     And I should see the phrase "Step 1: Tips and resources for when someone has a Domestic Violence Protective Order against you"
     And I should see the phrase "Step 2: Fill out the form to respond if the other side asks to change or end the order"
-    And I should see the phrase "Step 3: Start a case to end your marriage"
+    And I should see the phrase "Step 3: File and serve electronically"
+    And I should see the phrase "Step 4: Start a case to end your marriage"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
@@ -162,10 +178,14 @@ Scenario: Row #343
     | married                   | False         |         | 
     | respondent_choices['end'] | True          |         | 
     | po_case_type              | stalking      |         | 
-    And I should see the phrase "Your Protective Order Action Plan in 3 steps"
+    | have_petition             | yes           |         | 
+    | other_party_exempt        | yes           |         | 
+    | other_party_enter_email   | False         |         | 
+    And I should see the phrase "Your Protective Order Action Plan in 4 steps"
     And I should see the phrase "Step 1: Tips and resources for when someone has a Stalking Protective Order against you"
     And I should see the phrase "Step 2: Prepare for your Protective Order hearing"
     And I should see the phrase "Step 3: Fill out the form to ask the court to end the order"
+    And I should see the phrase "Step 4: File electronically and serve the other person"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
@@ -181,10 +201,12 @@ Scenario: Row #344
     | custody                      | custody order  |         | 
     | respondent_choices['change'] | True           |         | 
     | po_case_type                 | sexual assault |         | 
-    And I should see the phrase "Your Protective Order Action Plan in 3 steps"
+    | have_petition                | no             |         | 
+    And I should see the phrase "Your Protective Order Action Plan in 4 steps"
     And I should see the phrase "Step 1: Tips and resources for when someone has a Sexual Assault Protective Order against you"
     And I should see the phrase "Step 2: Think about parenting issues"
     And I should see the phrase "Step 3: Fill out the form to ask the court to change the order"
+    And I should see the phrase "Step 4: File and serve electronically"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
@@ -201,11 +223,14 @@ Scenario: Row #345
     | respondent_choices['change']  | True             |         | 
     | respondent_choices['respond'] | True             |         | 
     | po_case_type                  | more than 1      |         | 
-    And I should see the phrase "Your Protective Order Action Plan in 4 steps"
+    | have_petition                 | yes              |         | 
+    | other_party_exempt            | no               |         | 
+    And I should see the phrase "Your Protective Order Action Plan in 5 steps"
     And I should see the phrase "Step 1: Tips and resources for when someone has a Domestic Violence Protective Order against you"
     And I should see the phrase "Step 2: Think about parenting issues"
     And I should see the phrase "Step 3: Fill out the form to ask the court to change the order, or respond if the other side asks to change or end the order"
-    And I should see the phrase "Step 4: Start a case for a Parenting Plan (also known as a “Custody Order”)"
+    And I should see the phrase "Step 4: File and serve electronically"
+    And I should see the phrase "Step 5: Start a case for a Parenting Plan (also known as a "Custody Order")"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
@@ -221,11 +246,13 @@ Scenario: Row #346
     | custody                                 | married        |         | 
     | respondent_choices['respond to extend'] | True           |         | 
     | po_case_type                            | sexual assault |         | 
-    And I should see the phrase "Your Protective Order Action Plan in 4 steps"
+    | have_petition                           | no             |         | 
+    And I should see the phrase "Your Protective Order Action Plan in 5 steps"
     And I should see the phrase "Step 1: Tips and resources for when someone has a Sexual Assault Protective Order against you"
     And I should see the phrase "Step 2: Think about parenting issues"
     And I should see the phrase "Step 3: Fill out the form to respond if the other side asks to extend the order"
-    And I should see the phrase "Step 4: Start a case to end your marriage"
+    And I should see the phrase "Step 4: File and serve electronically"
+    And I should see the phrase "Step 5: Start a case to end your marriage"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
@@ -241,10 +268,13 @@ Scenario: Row #347
     | married                   | True          |         | 
     | respondent_choices['end'] | True          |         | 
     | po_case_type              | 1 person      |         | 
-    And I should see the phrase "Your Protective Order Action Plan in 3 steps"
+    | have_petition             | yes           |         | 
+    | other_party_exempt        | none          |         | 
+    And I should see the phrase "Your Protective Order Action Plan in 4 steps"
     And I should see the phrase "Step 1: Tips and resources for when someone has a Domestic Violence Protective Order against you"
     And I should see the phrase "Step 2: Fill out the form to ask the court to end the order"
-    And I should see the phrase "Step 3: Start a case to end your marriage"
+    And I should see the phrase "Step 3: File and serve electronically"
+    And I should see the phrase "Step 4: Start a case to end your marriage"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
@@ -261,9 +291,13 @@ Scenario: Row #348
     | respondent_choices['end']               | True          |         | 
     | respondent_choices['respond to extend'] | True          |         | 
     | po_case_type                            | stalking      |         | 
-    And I should see the phrase "Your Protective Order Action Plan in 2 steps"
+    | have_petition                           | yes           |         | 
+    | other_party_exempt                      | yes           |         | 
+    | other_party_enter_email                 | None          |         | 
+    And I should see the phrase "Your Protective Order Action Plan in 3 steps"
     And I should see the phrase "Step 1: Tips and resources for when someone has a Stalking Protective Order against you"
     And I should see the phrase "Step 2: Fill out the form to ask the court to end the order, or respond if the other side asks to extend the order"
+    And I should see the phrase "Step 3: File electronically and serve the other person"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"

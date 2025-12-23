@@ -1,6 +1,6 @@
 comment: |
-    last updated: 2025-12-18
-    fix for space before comma or in respond_change_end_extend_step heading
+    last updated: 2025-12-22
+    added ak court info step for user_need == 'want po'
 ---
 generic object: ALDocumentBundle
 template: x.get_email_copy
@@ -80,7 +80,7 @@ code: |
   images_list = []
   distribution_certificate_list = []
   reply_certificate_list = []
-  other_party_in_case  = ''
+  other_party_in_case  = 'the other person'
   # case_type = 'custody case'
   type_of_response['ak custody case'] = False
   # distribution_certificate_list.append({'image': distrib_cert_custody_divorce_image, 'text': "Certificate of Distribution shows the date the court sent your order to you."})
@@ -134,6 +134,9 @@ code: |
     if petitioner_choices.any_true('change', 'end', 'respond')  or (term == 'short' and request_long and petitioner_choices['dismiss']) or (petitioner_choices['options'] and not petitioner_choices['change'] and also_change) or (term == 'long' and petitioner_choices ['extend'] and (not expired or (expired and expired_days_ago == 'less than 60 days'))):
       po_case_type
       add_unique_step((respond_change_end_extend_dismiss_petition_step, "respond_change_end_extend_dismiss_petition_idx"), step_list)
+      if have_petition:
+          other_party_exempt
+      add_unique_step((truefile_answer_file_and_serve_step, "truefile_answer_file_and_serve_idx"), step_list)
 
   
   if user_need == 'register po':
@@ -266,90 +269,92 @@ code: |
             other_po
 
     if who_needs_the_order == 'self and children':
-      if petitioner_related_to_child == 'parent':
-        if po_against_other_parent:
-          parent_married_parent 
-          if dv_crime == 'yes one':
-            protective_order_for_one = True
-          elif dv_crime in('yes all', 'yes some'):
-            protective_order_for_more = True
-        else: ## not po_against_other_parent
-          if self_related_to_abuser.any_true():
-            if dv_crime in('yes all', 'yes some'):
-              protective_order_for_more = True
-            if dv_crime == 'yes one':
-              protective_order_for_one = True
+      if petitioner_related_to_child != 'other':
+        if domestic_violence_po_criteria:
+          if petitioner_related_to_child == 'parent':
+            if po_against_other_parent:
+              parent_married_parent 
+              if dv_crime == 'yes one':
+                protective_order_for_one = True
+              elif dv_crime in('yes all', 'yes some'):
+                protective_order_for_more = True
+            else: ## not po_against_other_parent
+              if self_related_to_abuser.any_true():
+                if dv_crime in('yes all', 'yes some'):
+                  protective_order_for_more = True
+                if dv_crime == 'yes one':
+                  protective_order_for_one = True
 
-          else: ## self_related_to_abuser.all_false()
-            if what_next == 'other po for me':
-              no_qualifying_relationship = True
-              other_po
+              else: ## self_related_to_abuser.all_false()
+                if what_next == 'other po for me':
+                  no_qualifying_relationship = True
+                  other_po
 
-            elif what_next == 'stop for me':
-              no_qualifying_relationship = True
-              if children_related_to_abuser == 'all':
+                elif what_next == 'stop for me':
+                  no_qualifying_relationship = True
+                  if children_related_to_abuser == 'all':
+                    relationship_qualifies = True
+                    if dv_crime == 'yes more':
+                      protective_order_for_more = True
+                    elif dv_crime == 'yes one':
+                      protective_order_for_one = True
+                  elif children_related_to_abuser == 'one':
+                    if what_next_for_children == 'order for one':
+                      relationship_qualifies = True
+                      if dv_crime == 'yes':
+                        protective_order_for_one = True
+                    elif what_next_for_children == 'order for more':
+                      relationship_qualifies = True
+                      if dv_crime == 'yes more':
+                        protective_order_for_more = True
+                      elif dv_crime == 'yes one':
+                        protective_order_for_one = True
+                    elif what_next_for_children == 'stop':
+                      no_qualifying_relationship = True
+                      relationship_qualifies = False
+                      other_po
+
+                  elif children_related_to_abuser == 'none':
+                    no_qualifying_relationship = True
+                    other_po
+
+          elif petitioner_related_to_child in('guardian', 'combination'):
+            if self_related_to_abuser.any_true():
+              if children_related_to_abuser in('all', 'one'):
                 relationship_qualifies = True
-                if dv_crime == 'yes more':
+                if dv_crime in('yes all', 'yes some'):
                   protective_order_for_more = True
                 elif dv_crime == 'yes one':
                   protective_order_for_one = True
-              elif children_related_to_abuser == 'one':
-                if what_next_for_children == 'order for one':
-                  relationship_qualifies = True
+              elif children_related_to_abuser == 'none':
+                if what_next == 'stop for child':
                   if dv_crime == 'yes':
                     protective_order_for_one = True
-                elif what_next_for_children == 'order for more':
+                if what_next == 'continue for both':
+                  if dv_crime in('yes all', 'yes some'):
+                    protective_order_for_more = True
+                  if dv_crime == 'yes one':
+                    protective_order_for_one = True
+                if what_next == 'stop for me':
+                  no_qualifying_relationship = True
+                  other_po
+
+
+            elif self_related_to_abuser.all_false():
+              no_qualifying_relationship = True
+              if what_next == 'other po for me':
+                other_po
+              elif what_next == 'stop for me':
+                if children_related_to_abuser in('all', 'one'):
                   relationship_qualifies = True
                   if dv_crime == 'yes more':
                     protective_order_for_more = True
                   elif dv_crime == 'yes one':
                     protective_order_for_one = True
-                elif what_next_for_children == 'stop':
+
+                elif children_related_to_abuser == 'none':
                   no_qualifying_relationship = True
-                  relationship_qualifies = False
                   other_po
-
-              elif children_related_to_abuser == 'none':
-                no_qualifying_relationship = True
-                other_po
-
-      elif petitioner_related_to_child in('guardian', 'combination'):
-        if self_related_to_abuser.any_true():
-          if children_related_to_abuser in('all', 'one'):
-            relationship_qualifies = True
-            if dv_crime in('yes all', 'yes some'):
-              protective_order_for_more = True
-            elif dv_crime == 'yes one':
-              protective_order_for_one = True
-          elif children_related_to_abuser == 'none':
-            if what_next == 'stop for child':
-              if dv_crime == 'yes':
-                protective_order_for_one = True
-            if what_next == 'continue for both':
-              if dv_crime in('yes all', 'yes some'):
-                protective_order_for_more = True
-              if dv_crime == 'yes one':
-                protective_order_for_one = True
-            if what_next == 'stop for me':
-              no_qualifying_relationship = True
-              other_po
-
-
-        elif self_related_to_abuser.all_false():
-          no_qualifying_relationship = True
-          if what_next == 'other po for me':
-            other_po
-          elif what_next == 'stop for me':
-            if children_related_to_abuser in('all', 'one'):
-              relationship_qualifies = True
-              if dv_crime == 'yes more':
-                protective_order_for_more = True
-              elif dv_crime == 'yes one':
-                protective_order_for_one = True
-
-            elif children_related_to_abuser == 'none':
-              no_qualifying_relationship = True
-              other_po
 
 
 
@@ -362,6 +367,7 @@ code: |
     if options_for_po['tribal']:
       add_unique_step((tribal_po_info_step, "tribal_po_info_idx"), step_list)
   if (user_need == 'want po' and (options_for_po['AK court'] or (options_for_po.any_true('military', 'tribal') and options_for_po.all_false('AK court') and court_info_also))) or has_expired:
+    add_unique_step((ak_court_po_info_step, "ak_court_po_info_idx"), step_list)
     if who_needs_the_order == 'self':
       if self_related_to_abuser.any_true('married', 'divorced') and not self_related_to_abuser['have child']:
         if child_w_abuser:
@@ -697,6 +703,9 @@ code: |
       respondent_choices
       po_case_type
       add_unique_step((respond_change_end_extend_dismiss_petition_step, "respond_change_end_extend_dismiss_petition_idx"), step_list)
+      if have_petition:
+          other_party_exempt
+      add_unique_step((truefile_answer_file_and_serve_step, "truefile_answer_file_and_serve_idx"), step_list)
   
   
   
