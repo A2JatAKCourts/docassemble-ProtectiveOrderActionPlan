@@ -236,6 +236,9 @@ code: |
               relationship_qualifies = True
               if dv_crime == 'yes':
                 protective_order_for_one = True
+            else:
+              no_qualifying_relationship = True
+              other_po
           if what_next == 'other po for me':
               no_qualifying_relationship = True
               other_po
@@ -493,6 +496,9 @@ code: |
               relationship_qualifies = True
               if dv_crime == 'yes':
                 protective_order_for_one = True
+                add_unique_step((protective_order_step, "protective_order_idx"), step_list)
+            else: # guardian_for_child_related_to_abuser.all_false()/['None']
+              if other_po in('stalked', 'sexual contact'):
                 add_unique_step((protective_order_step, "protective_order_idx"), step_list)
           if what_next == 'other po for me':
               no_qualifying_relationship = True
