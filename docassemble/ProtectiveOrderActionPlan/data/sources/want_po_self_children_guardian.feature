@@ -408,4 +408,3 @@ Scenario: Row #301
     | children_related_to_abuser     | none              |         |
     | other_po                       | sexual contact    |         |
   And I take a screenshot
-

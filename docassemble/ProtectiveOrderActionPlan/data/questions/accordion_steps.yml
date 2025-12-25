@@ -1,6 +1,6 @@
 comment: |
-    last updated: 2025-12-18
-    fix for space before comma or in respond_change_end_extend_step heading
+    last updated: 2025-12-23
+    add truefiling steps for have po and po respondent
 ---
 generic object: ALDocumentBundle
 template: x.get_email_copy
@@ -80,7 +80,7 @@ code: |
   images_list = []
   distribution_certificate_list = []
   reply_certificate_list = []
-  other_party_in_case  = ''
+  other_party_in_case  = 'the other person'
   # case_type = 'custody case'
   type_of_response['ak custody case'] = False
   # distribution_certificate_list.append({'image': distrib_cert_custody_divorce_image, 'text': "Certificate of Distribution shows the date the court sent your order to you."})
@@ -134,6 +134,9 @@ code: |
     if petitioner_choices.any_true('change', 'end', 'respond')  or (term == 'short' and request_long and petitioner_choices['dismiss']) or (petitioner_choices['options'] and not petitioner_choices['change'] and also_change) or (term == 'long' and petitioner_choices ['extend'] and (not expired or (expired and expired_days_ago == 'less than 60 days'))):
       po_case_type
       add_unique_step((respond_change_end_extend_dismiss_petition_step, "respond_change_end_extend_dismiss_petition_idx"), step_list)
+      if have_petition:
+          other_party_exempt
+      add_unique_step((truefile_answer_file_and_serve_step, "truefile_answer_file_and_serve_idx"), step_list)
 
   
   if user_need == 'register po':
@@ -697,6 +700,9 @@ code: |
       respondent_choices
       po_case_type
       add_unique_step((respond_change_end_extend_dismiss_petition_step, "respond_change_end_extend_dismiss_petition_idx"), step_list)
+      if have_petition:
+          other_party_exempt
+      add_unique_step((truefile_answer_file_and_serve_step, "truefile_answer_file_and_serve_idx"), step_list)
   
   
   

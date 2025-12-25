@@ -6,6 +6,7 @@ include:
   - docassemble.AKA2JBranding:custom_organization.yml
   - docassemble.AKA2JBranding:aka2j_templates.yml
   - accordion_steps.yml
+  - true_filing_questions.yml
 ---
 default screen parts:
   post: |
