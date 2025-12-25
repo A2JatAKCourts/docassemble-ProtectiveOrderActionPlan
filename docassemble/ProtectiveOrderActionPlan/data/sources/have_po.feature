@@ -1,5 +1,5 @@
 @have_po
-# 2025-12-23 -without filing step
+# 2025-12-24 -without filing step
 
 Feature: User paths
 
@@ -586,7 +586,7 @@ Scenario: Row #328
     And I should see the phrase "Your Protective Order Action Plan in 3 steps"
     And I should see the phrase "Step 1: Stay safe"
     And I should see the phrase "Step 2: Review resources to help with the court process"
-    And I should see the phrase "Step 3: Fill out the form to ask the court to change, or end the order"
+    And I should see the phrase "Step 3: Fill out the form to ask the court to change or end the order"
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
     And I take a screenshot
@@ -611,7 +611,7 @@ Scenario: Row #329
     And I should see the phrase "Step 1: Stay safe"
     And I should see the phrase "Step 2: Review resources to help with the court process"
     And I should see the phrase "Step 3: Review options when the respondent violates the Protective Order"
-    And I should see the phrase "Step 4: Fill out the form to respond if the other side asks to change or end the order"
+    And I should see the phrase "Step 4: Fill out the form to ask the court to change the order, or respond if the other side asks to change or end the order"
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
     And I take a screenshot
@@ -683,9 +683,10 @@ Scenario: Row #332
     | domestic_violence_po_criteria | True             |         |
     | children_related_to_abuser   | all               |         |
     | dv_crime                     | yes more          |         |
-    And I should see the phrase "Your Protective Order Action Plan in 2 steps"
+    And I should see the phrase "Your Protective Order Action Plan in 3 steps"
     And I should see the phrase "Step 1: Stay safe"
     And I should see the phrase "Step 2: Review resources to help with the court process"
+    And I should see the phrase "Step 3: Fill out the forms to ask the court for a Domestic Violence Protective Order for More Than One Person"
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
     And I take a screenshot  
