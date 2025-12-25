@@ -414,10 +414,11 @@ Feature: User paths
       | self_related_to_abuser['marriage related'] | True           |         |
       | self_related_to_abuser['have child']       | True           |         |
       | dv_crime                                   | no             |         |
-    And I should see the phrase "Your Protective Order Action Plan in 3 steps"
+    And I should see the phrase "Your Protective Order Action Plan in 4 steps"
     And I should see the phrase "Step 1: Stay safe"
     And I should see the phrase "Step 2: Review resources to help with the court process"
     And I should see the phrase "Step 3: Think about parenting issues"
+    And I should see the phrase "Step 4: Start a case for a Parenting Plan (also known as a "Custody Order")"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
