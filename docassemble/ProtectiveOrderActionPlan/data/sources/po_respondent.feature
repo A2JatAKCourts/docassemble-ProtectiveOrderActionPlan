@@ -1,5 +1,5 @@
 @po_respondent
-# 2025-12-22
+# 2025-12-23
 
 Feature: User paths
 
@@ -10,9 +10,10 @@ Background:
 Scenario: Row #336
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
-    | var       | value         | trigger |
-    | user_need | po respondent |         |
-    | term      | hearing       |         |
+    | var              | value         | trigger |
+    | user_need        | po respondent |         |
+    | respondent_intro | True          |         |
+    | term             | hearing       |         |
     And I should see the phrase "Your Protective Order Action Plan in 2 steps"
     And I should see the phrase "Step 1: Tips and resources for when someone asks for a Protective Order against you"
     And I should see the phrase "Step 2: Prepare for your Protective Order hearing"
@@ -26,6 +27,7 @@ Scenario: Row #337
     And I get to the question id "final screen" with this data:
     | var                           | value         | trigger |
     | user_need                     | po respondent |         |
+    | respondent_intro              | True          |         |
     | term                          | short         |         |
     | request_long                  | True          |         |
     | shared_child                  | True          |         |
@@ -52,6 +54,7 @@ Scenario: Row #338
     And I get to the question id "final screen" with this data:
     | var                          | value         | trigger |
     | user_need                    | po respondent |         |
+    | respondent_intro             | True          |         |
     | term                         | short         |         |
     | request_long                 | False         |         |
     | shared_child                 | True          |         |
@@ -75,6 +78,7 @@ Scenario: Row #339
     And I get to the question id "final screen" with this data:
     | var                           | value         | trigger |
     | user_need                     | po respondent |         |
+    | respondent_intro              | True          |         |
     | term                          | short         |         |
     | request_long                  | True          |         |
     | shared_child                  | True          |         |
@@ -101,6 +105,7 @@ Scenario: Row #340
     And I get to the question id "final screen" with this data:
     | var                                     | value            | trigger |
     | user_need                               | po respondent    |         |
+    | respondent_intro                        | True             |         |
     | term                                    | short            |         |
     | request_long                            | False            |         |
     | shared_child                            | True             |         |
@@ -124,6 +129,7 @@ Scenario: Row #341
     And I get to the question id "final screen" with this data:
     | var                           | value            | trigger |
     | user_need                     | po respondent    |         |
+    | respondent_intro              | True             |         |
     | term                          | short            |         |
     | request_long                  | True             |         |
     | shared_child                  | True             |         |
@@ -150,6 +156,7 @@ Scenario: Row #342
     And I get to the question id "final screen" with this data:
     | var                           | value         | trigger |
     | user_need                     | po respondent |         |
+    | respondent_intro              | True          |         |
     | term                          | short         |         |
     | request_long                  | False         |         |
     | shared_child                  | False         |         |
@@ -172,6 +179,7 @@ Scenario: Row #343
     And I get to the question id "final screen" with this data:
     | var                       | value         | trigger |
     | user_need                 | po respondent |         |
+    | respondent_intro          | True          |         |
     | term                      | short         |         |
     | request_long              | True          |         |
     | shared_child              | False         |         |
@@ -196,6 +204,7 @@ Scenario: Row #344
     And I get to the question id "final screen" with this data:
     | var                          | value          | trigger |
     | user_need                    | po respondent  |         |
+    | respondent_intro             | True           |         |
     | term                         | long           |         |
     | shared_child                 | True           |         |
     | custody                      | custody order  |         |
@@ -217,6 +226,7 @@ Scenario: Row #345
     And I get to the question id "final screen" with this data:
     | var                           | value            | trigger |
     | user_need                     | po respondent    |         |
+    | respondent_intro              | True             |         |
     | term                          | long             |         |
     | shared_child                  | True             |         |
     | custody                       | no custody order |         |
@@ -241,6 +251,7 @@ Scenario: Row #346
     And I get to the question id "final screen" with this data:
     | var                                     | value          | trigger |
     | user_need                               | po respondent  |         |
+    | respondent_intro                        | True           |         |
     | term                                    | long           |         |
     | shared_child                            | True           |         |
     | custody                                 | married        |         |
@@ -263,6 +274,7 @@ Scenario: Row #347
     And I get to the question id "final screen" with this data:
     | var                       | value         | trigger |
     | user_need                 | po respondent |         |
+    | respondent_intro          | True          |         |
     | term                      | long          |         |
     | shared_child              | False         |         |
     | married                   | True          |         |
@@ -285,6 +297,7 @@ Scenario: Row #348
     And I get to the question id "final screen" with this data:
     | var                                     | value         | trigger |
     | user_need                               | po respondent |         |
+    | respondent_intro                        | True          |         |
     | term                                    | long          |         |
     | shared_child                            | False         |         |
     | married                                 | False         |         |
