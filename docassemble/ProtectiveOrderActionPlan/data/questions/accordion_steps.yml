@@ -366,6 +366,8 @@ code: |
      add_unique_step((ak_court_po_info_step, "ak_court_po_info_idx"), step_list)
   
     if who_needs_the_order == 'self':
+      if self_related_to_abuser['have child']:
+        add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
       if self_related_to_abuser.any_true('married', 'divorced') and not self_related_to_abuser['have child']:
         if child_w_abuser:
           add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
