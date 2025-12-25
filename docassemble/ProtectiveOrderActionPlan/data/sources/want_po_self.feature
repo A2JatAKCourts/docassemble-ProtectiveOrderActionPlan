@@ -1,5 +1,5 @@
 @want_po_self
-# 2025-12-22
+# 2025-12-24  
 
 Feature: User paths
 
@@ -82,9 +82,10 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False   |         |
       | child_w_abuser                       | False   |         |
       | dv_crime                             | no      |         |
-    And I should see the phrase "Your Protective Order Action Plan in 2 steps"
+    And I should see the phrase "Your Protective Order Action Plan in 3 steps"
     And I should see the phrase "Step 1: Stay safe"
-    And I should see the phrase "Step 2: Start a case to end your marriage"
+    And I should see the phrase "Step 2: Review resources to help with the court process"
+    And I should see the phrase "Step 3: Start a case to end your marriage"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"

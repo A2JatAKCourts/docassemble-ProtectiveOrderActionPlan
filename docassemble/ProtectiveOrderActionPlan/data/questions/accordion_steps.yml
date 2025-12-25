@@ -362,7 +362,8 @@ code: |
     if options_for_po['tribal']:
       add_unique_step((tribal_po_info_step, "tribal_po_info_idx"), step_list)
   if (user_need == 'want po' and (options_for_po['AK court'] or (options_for_po.any_true('military', 'tribal') and options_for_po.all_false('AK court') and court_info_also))) or has_expired:
-    add_unique_step((ak_court_po_info_step, "ak_court_po_info_idx"), step_list)
+    if who_needs_the_order == 'self' or (who_needs_the_order in('child', 'self and child', 'children', 'self and children') and petitioner_related_to_child != 'other'):
+     add_unique_step((ak_court_po_info_step, "ak_court_po_info_idx"), step_list)
   
     if who_needs_the_order == 'self':
       if self_related_to_abuser.any_true('married', 'divorced') and not self_related_to_abuser['have child']:
@@ -893,7 +894,7 @@ content: |
   
   * Watch **Domestic Violence Protective Orders** videos
   % endif
-  * Read the court’s webpage: [Domestic Violence, Stalking or Sexual Assault](https://courts.alaska.gov/shc/dv/index.htm)
+  * Read the court’s webpage: [Domestic Violence, Stalking or Sexual Assault](https://courts.alaska.gov/shc/dv)
   * Contact [the Family Law Self-Help Center](https://courts.alaska.gov/shc/family/shcabout.htm)
   <br>Call **(907) 264-0851** or **(866) 279-0851**
 ---
