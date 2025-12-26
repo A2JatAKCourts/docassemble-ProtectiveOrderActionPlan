@@ -1,5 +1,5 @@
 @want_po_self_child_parent
-# 2025-12-23
+# 2025-12-26
 
 Feature: User paths
 
@@ -15,8 +15,7 @@ Scenario: Row #81
     | options_for_po['AK court']  | True           |         |
     | who_needs_the_order         | self and child |         |
     | petitioner_related_to_child | other          |         |
-  And I should see the phrase "Your Protective Order Action Plan in 2 steps"
-  And I should see the phrase "Step 1: Stay safe"
+  And I should see the phrase "Stay safe"
   And I take a screenshot
   And I download "protective_order_action_plan.pdf"
   And I download "protective_order_action_plan.docx"
@@ -101,7 +100,8 @@ Scenario: Row #85
   And I should see the phrase "Your Protective Order Action Plan in 3 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
-  And I should see the phrase "Step 3: Start a case to end your marriage"
+  And I should see the phrase "Step 3: Think about parenting issues"
+  And I should see the phrase "Step 4: Start a case to end your marriage"
   And I take a screenshot
   And I download "protective_order_action_plan.pdf"
   And I download "protective_order_action_plan.docx"
@@ -520,10 +520,10 @@ Scenario: Row #106
     | po_against_other_parent                    | False          |         |
     | self_related_to_abuser['marriage related'] | True           |         |
     | dv_crime                                   | yes both       |         |
-  And I should see the phrase "Your Protective Order Action Plan in 3 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 4 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
-  And I should see the phrase "Step 3: Fill out the forms to ask the court for a Domestic Violence Protective Order for One Person"
+  And I should see the phrase "Step 3: Fill out the forms to ask the court for a Domestic Violence Protective Order for More Than One Person"
   And I take a screenshot
   And I download "protective_order_action_plan.pdf"
   And I download "protective_order_action_plan.docx"
@@ -750,11 +750,10 @@ Scenario: Row #117
     | what_next                          | stop for me    |         |
     | child_related_to_abuser['married'] | True           |         |
     | dv_crime                           | yes            |         |
-  And I should see the phrase "Your Protective Order Action Plan in 4 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 3 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Domestic Violence Protective Order for One Person"
-  And I should see the phrase "Step 4: Start a case to end your marriage"
   And I take a screenshot
   And I download "protective_order_action_plan.pdf"
   And I download "protective_order_action_plan.docx"
@@ -795,11 +794,10 @@ Scenario: Row #119
     | child_related_to_abuser['cohabited'] | True           |         |
     | child_related_to_abuser['married']   | True           |         |
     | dv_crime                             | yes            |         |
-  And I should see the phrase "Your Protective Order Action Plan in 4 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 3 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Domestic Violence Protective Order for One Person"
-  And I should see the phrase "Step 4: Start a case to end your marriage"
   And I take a screenshot
   And I download "protective_order_action_plan.pdf"
   And I download "protective_order_action_plan.docx"
