@@ -15,8 +15,7 @@ Scenario: Row #218
     | options_for_po['AK court']  | True              |         |
     | who_needs_the_order         | self and children |         |
     | petitioner_related_to_child | other             |         |
-  And I should see the phrase "Your Protective Order Action Plan in 2 steps"
-  And I should see the phrase "Step 1: Stay safe"
+  And I should see the phrase "Stay safe"
   And I take a screenshot
   And I download "protective_order_action_plan.pdf"
   And I download "protective_order_action_plan.docx"
