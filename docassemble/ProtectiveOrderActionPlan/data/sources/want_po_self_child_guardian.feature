@@ -18,10 +18,11 @@ Scenario: Row #128
     | self_related_to_abuser['married']                     | True           |         |
     | guardian_and_child_child_related_to_abuser['married'] | True           |         |
     | dv_crime                                              | yes both       |         |
-  And I should see the phrase "Your Protective Order Action Plan in 3 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 4 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Domestic Violence Protective Order for More Than One Person"
+  And I should see the phrase "Step 4: Start a case to end your marriage"
   And I take a screenshot
   And I download "protective_order_action_plan.pdf"
   And I download "protective_order_action_plan.docx"
