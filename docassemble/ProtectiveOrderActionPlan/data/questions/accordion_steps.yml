@@ -1,5 +1,5 @@
 comment: |
-    last updated: 2025-12-18
+    last updated: 2025-12-26
     fix for space before comma or in respond_change_end_extend_step heading
 ---
 generic object: ALDocumentBundle
@@ -29,22 +29,27 @@ question: |
   Stay safe
   % else:
   Get more information or help
+  % endif
   # <i class="fa-thin fa-list"></i>Your Action Plan is ready!
   % endif
-  % endif
 subquestion: |
+
   % if len(step_list) > 1:
   #### Your Protective Order Action Plan in ${ len(step_list) } steps
- 
-  
+  % endif
+
   % if get_config("debug", False):
   <button id="akc_expand_all" class="btn other stuff">Expand all</button>
   <button id="akc_collapse_all" class="btn other stuff">Collapse all</button>
   % endif
 
+  % if len(step_list) > 1:
   % for iteration_index, step_tuple in enumerate( step_list ):
   ${ collapse_template(step_tuple[0], closed_icon="plus", open_icon="minus") }
   % endfor
+  % else:
+  ${ stay_safe_step.content }
+  % endif
 
   ${ al_user_bundle.download_list_html() }
 
@@ -54,9 +59,6 @@ subquestion: |
 
   % if get_config("debug", False):
   [get the docx file](${ docx_protective_order_action_plan_attachment.docx.url_for() })
-  % endif
-  % else:
-  ${ stay_safe_step.content }
   % endif
 buttons:
   - Start over: restart
@@ -80,7 +82,7 @@ code: |
   images_list = []
   distribution_certificate_list = []
   reply_certificate_list = []
-  other_party_in_case  = ''
+  other_party_in_case  = 'the other person'
   # case_type = 'custody case'
   type_of_response['ak custody case'] = False
   # distribution_certificate_list.append({'image': distrib_cert_custody_divorce_image, 'text': "Certificate of Distribution shows the date the court sent your order to you."})
@@ -99,7 +101,7 @@ code: |
 
   # if len(type_of_response.true_values()) > 1:
   #   add_unique_step((pick_a_step_step, "pick_a_step_idx"), step_list)
-  
+
 
   ## Interview order for users who have a protective order  ##
   if user_need == 'have po':
@@ -109,7 +111,7 @@ code: |
       married
     if petitioner_choices['options'] and not petitioner_choices['change']:
         also_change
-  
+
     if term == 'long' and petitioner_choices['extend']:
       if expired:
         if expired_days_ago == 'less than 60 days':
@@ -135,7 +137,7 @@ code: |
       po_case_type
       add_unique_step((respond_change_end_extend_dismiss_petition_step, "respond_change_end_extend_dismiss_petition_idx"), step_list)
 
-  
+
   if user_need == 'register po':
     add_unique_step((stay_safe_step, "stay_safe_idx"), step_list)
     add_unique_step((register_foreign_po_step, "register_foreign_po_idx"), step_list)
@@ -147,6 +149,7 @@ code: |
   if user_need == 'want po':
     options_for_po
   if (user_need == 'want po' and (options_for_po['AK court'] or (options_for_po.any_true('military', 'tribal') and options_for_po.all_false('AK court') and court_info_also))) or has_expired:
+
     if who_needs_the_order == 'self':
       if self_related_to_abuser.any_true('married', 'divorced') and not self_related_to_abuser['have child']:
         child_w_abuser
@@ -157,6 +160,7 @@ code: |
       else:
         no_qualifying_relationship = True
         other_po
+
     if who_needs_the_order == 'child':
       if petitioner_related_to_child == 'parent':
         if child_related_to_abuser.any_true() or (child_related_to_abuser.all_false() and petitioner_related_to_child == 'parent' and parent_related_to_abuser.any_true()) or (child_related_to_abuser.all_false() and petitioner_related_to_child == 'parent' and parent_related_to_abuser.all_false() and other_parent_related_to_abuser.any_true()):
@@ -175,6 +179,7 @@ code: |
         else:
           no_qualifying_relationship = True
           other_po
+
     if who_needs_the_order == 'self and child':
       if petitioner_related_to_child == 'parent':
         if po_against_other_parent:
@@ -214,7 +219,7 @@ code: |
               protective_order_for_more = True
             if dv_crime == 'yes one':
               protective_order_for_one = True
-              
+
           else: ## guardian_and_child_child_related_to_abuser.all_false
             if what_next == 'stop for child':
               relationship_qualifies = True
@@ -236,6 +241,9 @@ code: |
               relationship_qualifies = True
               if dv_crime == 'yes':
                 protective_order_for_one = True
+            else:
+              no_qualifying_relationship = True
+              other_po
           if what_next == 'other po for me':
               no_qualifying_relationship = True
               other_po
@@ -362,7 +370,12 @@ code: |
     if options_for_po['tribal']:
       add_unique_step((tribal_po_info_step, "tribal_po_info_idx"), step_list)
   if (user_need == 'want po' and (options_for_po['AK court'] or (options_for_po.any_true('military', 'tribal') and options_for_po.all_false('AK court') and court_info_also))) or has_expired:
+    if who_needs_the_order == 'self' or (who_needs_the_order in('child', 'self and child', 'children', 'self and children') and petitioner_related_to_child != 'other'):
+     add_unique_step((ak_court_po_info_step, "ak_court_po_info_idx"), step_list)
+
     if who_needs_the_order == 'self':
+      if self_related_to_abuser['have child']:
+        add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
       if self_related_to_abuser.any_true('married', 'divorced') and not self_related_to_abuser['have child']:
         if child_w_abuser:
           add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
@@ -450,6 +463,7 @@ code: |
       if petitioner_related_to_child in('guardian', 'representative'):
         if self_related_to_abuser['have child']:
           add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
+        if self_related_to_abuser.any_true():
           if guardian_and_child_child_related_to_abuser['have child']:
             add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
           if guardian_and_child_child_related_to_abuser.any_true():
@@ -480,14 +494,17 @@ code: |
                 add_unique_step((protective_order_step, "protective_order_idx"), step_list)
         if self_related_to_abuser.all_false():
           if what_next == 'stop for me':
-            if guardian_for_child_related_to_abuser['married']:
-              add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
+            # if guardian_for_child_related_to_abuser['married']:
+            #   add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
             if guardian_for_child_related_to_abuser['have child']:
               add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
             if guardian_for_child_related_to_abuser.any_true():
               relationship_qualifies = True
               if dv_crime == 'yes':
                 protective_order_for_one = True
+                add_unique_step((protective_order_step, "protective_order_idx"), step_list)
+            else: # guardian_for_child_related_to_abuser.all_false()/['None']
+              if other_po in('stalked', 'sexual contact'):
                 add_unique_step((protective_order_step, "protective_order_idx"), step_list)
           if what_next == 'other po for me':
               no_qualifying_relationship = True
@@ -563,12 +580,12 @@ code: |
                   protective_order_for_one = True
                   add_unique_step((protective_order_step, "protective_order_idx"), step_list)
               elif children_related_to_abuser == 'one':
-                if what_next_for_children == 'order for one':                  
+                if what_next_for_children == 'order for one':
                   relationship_qualifies = True
                   if dv_crime == 'yes':
                     protective_order_for_one = True
                     add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-                elif what_next_for_children == 'order for more':                  
+                elif what_next_for_children == 'order for more':
                   relationship_qualifies = True
                   if dv_crime == 'yes more':
                     protective_order_for_more = True
@@ -576,8 +593,8 @@ code: |
                   elif dv_crime == 'yes one':
                     protective_order_for_one = True
                     add_unique_step((protective_order_step, "protective_order_idx"), step_list)
-                elif what_next_for_children == 'stop':  
-                  no_qualifying_relationship = True                  
+                elif what_next_for_children == 'stop':
+                  no_qualifying_relationship = True
                   relationship_qualifies = False
                   if other_po in('stalked', 'sexual contact'):
                     add_unique_step((protective_order_step, "protective_order_idx"), step_list)
@@ -664,9 +681,9 @@ code: |
       if petitioner_related_to_child in('guardian', 'representative'):
         if self_related_to_abuser['married']:
           add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
-        if self_related_to_abuser.any_true():
-          if guardian_and_child_child_related_to_abuser['married']:
-            add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
+        # if self_related_to_abuser.any_true():
+        #   if guardian_and_child_child_related_to_abuser['married']:
+        #    add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
 
 
     if who_needs_the_order == 'self and children':
@@ -697,9 +714,9 @@ code: |
       respondent_choices
       po_case_type
       add_unique_step((respond_change_end_extend_dismiss_petition_step, "respond_change_end_extend_dismiss_petition_idx"), step_list)
-  
-  
-  
+
+
+
   if user_need == 'have po' or (user_need == 'po respondent' and term in('short', 'long')):
     if shared_child:
       if custody == 'married':
@@ -891,7 +908,7 @@ content: |
   
   * Watch **Domestic Violence Protective Orders** videos
   % endif
-  * Read the court’s webpage: [Domestic Violence, Stalking or Sexual Assault](https://courts.alaska.gov/shc/dv/index.htm)
+  * Read the court’s webpage: [Domestic Violence, Stalking or Sexual Assault](https://courts.alaska.gov/shc/dv)
   * Contact [the Family Law Self-Help Center](https://courts.alaska.gov/shc/family/shcabout.htm)
   <br>Call **(907) 264-0851** or **(866) 279-0851**
 ---

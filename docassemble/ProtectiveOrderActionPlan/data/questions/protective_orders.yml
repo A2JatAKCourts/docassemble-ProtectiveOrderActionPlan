@@ -1,5 +1,5 @@
 Comment: |
-  2025-12-18
+  2025-12-24 We've got no template for people to pick 'None of the above.' So I made 'none of the above' options_for_po False, so users can only pick from tribal, military or AK Court. 
 ---
 include:
   - docassemble.AssemblyLine:assembly_line.yml
@@ -163,6 +163,7 @@ fields:
       - "asking for a civil protective order from the Alaska Court System.": AK court
       - "military protective orders.": military
       - "Tribal Court protective orders.": tribal
+    none of the above: False
 under: |
   #### <i class="fa-regular fa-lightbulb"></i> Learn more####
   There are 3 different lengths of time for a domestic violence protective order from the Alaska Court System. (1) A short-term domestic violence protective order starts right away and lasts 20 days. It is also called an ex parte protective order. The other side is not notified the order is being requested but if granted, law enforcement will give the other side a copy and explain what it says. (2) A long-term domestic violence protective order lasts 1 year. You can request a long-term protective order at the same time you ask for a short-term protective order. The other side is notified if you request this. The court schedules a hearing about 20 days after you ask for the long-term order and both sides can testify. If a short-term or long-term domestic violence protective order is granted, the court will prohibit the other side from committing domestic violence. (3) There is a third type of domestic violence protective order called an emergency domestic violence protective order. While uncommon, a law enforcement officer can request an emergency domestic violence protective order on behalf of a victim and if granted, it lasts for 72 hours.
