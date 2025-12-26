@@ -29,22 +29,27 @@ question: |
   Stay safe
   % else:
   Get more information or help
+  % endif
   # <i class="fa-thin fa-list"></i>Your Action Plan is ready!
   % endif
-  % endif
 subquestion: |
+  
   % if len(step_list) > 1:
   #### Your Protective Order Action Plan in ${ len(step_list) } steps
+  % endif
  
-  
   % if get_config("debug", False):
   <button id="akc_expand_all" class="btn other stuff">Expand all</button>
   <button id="akc_collapse_all" class="btn other stuff">Collapse all</button>
   % endif
-
+  
+  % if len(step_list) > 1:
   % for iteration_index, step_tuple in enumerate( step_list ):
   ${ collapse_template(step_tuple[0], closed_icon="plus", open_icon="minus") }
   % endfor
+  % else:
+  ${ stay_safe_step.content }
+  % endif
 
   ${ al_user_bundle.download_list_html() }
 
@@ -54,9 +59,6 @@ subquestion: |
 
   % if get_config("debug", False):
   [get the docx file](${ docx_protective_order_action_plan_attachment.docx.url_for() })
-  % endif
-  % else:
-  ${ stay_safe_step.content }
   % endif
 buttons:
   - Start over: restart
