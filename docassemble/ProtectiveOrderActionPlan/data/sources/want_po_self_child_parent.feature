@@ -97,7 +97,7 @@ Scenario: Row #85
     | po_against_other_parent     | True           |         |
     | parent_married_parent       | married        |         |
     | dv_crime                    | no             |         |
-  And I should see the phrase "Your Protective Order Action Plan in 3 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 4 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Think about parenting issues"
@@ -520,7 +520,7 @@ Scenario: Row #106
     | po_against_other_parent                    | False          |         |
     | self_related_to_abuser['marriage related'] | True           |         |
     | dv_crime                                   | yes both       |         |
-  And I should see the phrase "Your Protective Order Action Plan in 4 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 3 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Domestic Violence Protective Order for More Than One Person"
