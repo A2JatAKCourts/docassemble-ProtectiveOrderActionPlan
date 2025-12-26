@@ -1,6 +1,6 @@
 comment: |
     last updated: 2025-12-26
-    fix for space before comma or in respond_change_end_extend_step heading
+    added conditions for TrueFiling for have po and po respondent
 ---
 generic object: ALDocumentBundle
 template: x.get_email_copy
@@ -136,6 +136,9 @@ code: |
     if petitioner_choices.any_true('change', 'end', 'respond')  or (term == 'short' and request_long and petitioner_choices['dismiss']) or (petitioner_choices['options'] and not petitioner_choices['change'] and also_change) or (term == 'long' and petitioner_choices ['extend'] and (not expired or (expired and expired_days_ago == 'less than 60 days'))):
       po_case_type
       add_unique_step((respond_change_end_extend_dismiss_petition_step, "respond_change_end_extend_dismiss_petition_idx"), step_list)
+      if have_petition:
+        other_party_exempt
+      add_unique_step((truefile_answer_file_and_serve_step, "truefile_answer_file_and_serve_idx"), step_list)
 
 
   if user_need == 'register po':
@@ -714,6 +717,9 @@ code: |
       respondent_choices
       po_case_type
       add_unique_step((respond_change_end_extend_dismiss_petition_step, "respond_change_end_extend_dismiss_petition_idx"), step_list)
+      if have_petition:
+        other_party_exempt
+      add_unique_step((truefile_answer_file_and_serve_step, "truefile_answer_file_and_serve_idx"), step_list)
 
 
 
