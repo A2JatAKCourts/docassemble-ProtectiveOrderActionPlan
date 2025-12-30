@@ -709,7 +709,7 @@ Scenario: Row #114
     | self_related_to_abuser['None'] | True            |         |
     | what_next                      | other po for me |         |
     | other_po                       | stalked         |         |
-  And I should see the phrase "Your Protective Order Action Plan in 3 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 4 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Stalking Protective Order"
@@ -731,7 +731,7 @@ Scenario: Row #115
     | self_related_to_abuser['None'] | True            |         |
     | what_next                      | other po for me |         |
     | other_po                       | sexual contact  |         |
-  And I should see the phrase "Your Protective Order Action Plan in 3 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 4 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Sexual Assault Protective Order"
@@ -959,7 +959,7 @@ Scenario: Row #125
     | child_related_to_abuser['None']                                       | True           |         |
     | filing_parent_does_not_qualify_other_parent_related_to_abuser['None'] | True           |         |
     | other_po                                                              | sexual contact |         |
-  And I should see the phrase "Your Protective Order Action Plan in 3 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 4 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Sexual Assault Protective Order"
@@ -983,7 +983,7 @@ Scenario: Row #126
     | child_related_to_abuser['None']                                       | True           |         |
     | filing_parent_does_not_qualify_other_parent_related_to_abuser['None'] | True           |         |
     | other_po                                                              | stalked        |         |
-  And I should see the phrase "Your Protective Order Action Plan in 3 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 4 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Stalking Protective Order"

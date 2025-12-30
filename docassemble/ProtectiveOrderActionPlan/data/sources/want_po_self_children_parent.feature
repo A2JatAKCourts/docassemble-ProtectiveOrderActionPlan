@@ -694,7 +694,7 @@ Scenario: Row #226eone
     | self_related_to_abuser['blood']      | True              |         |
     | self_related_to_abuser['have child'] | True              |         |
     | dv_crime                             | yes one           |         |
-  And I should see the phrase "Your Protective Order Action Plan in 4 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 5 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Think about parenting issues"
