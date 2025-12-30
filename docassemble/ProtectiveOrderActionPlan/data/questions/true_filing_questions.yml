@@ -11,6 +11,7 @@ question: |
   Do you have a copy of the ${ po_order_name } Protective Order petition?
 yesno: have_petition
 ---
+id: other party exempt?
 question: |
   Is ${ other_party_in_case } exempt from using TrueFiling?
 subquestion: |
@@ -64,7 +65,19 @@ subject: |
   and serve electronically
   % endif
   % else:
-  File and serve electronically
+  % if have_petition:
+    % if other_party_exempt == 'yes':
+      % if other_party_enter_email:
+        File and serve electronically
+      % else:
+        File electronically and serve the other person
+      % endif
+    % else:
+      File and serve electronically
+    % endif
+  % else:
+    File and serve electronically
+  % endif
   % endif
 content: |
   % if user_need in('answer custody', 'answer divorce'):
@@ -75,32 +88,12 @@ content: |
   % else:
   <span style="color: pink;">After you complete your motion, petition, response, (text for user filing complaint or motion - )</span>
   % endif
-  you need to send it to the court.
-  This is called “filing.”
+  you need to send it to the court. This is called “filing.”
   
   You also need to give ${ other_party_in_case } a copy of everything you file with the court. This is called “service.”
   
   <div class="step-subheading">Filing</div>
-  
-  The court has a system called TrueFiling that you need to use unless you are exempt. You are exempt if one of these applies:
-  
-    * You are in a jail or correctional facility.
-    * You have a disability under the Americans with Disabilities Act (ADA).
-    * You do not have safe access to a computer, internet, or email.
-    * You cannot get the help you need to use TrueFiling.
-    * You have a language barrier or are Limited English Proficient.
-  
-  **If you are exempt and choose not to use TrueFiling:**
-  
-    * Mark it on your form, or
-    * Fill out **[TF-820 Notice of Change to Use of Email or TrueFiling](https://public.courts.alaska.gov/web/forms/docs/tf-820.pdf)**.
-    * File the form with your other documents.
-    * Read [If I am not using TrueFiling, how do I serve the other side?](https://courts.alaska.gov/shc/family/serve.htm)
-  
-  **If you are not exempt:**
-  
-    * [Create an account](https://akfile.truefiling.com/register) and file your documents.
-  
+  ${ truefiling_step.content } 
   <div class="step-subheading">Serving ${ other_party_in_case } when you are using TrueFiling</div>
   
   % if (user_need in('answer custody', 'answer divorce') and (((type_of_response.any_true('ak custody case', 'ak divorce case', 'wrong state', 'case in 2 states') and type_of_response.any_true('improper service', 'default')) or type_of_response['default']) and (proper_service or (not proper_service and have_complaint))) or (type_of_response.any_true('ak custody case', 'ak divorce case', 'wrong state', 'case in 2 states') and type_of_response.all_false('improper service', 'default'))) or (user_need in('have po', 'register po', 'po respondent')):
@@ -113,15 +106,23 @@ content: |
   % endif
   % endif
   
-  % if (user_need in('answer custody', 'answer divorce') and ((type_of_response.any_true('ak custody case', 'wrong state', 'case in 2 states') and type_of_response.any_true('improper service', 'default')) or type_of_response['default']) and not proper_service and not have_complaint) or (user_need in('have po', 'register po', 'po respondent')):
-  If you do not have a copy of the ${ 'complaint' if user_need in('answer custody', 'answer divorce') else 'motion or petition,' }, you may not know if the other person is using TrueFiling. If you use TrueFiling, and the other person is using it, you can serve them through TrueFiling. Read [If I am using TrueFiling, how do I serve the other side?](https://courts.alaska.gov/shc/family/serve.htm#truefiling-serve).
-  % elif (user_need in('answer custody', 'answer divorce') and (((type_of_response.any_true('ak custody case', 'wrong state', 'case in 2 states') and type_of_response.any_true('improper service', 'default')) or type_of_response['default']) and (proper_service or (not proper_service and have_complaint))) or (type_of_response.any_true('ak custody case', 'wrong state', 'case in 2 states') and type_of_response.all_false('improper service', 'default'))) or (user_need in('have po', 'register po', 'po respondent')):
-  % if have_petition and other_party_exempt == 'yes' and other_party_enter_email is False:
+  % if (user_need in('answer custody', 'answer divorce') and ((type_of_response.any_true('ak custody case', 'wrong state', 'case in 2 states') and type_of_response.any_true('improper service', 'default')) or type_of_response['default']) and not proper_service and not have_complaint) or (user_need in('have po', 'register po', 'po respondent') and not have_petition):
+  If you do not have a copy of the 
+  % if user_need in('answer custody', 'answer divorce'):
+  complaint, 
+  % elif user_need in('have po', 'register po', 'po respondent'):
+  petition, 
+  % else:
+  motion, 
+  % endif 
+  you may not know if the other person is using TrueFiling. If you use TrueFiling, and the other person is using it, you can serve them through TrueFiling. Read [If I am using TrueFiling, how do I serve the other side?](https://courts.alaska.gov/shc/family/serve.htm#truefiling-serve).
+  % elif (user_need in('answer custody', 'answer divorce') and (((type_of_response.any_true('ak custody case', 'wrong state', 'case in 2 states') and type_of_response.any_true('improper service', 'default')) or type_of_response['default']) and (proper_service or (not proper_service and have_complaint))) or (type_of_response.any_true('ak custody case', 'wrong state', 'case in 2 states') and type_of_response.all_false('improper service', 'default'))) or (user_need in('have po', 'register po', 'po respondent') and have_petition):
+  % if other_party_exempt == 'yes' and other_party_enter_email is False:
   Because the other person is not using TrueFiling and did not give an email address, you cannot serve them through TrueFiling.
   % endif
   % endif
   
-  % if ((user_need in('answer custody', 'answer divorce') and ((((type_of_response.any_true('ak custody case', 'wrong state', 'case in 2 states') and type_of_response.any_true('improper service', 'default')) or type_of_response['default']) and not proper_service and not have_complaint) or (((((type_of_response.any_true('ak custody case', 'wrong state', 'case in 2 states') and type_of_response.any_true('improper service', 'default')) or type_of_response['default']) and (proper_service or (not proper_service and have_complaint))) or (type_of_response.any_true('ak custody case', 'wrong state', 'case in 2 states') and type_of_response.all_false('improper service', 'default')))))) or (user_need in('have po', 'register po', 'po respondent'))) and have_petition and other_party_exempt == 'yes' and not other_party_enter_email:
+  % if ((user_need in('answer custody', 'answer divorce') and ((((type_of_response.any_true('ak custody case', 'wrong state', 'case in 2 states') and type_of_response.any_true('improper service', 'default')) or type_of_response['default']) and not proper_service and not have_complaint) or (((((type_of_response.any_true('ak custody case', 'wrong state', 'case in 2 states') and type_of_response.any_true('improper service', 'default')) or type_of_response['default']) and (proper_service or (not proper_service and have_complaint))) or (type_of_response.any_true('ak custody case', 'wrong state', 'case in 2 states') and type_of_response.all_false('improper service', 'default')))))) or (user_need in('have po', 'register po', 'po respondent') and have_petition))  and other_party_exempt == 'yes' and not other_party_enter_email:
   Wait to file your documents with the court until after you fill out the **Certificate of Service** and serve ${ other_party_in_case }.
   
   1. To serve ${ other_party_in_case }, send them a copy of all your documents by regular, 1st class mail, or hand-deliver it.
@@ -140,3 +141,24 @@ content: |
   % endif
 
 ---
+template: truefiling_step
+subject: File your documents
+content: |  
+  The court has a system called TrueFiling that you need to use unless you are exempt. You are exempt if one of these applies:
+  
+    * You are in a jail or correctional facility.
+    * You have a disability under the Americans with Disabilities Act (ADA).
+    * You do not have safe access to a computer, internet, or email.
+    * You cannot get the help you need to use TrueFiling.
+    * You have a language barrier or are Limited English Proficient.
+  
+  **If you are exempt and choose not to use TrueFiling:**
+  
+    * Mark it on your form, or
+    * Fill out **[TF-820 Notice of Change to Use of Email or TrueFiling](https://public.courts.alaska.gov/web/forms/docs/tf-820.pdf)**.
+    * File the form with your other documents.
+    * Read [If I am not using TrueFiling, how do I serve the other side?](https://courts.alaska.gov/shc/family/serve.htm)
+  
+  **If you are not exempt:**
+  
+    * [Create an account](https://akfile.truefiling.com/register) and file your documents.  
