@@ -1,5 +1,5 @@
 @have_po
-# 2025-12-26
+# 2025-12-30
 
 Feature: User paths
 
@@ -696,10 +696,11 @@ Scenario: Row #332
     | domestic_violence_po_criteria | True             |         |
     | children_related_to_abuser   | all               |         |
     | dv_crime                     | yes more          |         |
-    And I should see the phrase "Your Protective Order Action Plan in 3 steps"
+    And I should see the phrase "Your Protective Order Action Plan in 4 steps"
     And I should see the phrase "Step 1: Stay safe"
     And I should see the phrase "Step 2: Review resources to help with the court process"
-    And I should see the phrase "Step 3: Fill out the forms to ask the court for a Domestic Violence Protective Order for More Than One Person"
+    And I should see the phrase "Step 3: Fill out the forms to ask the court for a Domestic Violence Protective Order for More Than One Person""
+    And I should see the phrase "Step 4: File your documents"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
