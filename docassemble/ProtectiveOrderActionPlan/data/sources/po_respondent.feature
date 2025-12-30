@@ -37,7 +37,7 @@ Scenario: Row #337
     | have_petition                 | True          |         |
     | other_party_exempt            | yes           |         |
     | other_party_enter_email       | True          |         |
-    And I should see the phrase "Your Protective Order Action Plan in 7 steps"
+    And I should see the phrase "Your Protective Order Action Plan in 6 steps"
     And I should see the phrase "Step 1: Tips and resources for when someone has a Domestic Violence Protective Order against you"
     And I should see the phrase "Step 2: Prepare for your Protective Order hearing"
     And I should see the phrase "Step 3: Think about parenting issues"

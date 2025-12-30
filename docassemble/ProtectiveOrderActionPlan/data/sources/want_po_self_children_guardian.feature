@@ -1,5 +1,5 @@
 @want_po_self_children_guardian
-# 2025-12-23
+# 2025-12-30
 
 Feature: User paths
 
@@ -66,11 +66,12 @@ Scenario: Row #257
     | children_related_to_abuser           | none              |         |
     | what_next                            | continue for both |         |
     | dv_crime                             | yes one           |         |
-  And I should see the phrase "Your Protective Order Action Plan in 4 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 5 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Think about parenting issues"
   And I should see the phrase "Step 4: Fill out the forms to ask the court for a Domestic Violence Protective Order for One Person"
+  And I should see the phrase "Step 5: File your documents"
   And I take a screenshot
   And I download "protective_order_action_plan.pdf"
   And I download "protective_order_action_plan.docx"
@@ -89,10 +90,11 @@ Scenario: Row #259
     | children_related_to_abuser      | none              |         |
     | what_next                       | stop for me       |         |
     | other_po                        | stalked           |         |
-  And I should see the phrase "Your Protective Order Action Plan in 3 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 4 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Stalking Protective Order"
+  And I should see the phrase "Step 4: File your documents"
   And I take a screenshot
   And I download "protective_order_action_plan.pdf"
   And I download "protective_order_action_plan.docx"
@@ -132,10 +134,11 @@ Scenario: Row #263
     | self_related_to_abuser['None'] | True              |         |
     | what_next                      | other po for me   |         |
     | other_po                       | sexual contact    |         |
-  And I should see the phrase "Your Protective Order Action Plan in 3 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 4 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Sexual Assault Protective Order"
+  And I should see the phrase "Step 4: File your documents"
   And I take a screenshot
   And I download "protective_order_action_plan.pdf"
   And I download "protective_order_action_plan.docx"
@@ -154,10 +157,11 @@ Scenario: Row #265
     | what_next                      | stop for me       |         |
     | children_related_to_abuser     | all               |         |
     | dv_crime                       | yes more          |         |
-  And I should see the phrase "Your Protective Order Action Plan in 3 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 4 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Domestic Violence Protective Order for More Than One Person"
+  And I should see the phrase "Step 4: File your documents"
   And I take a screenshot
   And I download "protective_order_action_plan.pdf"
   And I download "protective_order_action_plan.docx"
@@ -197,10 +201,11 @@ Scenario: Row #269
     | what_next                      | stop for me       |         |
     | children_related_to_abuser     | one               |         |
     | dv_crime                       | yes one           |         |
-  And I should see the phrase "Your Protective Order Action Plan in 3 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 4 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Domestic Violence Protective Order for One Person"
+  And I should see the phrase "Step 4: File your documents"
   And I take a screenshot
   And I download "protective_order_action_plan.pdf"
   And I download "protective_order_action_plan.docx"
@@ -219,10 +224,11 @@ Scenario: Row #271
     | what_next                      | stop for me       |         |
     | children_related_to_abuser     | none              |         |
     | other_po                       | stalked           |         |
-  And I should see the phrase "Your Protective Order Action Plan in 3 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 4 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Stalking Protective Order"
+  And I should see the phrase "Step 4: File your documents"
   And I take a screenshot
   And I download "protective_order_action_plan.pdf"
   And I download "protective_order_action_plan.docx"
@@ -262,11 +268,12 @@ Scenario: Row #275
     | self_related_to_abuser['divorced'] | True              |         |
     | children_related_to_abuser         | all               |         |
     | dv_crime                           | yes some          |         |
-  And I should see the phrase "Your Protective Order Action Plan in 4 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 5 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Domestic Violence Protective Order for More Than One Person"
-  And I should see the phrase "Step 4: Start a case to end your marriage"
+  And I should see the phrase "Step 4: File your documents"
+  And I should see the phrase "Step 5: Start a case to end your marriage"
   And I take a screenshot
   And I download "protective_order_action_plan.pdf"
   And I download "protective_order_action_plan.docx"
@@ -307,10 +314,11 @@ Scenario: Row #279
     | self_related_to_abuser['divorced'] | True              |         |
     | children_related_to_abuser         | one               |         |
     | dv_crime                           | yes one           |         |
-  And I should see the phrase "Your Protective Order Action Plan in 3 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 4 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Domestic Violence Protective Order for One Person"
+  And I should see the phrase "Step 4: File your documents"
   And I take a screenshot
   And I download "protective_order_action_plan.pdf"
   And I download "protective_order_action_plan.docx"
@@ -348,11 +356,12 @@ Scenario: Row #284
     | children_related_to_abuser           | none              |         |
     | what_next                            | continue for both |         |
     | dv_crime                             | yes all           |         |
-  And I should see the phrase "Your Protective Order Action Plan in 4 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 5 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Think about parenting issues"
   And I should see the phrase "Step 4: Fill out the forms to ask the court for a Domestic Violence Protective Order for More Than One Person"
+  And I should see the phrase "Step 5: File your documents"
   And I take a screenshot
   And I download "protective_order_action_plan.pdf"
   And I download "protective_order_action_plan.docx"
@@ -372,11 +381,12 @@ Scenario: Row #285
     | children_related_to_abuser           | none              |         |
     | what_next                            | continue for both |         |
     | dv_crime                             | yes some          |         |
-  And I should see the phrase "Your Protective Order Action Plan in 4 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 5 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Think about parenting issues"
   And I should see the phrase "Step 4: Fill out the forms to ask the court for a Domestic Violence Protective Order for More Than One Person"
+  And I should see the phrase "Step 5: File your documents"
   And I take a screenshot
   And I download "protective_order_action_plan.pdf"
   And I download "protective_order_action_plan.docx"
@@ -420,10 +430,11 @@ Scenario: Row #289
     | children_related_to_abuser      | none              |         |
     | what_next                       | stop for me       |         |
     | other_po                        | sexual contact    |         |
-  And I should see the phrase "Your Protective Order Action Plan in 3 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 4 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Sexual Assault Protective Order"
+  And I should see the phrase "Step 4: File your documents"
   And I take a screenshot
   And I download "protective_order_action_plan.pdf"
   And I download "protective_order_action_plan.docx"
@@ -441,10 +452,11 @@ Scenario: Row #291
     | self_related_to_abuser['None'] | True              |         |
     | what_next                      | other po for me   |         |
     | other_po                       | stalked           |         |
-  And I should see the phrase "Your Protective Order Action Plan in 3 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 4 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Stalking Protective Order"
+  And I should see the phrase "Step 4: File your documents"
   And I take a screenshot
   And I download "protective_order_action_plan.pdf"
   And I download "protective_order_action_plan.docx"
@@ -483,10 +495,11 @@ Scenario: Row #295
     | what_next                      | stop for me       |         |
     | children_related_to_abuser     | all               |         |
     | dv_crime                       | yes one           |         |
-  And I should see the phrase "Your Protective Order Action Plan in 3 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 4 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Domestic Violence Protective Order for One Person"
+  And I should see the phrase "Step 4: File your documents"
   And I take a screenshot
   And I download "protective_order_action_plan.pdf"
   And I download "protective_order_action_plan.docx"
@@ -505,10 +518,11 @@ Scenario: Row #297
     | what_next                      | stop for me       |         |
     | children_related_to_abuser     | one               |         |
     | dv_crime                       | yes more          |         |
-  And I should see the phrase "Your Protective Order Action Plan in 3 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 4 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Domestic Violence Protective Order for More Than One Person"
+  And I should see the phrase "Step 4: File your documents"
   And I take a screenshot
   And I download "protective_order_action_plan.pdf"
   And I download "protective_order_action_plan.docx"
@@ -548,10 +562,11 @@ Scenario: Row #301
     | what_next                      | stop for me       |         |
     | children_related_to_abuser     | none              |         |
     | other_po                       | sexual contact    |         |
-  And I should see the phrase "Your Protective Order Action Plan in 3 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 4 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Sexual Assault Protective Order"
+  And I should see the phrase "Step 4: File your documents"
   And I take a screenshot
   And I download "protective_order_action_plan.pdf"
   And I download "protective_order_action_plan.docx"
