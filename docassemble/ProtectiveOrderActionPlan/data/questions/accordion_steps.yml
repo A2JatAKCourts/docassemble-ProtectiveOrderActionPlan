@@ -832,6 +832,8 @@ code: |
   protective_order_for_one = False
   protective_order_for_more = False
 ---
+comment: |
+  2025-12-30
 template: stay_safe_step
 subject: |
   % if len(step_list) > 1:
@@ -839,44 +841,50 @@ subject: |
   Stay safe
   % endif 
 content: |
+  <div style="color: red;">If you are in immediate danger, call 911.</div>
+  
   % if user_need == 'want po':
+  
   ${ dont_qualify_placeholder_language.content }
   % endif
-
-  Contact law enforcement if needed. If you are in immediate danger, call 911. Tell your concerns to your local law enforcement. You can find your local police department's non-emergency phone numbers on-line:
+  
+  <div class="step-subheading">Contact your local law enforcement</div> 
+  
+  Tell your concerns to your local law enforcement. You can find your local police department's non-emergency phone numbers on-line:
 
   * State Trooper [locations and phone numbers](https://dps.alaska.gov/ast/contacts)
   * Village Public Safety Officer [home page](https://dps.alaska.gov/AST/VPSO/Home)
 
-  % if user_need == 'have po' and term == 'long' and petitioner_choices ['extend'] and expired and expired_days_ago == 'more than 60 days':
+  % if user_need == 'have po' and term == 'long' and petitioner_choices ['extend'] and expired and expired_days_ago == 'more than 60 days' and not new_order_info:
   <div class="step-subheading">Decide if you want to ask for a new protective order</div>
-  If your protective order expired more than 60 days ago, it cannot be extended. Read the information below and stay safe. If you want to ask for a new protective order, you can retake this interview and answer questions about asking for a protective order in Alaska.
+  If your protective order expired more than 60 days ago, it cannot be extended. Read the information below and stay safe. If you want to ask for a new protective order, [Start over](/interview) and choose, "I want a protective order to protect myself or my child from another person."
   % endif
 
   <div class="step-subheading">Learn more about the process</div>
 
-  * Watch a [video](https://www.youtube.com/watch?v=OruAbmtJ3-M&list=PLRS0LlEIQsuRzdyylqpm_K8p6O6U9t_9n) about the forms, court hearings, and safety planning (for Spanish & Yup'ik).
+  * Watch a [video](https://www.youtube.com/watch?v=OruAbmtJ3-M&list=PLRS0LlEIQsuRzdyylqpm_K8p6O6U9t_9n) about the forms, court hearings, and safety planning (for [Spanish](https://youtube.com/watch?v=pL3UMO14ftg&list=PLRS0LlEIQsuRzdyylqpm_K8p6O6U9t_9n&index=2&pp=iAQB) & [Yup'ik](https://www.youtube.com/watch?v=CSFlQBDwwcs&list=PLRS0LlEIQsuRzdyylqpm_K8p6O6U9t_9n&index=3&t=35s&pp=iAQB0gcJCU0KAYcqIYzv)).
   * Read **How to Represent Yourself in Alaska's Domestic Violence Protective Order Process**, [PUB-22](https://public.courts.alaska.gov/web/forms/docs/pub-22.pdf).
 
   <div class="step-subheading">Find help</div>
-  See if you qualify for a free lawyer:
-
-  * [Direct services for survivors](https://andvsa.org/support-for-survivors), or
-  * [Alaska Legal Services Corporation](https://www.alsc-law.org/apply-for-services/).
-
-  Find a [domestic violence program in your area](https://andvsa.org/) to learn about services they offer. They may offer counseling, financial assistance, housing and safe shelter, resources for children, and help with court. Contact the [National Domestic Violence Hotline](https://www.thehotline.org/) or call 1-800-799-7233.
+    * See if you qualify for a free lawyer:
+        * [Direct services for survivors](https://andvsa.org/support-for-survivors), or
+        * [Alaska Legal Services Corporation](https://www.alsc-law.org/apply-for-services/).
+    * Find a [domestic violence program in your area](https://andvsa.org/) to learn about services they offer. They may offer counseling, financial assistance, housing and safe shelter, resources for children, and help with court. 
+    * Contact the [National Domestic Violence Hotline](https://www.thehotline.org/) or call 1-800-799-7233.
 
   <div class="step-subheading">Create a safety plan</div>
   To keep yourself safe:
-
-  * [Learn about safety](https://www.thehotline.org/what-is-a-safety-plan).
-  * Create [your own safety plan](https://ncadv.org/personalized-safety-plan).
+  
+    * [Learn about safety](https://www.thehotline.org/what-is-a-safety-plan).
+    * Create [your own safety plan](https://ncadv.org/personalized-safety-plan).
 
   <div class="step-subheading">More resources</div>
 
   * [Learn more about domestic violence](https://www.thehotline.org/resources/learn-more-about-abuse/).
   * Read the Alaska Court System’s webpage [Domestic Violence, Stalking or Sexual Assault](https://courts.alaska.gov/shc/dv/index.htm).
 ---
+comment: |
+    2025-12-30
 template: register_foreign_po_step
 subject: |
   Step ${ register_foreign_po_idx }: Register a Protective Order from another state or tribal court
@@ -898,7 +906,10 @@ content: |
 
   **Did you know:** A protective order from another state or tribal court is often called a “foreign order.”
 
-  If you decide you want to ask for a protective order in Alaska, you can retake the interview.
+  If you decide to ask for a protective order in Alaska, 
+  1. Download your Action Plan for Registering your Protective Order. Then 
+  2. Start Over at the bottom of this screen, but this time choose "I want a protective order to protect myself or my child from another person." 
+  If you "Start Over" before you download your Action Plan for registering your order, you will lose all the steps in the Action Plan for registering. 
 ---
 template: military_po_info_step
 subject: |
@@ -1431,9 +1442,9 @@ content: |
     % endif
   may not qualify for a 
   % if no_qualifying_relationship or (relationship_qualifies and not dv_crime in('yes', 'yes one', 'yes both', 'yes more', 'yes some', 'yes all')):
-  domestic violence
+  Domestic Violence
   % endif  
-  protective order if there
+  Protective Order if there
   % if relationship_qualifies and not dv_crime in('yes', 'yes one', 'yes both', 'yes more', 'yes some', 'yes all'):
   was no domestic violence crime. 
     % if who_needs_the_order == 'self':
@@ -1483,7 +1494,7 @@ content: |
     % elif who_needs_the_order == 'self and children':
     you or ${ 'your' if petitioner_related_to_child == 'parent' else 'the' } children
     % endif
-   shouldn't talk to friends or family ${', or limiting access to money' if who_needs_the_order in ('self', 'self and child', 'self and children') else ''}.
+   shouldn't talk to friends or family${', or limiting access to money' if who_needs_the_order in ('self', 'self and child', 'self and children') else ''}.
   % elif no_qualifying_relationship:
   is no qualifying relationship under Alaska law.
   % endif
