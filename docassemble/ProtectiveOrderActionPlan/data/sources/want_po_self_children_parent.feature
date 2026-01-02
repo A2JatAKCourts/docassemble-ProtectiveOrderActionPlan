@@ -645,7 +645,7 @@ Scenario: Row #226cone
     | self_related_to_abuser['marriage related'] | True              |         |
     | self_related_to_abuser['married']          | True              |         |
     | dv_crime                                   | yes one           |         |
-  And I should see the phrase "Your Protective Order Action Plan in 5 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 6 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Domestic Violence Protective Order for One Person"
@@ -811,7 +811,7 @@ Scenario: Row #229
     | self_related_to_abuser['None'] | True              |         |
     | what_next                      | other po for me   |         |
     | other_po                       | sexual contact    |         |
-  And I should see the phrase "Your Protective Order Action Plan in 4 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 5 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Sexual Assault Protective Order"
@@ -1080,7 +1080,7 @@ Scenario: Row #240
     | children_related_to_abuser     | one               |         |
     | what_next_for_children         | stop              |         |
     | other_po                       | sexual contact    |         |
-  And I should see the phrase "Your Protective Order Action Plan in 4 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 5 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Sexual Assault Protective Order"
@@ -1153,7 +1153,7 @@ Scenario: Row #243
     | what_next                      | stop for me       |         |
     | children_related_to_abuser     | none              |         |
     | other_po                       | sexual contact    |         |
-  And I should see the phrase "Your Protective Order Action Plan in 4 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 5 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Sexual Assault Protective Order"

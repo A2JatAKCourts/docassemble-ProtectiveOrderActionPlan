@@ -1184,10 +1184,7 @@ content: |
 ---
 comment: |
   2025-11-25
-template: prepare_for_po_hearing_step
-subject: |
-  Step ${ prepare_for_po_hearing_idx }: Prepare for your Protective Order hearing
-content: |
+  
   % if user_need in ('have po', 'want po'):
   % if user_need == 'want po':
   Some courts will hold a hearing before deciding your 20-day petition. Prepare for your 20-day
@@ -1195,19 +1192,24 @@ content: |
   Prepare for your long term
   % endif
   hearing by reading **How to Represent Yourself in Alaska's Domestic Violence Protective Order Process, [PUB-22](https://public.courts.alaska.gov/web/forms/docs/pub-22.pdf)**.
-  % if (user_need == 'have po' and po_case_type in ('stalked', 'sexual assault')) or (user_need == 'want po' and no_qualifying_relationship and other_po in ('stalked', 'sexual assault')):
-  Most of the information in the sections on Short-Term Order Process, Long-Term Order Process, and Evidence are the same as the stalking or sexual assault protective order process.
-  % else:
+  % if protective_order_for_one or protective_order_for_more:
   The sections on Short-Term Order Process, Long-Term Order Process, and Evidence have helpful information.
+  % else:
+  Most of the information in the sections on Short-Term Order Process, Long-Term Order Process, and Evidence are the same as the stalking or sexual assault protective order process.
   % endif
   % elif user_need == 'po respondent':
   Prepare for your long-term hearing by reading **What to Do When Someone Files a Domestic Violence Protective Order Against You,** [PUB-23](https://public.courts.alaska.gov/web/forms/docs/pub-23.pdf)**.
-  % if other_po in ('stalked', 'sexual assault'):
-  Most of the information in the sections on the Long-Term Protective Order Hearing is the same as the stalking or sexual assault protective order process.
-  % else:
+  % if protective_order_for_one or protective_order_for_more:
   There is a section on the Long-Term Protective Order Hearing.
+  % else:
+  Most of the information in the sections on the Long-Term Protective Order Hearing is the same as the stalking or sexual assault protective order process.
   % endif
   % endif
+template: prepare_for_po_hearing_step
+subject: |
+  Step ${ prepare_for_po_hearing_idx }: Prepare for your Protective Order hearing
+content: |
+  content
 
 ---
 template: prepare_for_long_term_hearing_respondent_step

@@ -335,7 +335,7 @@ Scenario: Row #142
     | what_next                                          | stop for me    |         |
     | guardian_for_child_related_to_abuser['None']       | True           |         |
     | other_po                                           | stalked        |         |
-  And I should see the phrase "Your Protective Order Action Plan in 5 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 6 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Stalking Protective Order"
