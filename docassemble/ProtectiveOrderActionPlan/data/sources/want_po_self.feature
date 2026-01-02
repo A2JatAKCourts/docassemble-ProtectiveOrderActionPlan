@@ -106,12 +106,13 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False   |         |
       | child_w_abuser                       | True    |         |
       | dv_crime                             | yes     |         |
-    And I should see the phrase "Your Protective Order Action Plan in 5 steps"
+    And I should see the phrase "Your Protective Order Action Plan in 6 steps"
     And I should see the phrase "Step 1: Stay safe"
     And I should see the phrase "Step 2: Review resources to help with the court process"
     And I should see the phrase "Step 3: Think about parenting issues"
     And I should see the phrase "Step 4: Fill out the forms to ask the court for a Domestic Violence Protective Order for One Person"
     And I should see the phrase "Step 5: File your documents"
+    And I should see the phrase "Step 6: Prepare for your Protective Order hearing"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"

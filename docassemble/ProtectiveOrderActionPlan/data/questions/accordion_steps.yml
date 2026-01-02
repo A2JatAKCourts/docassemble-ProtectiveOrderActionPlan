@@ -1,6 +1,6 @@
 comment: |
-    last updated: 2025-12-30
-    adding prepare for protective order step to users who want a po and combinging  respondent and petitioner steps into one
+    last updated: 2026-01-01
+    adding prepare for protective order step to users who want a po and combining  respondent and petitioner steps into one
 ---
 generic object: ALDocumentBundle
 template: x.get_email_copy
@@ -1247,7 +1247,7 @@ content: |
 
   % if (petitioner_choices['change'] or (not petitioner_choices['change'] and also_change)) or (term == 'long'  and petitioner_choices ['extend']):
   <div class="step-subheading">Ask to change the order</div>
-  If you think you would be safer if the protective order has more protections, you can ask the judge to change the order and add more protections for you. 
+  If you think you would be safer if the protective order has more protections, you can ask the judge to change the order and add more protections for you.
   % if petitioner_choices['change'] or (not petitioner_choices['change'] and also_change):
   Fill out the form to ask the court to change your order.
   % elif term == 'long'  and petitioner_choices ['extend']:
@@ -1261,8 +1261,15 @@ comment: |
 code: |
   petition_action_keys = ('change', 'end', 'extend')
 
-  petitioner_selected_actions = [k for k in petition_action_keys if petitioner_choices.get(k, False)]
-  respondent_selected_actions = [k for k in petition_action_keys if respondent_choices.get(k, False)]
+  if user_need == 'have po':
+    petitioner_selected_actions = [k for k in petition_action_keys if petitioner_choices.get(k, False)]
+  elif user_need == 'po respondent':
+    petitioner_selected_actions = []
+  
+  if user_need == 'po respondent':
+    respondent_selected_actions = [k for k in petition_action_keys if respondent_choices.get(k, False)]
+  elif user_need == 'have po':
+    respondent_selected_actions = []
 ---
 code: |
   if po_case_type in ('1 person', 'more than 1'):
