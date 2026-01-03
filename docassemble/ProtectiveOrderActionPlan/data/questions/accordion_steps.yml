@@ -809,6 +809,7 @@ code: |
   if user_need == 'po respondent':
     respondent_intro
     add_unique_step((po_against_you_resources_step, "po_against_you_resources_idx"), step_list)
+    term
     if shared_child:
       add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
     if not shared_child:
