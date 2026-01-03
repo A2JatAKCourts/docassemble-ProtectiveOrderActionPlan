@@ -30,7 +30,8 @@ question: |
   % else:
   Get more information or help
   % endif
-  # <i class="fa-thin fa-list"></i>Your Action Plan is ready!
+  % else:
+  <i class="fa-thin fa-list"></i>Your Action Plan is ready!
   % endif
 subquestion: |
 
@@ -98,6 +99,9 @@ code: |
   relationship_qualifies = False
   protective_order_for_one = False
   protective_order_for_more = False
+  
+  #### used to start interview order over again if protective order expired more than 60 days ago without already answering the question by default and so skipping new_order_info ####
+  has_expired = False
 
   # if len(type_of_response.true_values()) > 1:
   #   add_unique_step((pick_a_step_step, "pick_a_step_idx"), step_list)
@@ -875,14 +879,7 @@ code: |
     if is_unique:
       image_list.append(new_image)
 ---
-#### used to start interview order over again if protective order expired more than 60 days ago without already answering the question by default and so skipping new_order_info ####
-code: |
-  has_expired = False
----
-code: |
-  no_qualifying_relationship = False
-  protective_order_for_one = False
-  protective_order_for_more = False
+
 ---
 comment: |
   2025-12-30
@@ -1191,14 +1188,14 @@ template: prepare_for_po_hearing_step
 subject: |
   Step ${ prepare_for_po_hearing_idx }: Prepare for your Protective Order hearing
 content: |
-  % if user_need in ('have po', 'want po'):
-  % if user_need == 'want po':
+  % if user_need in ('have po', 'want po') or has_expired:
+  % if user_need == 'want po' or has_expired:
   Some courts will hold a hearing before deciding your 20-day petition. Prepare for your 20-day
-  % elif user_need == 'have po':
+  % elif user_need == 'have po'and not has_expired:
   Prepare for your long term
   % endif
   hearing by reading **How to Represent Yourself in Alaska's Domestic Violence Protective Order Process, [PUB-22](https://public.courts.alaska.gov/web/forms/docs/pub-22.pdf)**.
-  % if (user_need == 'want po' and (protective_order_for_one or protective_order_for_more)) or (user_need == 'have po' and po_case_type in('1 person','more than 1')):
+  % if ((user_need == 'want po' or has_expired) and (protective_order_for_one or protective_order_for_more)) or ((user_need == 'have po' and not has_expired) and po_case_type in('1 person','more than 1')):
   The sections on Short-Term Order Process, Long-Term Order Process, and Evidence have helpful information.
   % else:
   Most of the information in the sections on Short-Term Order Process, Long-Term Order Process, and Evidence are the same as the stalking or sexual assault protective order process.
