@@ -1,6 +1,13 @@
 comment: |
   last updated 2025-12-26 adapted from RespondingChildCustody file 2025-11-17
 ---
+comment: |
+  probably won't use but it's an idea from 2025-12-31 meeting w Jeannie
+id: have documents other person filed
+question: |
+  Do you have a copy of the documents the other person filed
+yesno: have_documents
+---
 id: have complaint
 question: |
   Do you have a copy of the complaint?
@@ -48,6 +55,8 @@ code: |
       }
     ]
 ---
+comment: |
+  respondents in protective order cases are not allowed to serve petitioners, "probably it's something like look at the order and the judge will have told you how to server the other side" 2025-12-31 meeting w Jeannie
 template: truefile_answer_file_and_serve_step
 subject: |
   Step ${ truefile_answer_file_and_serve_idx }:
@@ -159,6 +168,7 @@ content: |
     * File the form with your other documents.
     * Read [If I am not using TrueFiling, how do I serve the other side?](https://courts.alaska.gov/shc/family/serve.htm)
   
-  **If you are not exempt:**
+  If you are not exempt, use TrueFiling:
   
+    * Read about [TrueFiling](https://courts.alaska.gov/efile/index.htm)
     * [Create an account](https://akfile.truefiling.com/register) and file your documents.  

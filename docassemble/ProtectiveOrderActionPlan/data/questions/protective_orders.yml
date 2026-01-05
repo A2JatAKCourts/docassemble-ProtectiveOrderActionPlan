@@ -1,5 +1,5 @@
 Comment: |
-  2025-12-24 We've got no template for people to pick 'None of the above.' So I made 'none of the above' options_for_po False, so users can only pick from tribal, military or AK Court. 
+  2026-01-02 changed question for user po_case_type if respondent and term == 'hearing' because prepare for hearing step needs po_case_type
 ---
 include:
   - docassemble.AssemblyLine:assembly_line.yml
@@ -1338,7 +1338,12 @@ fields:
 ---
 id: what type of order
 question: |
-  What type of protective order do you have?
+  What type of protective order
+  % if user_need == 'po respondent' and term == 'hearing':
+  is the hearing for?
+  % else:
+  do you have?
+  % endif
 fields:
   - I have: po_case_type
     datatype: radio
