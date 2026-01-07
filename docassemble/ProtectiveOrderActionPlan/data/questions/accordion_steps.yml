@@ -826,22 +826,17 @@ code: |
       if not shared_child:
         married
     respondent_choices
+    if term == 'hearing' and respondent_choices['child']:
+      add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
     po_case_type
-    if term in('short', 'long'):
-      if respondent_choices.any_true():
-        add_unique_step((respond_change_end_extend_dismiss_petition_step, "respond_change_end_extend_dismiss_petition_idx"), step_list)
+    if (term in('short', 'long') and respondent_choices.any_true()) or (term == 'hearing' and respondent_choices['dismiss']):
+      add_unique_step((respond_change_end_extend_dismiss_petition_step, "respond_change_end_extend_dismiss_petition_idx"), step_list)
     if (term == 'short' and request_long) or term == 'hearing':
       add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
-    if term in('short', 'long'):
-      if respondent_choices.any_true():
-        if have_petition:
-          other_party_exempt
-        add_unique_step((truefile_answer_file_and_serve_step, "truefile_answer_file_and_serve_idx"), step_list)
-    elif term == 'hearing':
-      if respondent_choices['dismiss']:
-        if have_petition:
-          other_party_exempt
-        add_unique_step((truefile_answer_file_and_serve_step, "truefile_answer_file_and_serve_idx"), step_list)
+    if (term in('short', 'long') and respondent_choices.any_true()) or (term == 'hearing' and respondent_choices['dismiss']):
+      if have_petition:
+        other_party_exempt
+      add_unique_step((truefile_answer_file_and_serve_step, "truefile_answer_file_and_serve_idx"), step_list)
 
 
 
@@ -857,7 +852,7 @@ code: |
   elif user_need == 'po respondent' and term == 'hearing':
     if respondent_choices['married']:
       add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
-    if respondent_choices['child'] and not custody_order:
+    if respondent_choices['child'] and respondent_choices.all_false('married', 'divorced') and not custody_order:
       add_unique_step((po_custody_info_step, "po_custody_info_idx"), step_list)
   
 
@@ -1315,7 +1310,7 @@ content: |
   If the order expired more than 60 days ago, it cannot be extended.
   % endif #user_need 
   
-  % if (user_need == 'have po' and ((petitioner_choices['options'] and not petitioner_choices['change'] and also_change) or (petitioner_choices['change'] and not petitioner_choices.get('extend', False)))) or (user_need == 'po respondent' and respondent_choices['change']):
+  % if (user_need == 'have po' and ((petitioner_choices['options'] and not petitioner_choices['change'] and also_change) or (petitioner_choices['change'] and not petitioner_choices.get('extend', False)))) or (user_need == 'po respondent' and term in('short', 'long') and respondent_choices['change']):
       % if po_case_type in ('1 person', 'stalking', 'sexual assault'):
     Use
   <br>**DV-131 Request to Modify Protective Order, (One Petitioner)** [[Fill-in PDF](https://public.courts.alaska.gov/web/forms/docs/dv-131-one.pdf)]
@@ -1326,7 +1321,7 @@ content: |
   <br>to ask the court to change an existing ${ po_order_name } Protective Order.
   % endif
 
-  % if (user_need == 'have po' and petitioner_choices['end']) or (user_need == 'po respondent' and respondent_choices['end']):
+  % if (user_need == 'have po' and petitioner_choices['end']) or (user_need == 'po respondent' and term in('short', 'long') and  respondent_choices['end']):
   % if po_case_type in ('1 person', 'stalking', 'sexual assault'):
   **DV-133 Request to Dissolve Protective Order, (One Petitioner)** [[Fill-in PDF](https://public.courts.alaska.gov/web/forms/docs/dv-133-one.pdf)]
   % elif po_case_type == 'more than 1':
@@ -1347,7 +1342,7 @@ content: |
     % endif
   % endif #user_need == 'have po' and petitioner_choices['extend']
 
-  % if (user_need == 'have po' and term == 'short' and request_long and petitioner_choices['dismiss']) or (user_need == 'po respondent' and  term == 'short' and request_long and respondent_choices['dismiss']):
+  % if (user_need == 'have po' and term == 'short' and request_long and petitioner_choices['dismiss']) or (user_need == 'po respondent' and  ((term == 'short' and request_long) or term == 'hearing') and respondent_choices['dismiss']):
   % if po_case_type in ('1 person', 'stalking', 'sexual assault'):
   Use **DV-134 Request to Dismiss Long-Term Petition, (One Petitioner)** [[Fill-in PDF](https://public.courts.alaska.gov/web/forms/docs/dv-134-one.pdf)]
   % elif po_case_type == 'more than 1':
@@ -1356,7 +1351,7 @@ content: |
   to ask the court to dismiss a petition for a long-term ${ po_order_name } Protective Order. 
   % endif
 
-  % if (user_need == 'have po' and petitioner_choices['respond']) or (user_need == 'po respondent' and respondent_choices.any_true('respond', 'respond to extend')):
+  % if (user_need == 'have po' and petitioner_choices['respond']) or (user_need == 'po respondent' and term in('short', 'long') and  respondent_choices.any_true('respond', 'respond to extend')):
   % if po_case_type in ('1 person', 'stalking', 'sexual assault'):
    Use **Response to Request to Modify, Extend, or Dissolve Protective Order (One petitioner)** [[Fill-in PDF](https://public.courts.alaska.gov/web/forms/docs/dv-140-one.pdf)]
   % elif po_case_type == 'more than 1':
@@ -1365,18 +1360,19 @@ content: |
   to respond if the other side files a motion to change or end a ${ po_order_name } Protective Order.
   % endif
 
-  % if user_need == 'po respondent':
+  % if user_need == 'po respondent' and term != 'hearing':
   <div class="step-subheading">Follow the protective order</div>
   After you file a request, you must follow the protective order until the court signs an order deciding whether or not to grant your request.
    % elif user_need == 'have po':
   <div class="step-subheading">The other side must still follow the protective order</div>
   After you file a request, the other side must keep following the protective order until the court signs an order deciding whether or not to grant your request.
   % endif 
-  
+  % if not (user_need == 'po respondent' and term == 'hearing'):
   The court may or may not hold a hearing.
 
   If the court signs a new order, you will get a copy.
-  % if user_need == 'po respondent':
+  % endif 
+  % if user_need == 'po respondent' and term != 'hearing':
   If the court does not change the protective order, you must follow the order until it expires, even if you and the other side both want to change it.
    % elif user_need == 'have po':
   If the court does not change the protective order, the other side must still follow the order you have until it expires, even if you both want to change it.
