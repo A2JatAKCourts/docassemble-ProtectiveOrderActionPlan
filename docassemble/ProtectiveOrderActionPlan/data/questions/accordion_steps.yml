@@ -1,7 +1,6 @@
 comment: |
-    last updated: 2026-01-05
-    reorder html templates to match the order in docx
-    still need to fix syntax in prepare_for_po_hearing, respondent with term hearing gets asked nearly all the same questions as those with short and long term orders, just limit their choices - waiting for JS response. 
+    last updated: 2026-01-06
+    fixing have po and po respondent respond change extend end template and interview order - w modified po respondent with only long term hearing
 ---
 generic object: ALDocumentBundle
 template: x.get_email_copy
@@ -829,10 +828,15 @@ code: |
         if have_petition:
           other_party_exempt
         add_unique_step((truefile_answer_file_and_serve_step, "truefile_answer_file_and_serve_idx"), step_list)
+    elif term == 'hearing':
+      if respondent_choices['dismiss']:
+        if have_petition:
+          other_party_exempt
+        add_unique_step((truefile_answer_file_and_serve_step, "truefile_answer_file_and_serve_idx"), step_list)
 
 
 
-  if user_need in('have po', 'po respondent'):
+  if user_need == 'have po' or (user_need == 'po respondent' and term in('short','long')):
     if shared_child:
       if custody == 'married':
         add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
@@ -841,6 +845,12 @@ code: |
     if not shared_child:
         if married:
           add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
+  elif user_need == 'po respondent' and term == 'hearing':
+    if respondent_choices['married']:
+      add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
+    if respondent_choices['child'] and not custody_order:
+      add_unique_step((po_custody_info_step, "po_custody_info_idx"), step_list)
+  
 
 
 
