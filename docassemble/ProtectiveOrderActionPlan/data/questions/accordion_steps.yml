@@ -852,7 +852,7 @@ code: |
   elif user_need == 'po respondent' and term == 'hearing':
     if respondent_choices['married']:
       add_unique_step((po_divorce_info_step, "po_divorce_info_idx"), step_list)
-    if respondent_choices['child'] and respondent_choices.all_false('married', 'divorced') and not custody_order:
+    if respondent_choices['child'] and respondent_choices.all_false('married', 'divorced') and custody_order == 'no':
       add_unique_step((po_custody_info_step, "po_custody_info_idx"), step_list)
   
 
