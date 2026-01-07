@@ -1229,21 +1229,27 @@ fields:
       code: |
         user_need == 'have po'
         
-  - I want to learn about: respondent_choices
-    datatype: checkboxes
-    code: |
-      choices_choices
-    show if:
-      code: |
-        user_need == 'po respondent' and term in('short', 'long')
+  #- I want to learn about: respondent_choices
+  #  datatype: checkboxes
+  #  code: |
+  #    choices_choices
+  #  show if:
+  #    code: |
+  #      user_need == 'po respondent' and term in('short', 'long')
         
-  - I want to learn about: respondent_choices
+  - label: |
+      % if user_need == 'po respondent' and term == 'hearing':
+      Check everything that is true:
+      % else:
+      I want to learn about:
+      % endif
+    field: respondent_choices
     datatype: checkboxes
     code: |
       choices_choices
     show if:
       code: |
-        user_need == 'po respondent' and term == 'hearing'
+        user_need == 'po respondent'
 
   - "Is there a custody order?": custody_order
     datatype: radio
@@ -1252,9 +1258,9 @@ fields:
       - "There is no custody order": no
     show if:
       code: |
-        user_need == 'po respondent' and term == 'hearing'
+        user_need == 'po respondent'
     js show if: |
-      val('respondent_choices') == "child" 
+      val('respondent_choices').includes('child') && !(val('respondent_choices').includes('married') || val('respondent_choices').includes('divorced'))
        
 ---
 code: |

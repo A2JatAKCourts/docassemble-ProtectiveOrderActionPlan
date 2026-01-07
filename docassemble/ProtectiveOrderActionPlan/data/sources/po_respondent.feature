@@ -39,7 +39,7 @@ Scenario: Row #337
     | other_party_exempt            | yes           |         | 
     | other_party_enter_email       | True          |         | 
     And I should see the phrase "Your Protective Order Action Plan in 6 steps"
-    And I should see the phrase "Step 1: Tips and resources for when someone has a Domestic Violence Protective Order against you"
+    And I should see the phrase "Step 1: Tips and resources for when someone asks for a Protective Order against you"
     And I should see the phrase "Step 2: Think about parenting issues"
     And I should see the phrase "Step 3: Fill out the form to ask the court to dismiss the petition"
     And I should see the phrase "Step 4: Prepare for your Protective Order hearing"
@@ -65,7 +65,7 @@ Scenario: Row #338
     | other_party_exempt             | yes           |         | 
     | other_party_enter_email        | True          |         | 
     And I should see the phrase "Your Protective Order Action Plan in 6 steps"
-    And I should see the phrase "Step 1: Tips and resources for when someone has a Domestic Violence Protective Order against you"
+    And I should see the phrase "Step 1: Tips and resources for when someone asks for a Protective Order against you"
     And I should see the phrase "Step 2: Think about parenting issues"
     And I should see the phrase "Step 3: Fill out the form to ask the court to dismiss the petition"
     And I should see the phrase "Step 4: Prepare for your Protective Order hearing"
@@ -90,7 +90,7 @@ Scenario: Row #339
     | other_party_exempt          | yes            |         | 
     | other_party_enter_email     | True           |         | 
     And I should see the phrase "Your Protective Order Action Plan in 6 steps"
-    And I should see the phrase "Step 1: Tips and resources for when someone has a Domestic Violence Protective Order against you"
+    And I should see the phrase "Step 1: Tips and resources for when someone asks for a Protective Order against you"
     And I should see the phrase "Step 2: Think about parenting issues"
     And I should see the phrase "Step 3: Fill out the form to ask the court to dismiss the petition"
     And I should see the phrase "Step 4: Prepare for your Protective Order hearing"
@@ -115,7 +115,7 @@ Scenario: Row #340
     | other_party_exempt          | yes           |         | 
     | other_party_enter_email     | True          |         | 
     And I should see the phrase "Your Protective Order Action Plan in 6 steps"
-    And I should see the phrase "Step 1: Tips and resources for when someone has a Domestic Violence Protective Order against you"
+    And I should see the phrase "Step 1: Tips and resources for when someone asks for a Domestic Violence Protective Order against you"
     And I should see the phrase "Step 2: Think about parenting issues"
     And I should see the phrase "Step 3: Fill out the form to ask the court to dismiss the petition"
     And I should see the phrase "Step 4: Prepare for your Protective Order hearing"
@@ -140,7 +140,7 @@ Scenario: Row #341
     | have_petition                 | True          |         | 
     | other_party_exempt            | none          |         | 
     And I should see the phrase "Your Protective Order Action Plan in 6 steps"
-    And I should see the phrase "Step 1: Tips and resources for when someone has a Domestic Violence Protective Order against you"
+    And I should see the phrase "Step 1: Tips and resources for when someone asks for a Domestic Violence Protective Order against you"
     And I should see the phrase "Step 2: Think about parenting issues"
     And I should see the phrase "Step 3: Fill out the forms you need"
     And I should see the phrase "Step 4: Prepare for your Protective Order hearing"
@@ -163,7 +163,7 @@ Scenario: Row #342
     | have_petition                 | True          |         | 
     | other_party_exempt            | none          |         | 
     And I should see the phrase "Your Protective Order Action Plan in 6 steps"
-    And I should see the phrase "Step 1: Tips and resources for when someone has a Domestic Violence Protective Order against you"
+    And I should see the phrase "Step 1: Tips and resources for when someone asks for a Domestic Violence Protective Order against you"
     And I should see the phrase "Step 2: Think about parenting issues"
     And I should see the phrase "Step 3: Fill out the forms you need"
     And I should see the phrase "Step 4: Prepare for your Protective Order hearing"
