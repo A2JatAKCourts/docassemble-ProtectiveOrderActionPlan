@@ -42,8 +42,8 @@ Scenario: Row #337
     And I should see the phrase "Step 1: Tips and resources for when someone asks for a Protective Order against you"
     And I should see the phrase "Step 2: Think about parenting issues"
     And I should see the phrase "Step 3: Fill out the form to ask the court to dismiss the petition"
-    And I should see the phrase "Step 4: Prepare for your Protective Order hearing"
-    And I should see the phrase "Step 5: File and serve electronically"
+    And I should see the phrase "Step 4: File and serve electronically"
+    And I should see the phrase "Step 5: Prepare for your Protective Order hearing"
     And I should see the phrase "Step 6: Start a case to end your marriage"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
@@ -131,8 +131,8 @@ Scenario: Row #341
     And I should see the phrase "Step 1: Tips and resources for when someone asks for a Domestic Violence Protective Order against you"
     And I should see the phrase "Step 2: Think about parenting issues"
     And I should see the phrase "Step 3: Fill out the form to ask the court to dismiss the petition"
-    And I should see the phrase "Step 4: File and serve electronically"
-    And I should see the phrase "Step 5: Prepare for your Protective Order hearing"
+    And I should see the phrase "Step 4: Prepare for your Protective Order hearing"
+    And I should see the phrase "Step 5: File and serve electronically"
     And I should see the phrase "Step 6: Start a case for a Parenting Plan (also known as a "Custody Order")"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
@@ -154,8 +154,8 @@ Scenario: Row #342
     And I should see the phrase "Step 1: Tips and resources for when someone asks for a Domestic Violence Protective Order against you"
     And I should see the phrase "Step 2: Think about parenting issues"
     And I should see the phrase "Step 3: Fill out the forms you need"
-    And I should see the phrase "Step 4: Prepare for your Protective Order hearing"
-    And I should see the phrase "Step 5: File and serve electronically"
+    And I should see the phrase "Step 4: File and serve electronically"
+    And I should see the phrase "Step 5: Prepare for your Protective Order hearing"
     And I should see the phrase "Step 6: Start a case for a Parenting Plan (also known as a "Custody Order")"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
@@ -181,8 +181,8 @@ Scenario: Row #343
     And I should see the phrase "Step 1: Tips and resources for when someone has a Domestic Violence Protective Order against you"
     And I should see the phrase "Step 2: Think about parenting issues"
     And I should see the phrase "Step 3: Fill out the form to ask the court to dismiss the petition"
-    And I should see the phrase "Step 4: Prepare for your Protective Order hearing"
-    And I should see the phrase "Step 5: File and serve electronically"
+    And I should see the phrase "Step 4: File and serve electronically"
+    And I should see the phrase "Step 5: Prepare for your Protective Order hearing"
     And I should see the phrase "Step 6: Start a case to end your marriage"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
@@ -283,8 +283,8 @@ Scenario: Row #347
     And I should see the phrase "Step 1: Tips and resources for when someone has a Domestic Violence Protective Order against you"
     And I should see the phrase "Step 2: Think about parenting issues"
     And I should see the phrase "Step 3: Fill out the forms you need"
-    And I should see the phrase "Step 4: Prepare for your Protective Order hearing"
-    And I should see the phrase "Step 5: File and serve electronically"
+    And I should see the phrase "Step 4: File and serve electronically"
+    And I should see the phrase "Step 5: Prepare for your Protective Order hearing"
     And I should see the phrase "Step 6: Start a case for a Parenting Plan (also known as a "Custody Order")"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
@@ -331,9 +331,9 @@ Scenario: Row #349
     | other_party_enter_email   | False         |         | 
     And I should see the phrase "Your Protective Order Action Plan in 4 steps"
     And I should see the phrase "Step 1: Tips and resources for when someone has a Stalking Protective Order against you"
-    And I should see the phrase "Step 2: Prepare for your Protective Order hearing"
-    And I should see the phrase "Step 3: Fill out the form to ask the court to end the order"
-    And I should see the phrase "Step 4: File electronically and serve the other person"
+    And I should see the phrase "Step 2: Fill out the form to ask the court to end the order"
+    And I should see the phrase "Step 3: File electronically and serve the other person"
+    And I should see the phrase "Step 4: Prepare for your Protective Order hearing"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
