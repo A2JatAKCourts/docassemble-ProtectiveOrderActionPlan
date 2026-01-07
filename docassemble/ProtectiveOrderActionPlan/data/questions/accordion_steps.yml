@@ -831,12 +831,12 @@ code: |
     po_case_type
     if (term in('short', 'long') and respondent_choices.any_true()) or (term == 'hearing' and respondent_choices['dismiss']):
       add_unique_step((respond_change_end_extend_dismiss_petition_step, "respond_change_end_extend_dismiss_petition_idx"), step_list)
-    if (term == 'short' and request_long) or term == 'hearing':
-      add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
     if (term in('short', 'long') and respondent_choices.any_true()) or (term == 'hearing' and respondent_choices['dismiss']):
       if have_petition:
         other_party_exempt
       add_unique_step((truefile_answer_file_and_serve_step, "truefile_answer_file_and_serve_idx"), step_list)
+    if (term == 'short' and request_long) or term == 'hearing':
+      add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
 
 
 
