@@ -1235,7 +1235,27 @@ fields:
       choices_choices
     show if:
       code: |
-        user_need == 'po respondent'
+        user_need == 'po respondent' and term in('short', 'long')
+        
+  - I want to learn about: respondent_choices
+    datatype: checkboxes
+    code: |
+      choices_choices
+    show if:
+      code: |
+        user_need == 'po respondent' and term == 'hearing'
+
+  - "Is there a custody order?": custody_order
+    datatype: radio
+    choices:
+      - "There is a custody order.": yes
+      - "There is no custody order": no
+    show if:
+      code: |
+        (user_need == 'po respondent' and term == 'hearing') or (user_need == 'po respondent' and term in('short', 'long'))
+    js show if: |
+      val('respondent_choices') == "child" 
+       
 ---
 code: |
   if user_need == 'have po':
@@ -1279,6 +1299,15 @@ code: |
         {'end': "Asking the judge to end the protective order."},
         {'respond': "Responding if the other side asks to change or end the order."},
         {'respond to extend': "Responding if the other side asks to extend the order."
+        }
+      ]
+  
+    elif term == 'hearing':
+      choices_choices = [
+        {'child': "I have a child with the other person. "},
+        {'married': "I am married to the other person."},
+        {'divorced': "I am divorced from the other person"},
+        {'dismiss': "I want to ask the judge to dismiss a petition for a long-term protective order before deciding if it should be granted."
         }
       ]
   

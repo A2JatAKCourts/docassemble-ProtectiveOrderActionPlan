@@ -810,11 +810,13 @@ code: |
   if user_need == 'po respondent':
     respondent_intro
     add_unique_step((po_against_you_resources_step, "po_against_you_resources_idx"), step_list)
-    term
-    if shared_child:
-      add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
-    if not shared_child:
-      married
+    if term == 'short':
+      request_long
+    if term in ('short', 'long'):
+      if shared_child:
+        add_unique_step((child_w_other_side_step, "child_w_other_side_idx"), step_list)
+      if not shared_child:
+        married
     respondent_choices
     po_case_type
     if term in('short', 'long'):
@@ -1222,9 +1224,7 @@ content: |
   % endif
 ---
 comment: |
-  last updated 2026-01-05 code in subject field matches Jinja which cannot do the For K loops. Python in yaml defines petitioner_selected_actions, and respondent_selected_actions then the Step heading in both yml and docx use these intermediate variables. 
-template: respond_change_end_extend_dismiss_petition_step
-subject: |
+  last updated 2026-01-05 code in subject field matches Jinja which cannot do the For K loops. Python in yaml defines petitioner_selected_actions, and respondent_selected_actions then the Step heading in both yml and docx use these intermediate variables.  subject is
   Step ${ respond_change_end_extend_dismiss_petition_idx }:
   Fill out the form to
   % if user_need == 'have po':
@@ -1241,8 +1241,39 @@ subject: |
   ask the court to dismiss the petition
   % endif 
   % elif user_need == 'po respondent':
+  % if term in ('short', 'long'):
   % if respondent_choices.any_true('change', 'end'):
   ask the court to ${ comma_and_list(respondent_selected_actions, and_string = 'or') } the order${ ', or' if len(respondent_choices.true_values()) > 1 and respondent_choices['respond'] else '' }${ ', or' if len(respondent_choices.true_values()) > 1 and respondent_choices['respond to extend'] else '' }${ ', or' if len(respondent_choices.true_values()) > 1 and  term == 'short' and request_long and respondent_choices['dismiss'] else '' }
+  % endif
+  % if respondent_choices['respond']:
+  respond if the other side asks to change or end the order${ ', or' if len(respondent_choices.true_values()) > 1 and respondent_choices['respond to extend'] else '' }${ ', or' if len(respondent_choices.true_values()) > 1 and  term == 'short' and request_long and respondent_choices['dismiss'] else '' }
+  % endif
+  % if respondent_choices['respond to extend']:
+  respond if the other side asks to extend the order${ ', or' if len(respondent_choices.true_values()) > 1 and  term == 'short' and request_long and respondent_choices['dismiss'] else '' }
+  % endif
+  % endif
+  % if ((term == 'short' and request_long) or term == 'hearing') and respondent_choices['dismiss']:
+  ask the court to dismiss the petition
+  % endif
+  % endif
+template: respond_change_end_extend_dismiss_petition_step
+subject: |
+  Step ${ respond_change_end_extend_dismiss_petition_idx }:
+  % if user_need == 'have po':
+  % if petitioner_choices['options'] and not petitioner_choices['change'] and also_change and len(petitioner_choices.true_values()) > 1:
+  Fill out the forms you need
+  % elif petitioner_choices['options'] and not petitioner_choices['change'] and not also_change and len(petitioner_choices.true_values()) > 1:
+  Fill out the forms you need
+  % elif not petitioner_choices['options'] and len(petitioner_choices.true_values()) > 1:
+  Fill out the forms you need
+  % else: 
+  Fill out the form to
+  ${ [ text for text in [ "ask the court to change the order" if petitioner_choices['options'] and not petitioner_choices['change'] and also_change else None, f"ask the court to { petitioner_selected_actions[0] } the order" if petitioner_choices.any_true('change', 'end') or (term == 'long' and petitioner_choices['extend']) else None, "respond if the other side asks to change or end the order" if petitioner_choices['respond'] else None, "ask the court to dismiss the petition" if ((term == 'short' and request_long) or term == 'hearing') and petitioner_choices['dismiss'] else None ] if text ][0] }
+  % endif
+  % elif user_need == 'po respondent':
+  % if respondent_choices.any_true('change', 'end'):
+  ask the court to ${ comma_and_list([ k for k in petition_action_keys if respondent_choices.get(k, False) ], and_string = 'or') }
+  the order${ ', or' if len(respondent_choices.true_values()) > 1 and respondent_choices['respond'] else '' }${ ', or' if len(respondent_choices.true_values()) > 1 and respondent_choices['respond to extend'] else '' }${ ', or' if len(respondent_choices.true_values()) > 1 and  term == 'short' and request_long and respondent_choices['dismiss'] else '' }
   % endif
   % if respondent_choices['respond']:
   respond if the other side asks to change or end the order${ ', or' if len(respondent_choices.true_values()) > 1 and respondent_choices['respond to extend'] else '' }${ ', or' if len(respondent_choices.true_values()) > 1 and  term == 'short' and request_long and respondent_choices['dismiss'] else '' }
@@ -1302,15 +1333,16 @@ content: |
   % endif #user_need 
 
 
-  <div class="step-subheading">Fill out the form</div>
-
+  
   % if (user_need == 'have po' and ((petitioner_choices['options'] and not petitioner_choices['change'] and also_change) or (petitioner_choices['change'] and not petitioner_choices.get('extend', False)))) or (user_need == 'po respondent' and respondent_choices['change']):
       % if po_case_type in ('1 person', 'stalking', 'sexual assault'):
-    **DV-131 Request to Modify Protective Order, (One Petitioner)** [[Fill-in PDF](https://public.courts.alaska.gov/web/forms/docs/dv-131-one.pdf)]
+    Use
+  <br>**DV-131 Request to Modify Protective Order, (One Petitioner)** [[Fill-in PDF](https://public.courts.alaska.gov/web/forms/docs/dv-131-one.pdf)]
       % elif po_case_type == 'more than 1':
-    **DV-131-M Request to Modify Protective Order, (Multiple Petitioners)** [[Fill-in PDF](https://public.courts.alaska.gov/web/forms/docs/dv-131-multi.pdf)]
+    Use
+  <br>**DV-131-M Request to Modify Protective Order, (Multiple Petitioners)** [[Fill-in PDF](https://public.courts.alaska.gov/web/forms/docs/dv-131-multi.pdf)]
       % endif #po_case_type 
-  <br> Use this form to ask the court to change an existing ${ po_order_name } Protective Order.
+  <br>to ask the court to change an existing ${ po_order_name } Protective Order.
   % endif
 
 
@@ -1320,7 +1352,7 @@ content: |
   % elif po_case_type == 'more than 1':
   **DV-133-M Request to Dissolve Protective Order, (Multiple Petitioners)** [[Fill-in PDF](https://public.courts.alaska.gov/web/forms/docs/dv-133-multi.pdf)]
   % endif
-  <br>Use this form to ask the court to end an existing ${ po_order_name } Protective Order. 
+  <br>to ask the court to end an existing ${ po_order_name } Protective Order. 
   % endif
 
 
@@ -1330,7 +1362,7 @@ content: |
   % elif po_case_type == 'more than 1':
     **DV-132-M Request to Extend Long-Term Protective Order, (Multiple Petitioners)** [[Fill-in PDF](https://public.courts.alaska.gov/web/forms/docs/dv-132-multi.pdf)]
   % endif
-  <br> Use this form to ask the court to extend a long-term ${ po_order_name } Protective Order.
+  <br>to ask the court to extend a long-term ${ po_order_name } Protective Order.
   % if user_need == 'have po' and ((petitioner_choices.all_true('options', exclusive=True) and also_change) or petitioner_choices['change']):
   <br> If you need the court to change your order as well as extend it, the form includes a place to ask for any changes you may need.
     % endif
@@ -1338,21 +1370,21 @@ content: |
 
   % if (user_need == 'have po' and term == 'short' and request_long and petitioner_choices['dismiss']) or (user_need == 'po respondent' and  term == 'short' and request_long and respondent_choices['dismiss']):
   % if po_case_type in ('1 person', 'stalking', 'sexual assault'):
-  **DV-134 Request to Dismiss Long-Term Petition, (One Petitioner)** [[Fill-in PDF](https://public.courts.alaska.gov/web/forms/docs/dv-134-one.pdf)]
+  Use **DV-134 Request to Dismiss Long-Term Petition, (One Petitioner)** [[Fill-in PDF](https://public.courts.alaska.gov/web/forms/docs/dv-134-one.pdf)]
   % elif po_case_type == 'more than 1':
-  **DV-134-M Request to Dismiss Long-Term Petition, Multiple Petitioners** [[Fill-in PDF](https://public.courts.alaska.gov/web/forms/docs/dv-134-multi.pdf)]
+  Use **DV-134-M Request to Dismiss Long-Term Petition, Multiple Petitioners** [[Fill-in PDF](https://public.courts.alaska.gov/web/forms/docs/dv-134-multi.pdf)]
   % endif
-  <br> Use this form to ask the court to dismiss a petition for a long-term ${ po_order_name } Protective Order. 
+  to ask the court to dismiss a petition for a long-term ${ po_order_name } Protective Order. 
   % endif
 
 
   % if (user_need == 'have po' and petitioner_choices['respond']) or (user_need == 'po respondent' and respondent_choices.any_true('respond', 'respond to extend')):
   % if po_case_type in ('1 person', 'stalking', 'sexual assault'):
-   **Response to Request to Modify, Extend, or Dissolve Protective Order (One petitioner)** [[Fill-in PDF](https://public.courts.alaska.gov/web/forms/docs/dv-140-one.pdf)]
+   Use **Response to Request to Modify, Extend, or Dissolve Protective Order (One petitioner)** [[Fill-in PDF](https://public.courts.alaska.gov/web/forms/docs/dv-140-one.pdf)]
   % elif po_case_type == 'more than 1':
-    **Response to Request to Modify, Extend, or Dissolve Protective Order (Multiple petitioners)** [[Fill-in PDF](https://public.courts.alaska.gov/web/forms/docs/dv-140-multi.pdf)]
+    Use **Response to Request to Modify, Extend, or Dissolve Protective Order (Multiple petitioners)** [[Fill-in PDF](https://public.courts.alaska.gov/web/forms/docs/dv-140-multi.pdf)]
   % endif
-  <br> Use this form to respond if the other side files a motion to change or end a ${ po_order_name } Protective Order.
+  to respond if the other side files a motion to change or end a ${ po_order_name } Protective Order.
   % endif
 
 
