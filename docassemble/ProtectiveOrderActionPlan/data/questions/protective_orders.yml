@@ -1252,7 +1252,7 @@ fields:
       - "There is no custody order": no
     show if:
       code: |
-        (user_need == 'po respondent' and term == 'hearing') or (user_need == 'po respondent' and term in('short', 'long'))
+        user_need == 'po respondent' and term == 'hearing'
     js show if: |
       val('respondent_choices') == "child" 
        

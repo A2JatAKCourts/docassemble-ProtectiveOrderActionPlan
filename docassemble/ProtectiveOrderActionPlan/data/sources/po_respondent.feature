@@ -1,5 +1,5 @@
 @po_respondent
-# 2026-01-06
+# 2026-01-07
 
 Feature: User paths
 
@@ -14,6 +14,9 @@ Scenario: Row #336
     | user_need        | po respondent |         |
     | respondent_intro | True          |         |
     | term             | hearing       |         |
+    | respondent_choices['None'] | True          |         |
+    | po_case_type                  | sexual assault      |         |
+    | have_petition                 | False         |         |
     And I should see the phrase "Your Protective Order Action Plan in 2 steps"
     And I should see the phrase "Step 1: Tips and resources for when someone asks for a Protective Order against you"
     And I should see the phrase "Step 2: Prepare for your Protective Order hearing"
@@ -21,8 +24,166 @@ Scenario: Row #336
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
 
+
+
 @row337
 Scenario: Row #337
+  Given I start the interview at "protective_orders.yml"
+    And I get to the question id "final screen" with this data:
+    | var                           | value         | trigger |
+    | user_need                     | po respondent |         |
+    | respondent_intro              | True          |         |
+    | term                          | hearing       |         |
+    | respondent_choices['child'] | True          |         |
+    | respondent_choices['married'] | True          |         |
+    | respondent_choices['dismiss'] | True          |         |
+    | po_case_type                  | more than 1      |         |
+    | have_petition                 | True          |         |
+    | other_party_exempt            | yes           |         |
+    | other_party_enter_email       | True          |         |
+    And I should see the phrase "Your Protective Order Action Plan in 6 steps"
+    And I should see the phrase "Step 1: Tips and resources for when someone has a Domestic Violence Protective Order against you"
+    And I should see the phrase "Step 2: Think about parenting issues"
+    And I should see the phrase "Step 3: Fill out the form to ask the court to dismiss the petition"
+    And I should see the phrase "Step 4: Prepare for your Protective Order hearing"
+    And I should see the phrase "Step 5: File and serve electronically"
+    And I should see the phrase "Step 6: Start a case to end your marriage"
+    And I take a screenshot
+    And I download "protective_order_action_plan.pdf"
+    And I download "protective_order_action_plan.docx"
+
+@row338
+Scenario: Row #338
+  Given I start the interview at "protective_orders.yml"
+    And I get to the question id "final screen" with this data:
+    | var                            | value         | trigger |
+    | user_need                      | po respondent |         |
+    | respondent_intro               | True          |         |
+    | term                           | hearing       |         |
+    | respondent_choices['child']    | True          |         |
+    | respondent_choices['divorced'] | True          |         |
+    | respondent_choices['dismiss']  | True          |         |
+    | po_case_type                   | stalking      |         |
+    | have_petition                  | True          |         |
+    | other_party_exempt             | yes           |         |
+    | other_party_enter_email        | True          |         |
+    And I should see the phrase "Your Protective Order Action Plan in 6 steps"
+    And I should see the phrase "Step 1: Tips and resources for when someone has a Domestic Violence Protective Order against you"
+    And I should see the phrase "Step 2: Think about parenting issues"
+    And I should see the phrase "Step 3: Fill out the form to ask the court to dismiss the petition"
+    And I should see the phrase "Step 4: Prepare for your Protective Order hearing"
+    And I should see the phrase "Step 5: File and serve electronically"
+    And I should see the phrase "Step 6: Start a case to end your marriage"
+    And I take a screenshot
+    And I download "protective_order_action_plan.pdf"
+    And I download "protective_order_action_plan.docx"
+
+@row339
+Scenario: Row #339
+  Given I start the interview at "protective_orders.yml"
+    And I get to the question id "final screen" with this data:
+    | var                           | value         | trigger |
+    | user_need                     | po respondent |         |
+    | respondent_intro              | True          |         |
+    | term                          | hearing       |         |
+    | respondent_choices['child']   | True          |         |
+    | custody_order                 | True          |         |
+    | po_case_type                  | sexual assault      |         |
+    | have_petition                 | True          |         |
+    | other_party_exempt            | yes           |         |
+    | other_party_enter_email       | True          |         |
+    And I should see the phrase "Your Protective Order Action Plan in 6 steps"
+    And I should see the phrase "Step 1: Tips and resources for when someone has a Domestic Violence Protective Order against you"
+    And I should see the phrase "Step 2: Think about parenting issues"
+    And I should see the phrase "Step 3: Fill out the form to ask the court to dismiss the petition"
+    And I should see the phrase "Step 4: Prepare for your Protective Order hearing"
+    And I should see the phrase "Step 5: File and serve electronically"
+    And I should see the phrase "Step 6: Start a case to end your marriage"
+    And I take a screenshot
+    And I download "protective_order_action_plan.pdf"
+    And I download "protective_order_action_plan.docx"
+
+@row340
+Scenario: Row #340
+  Given I start the interview at "protective_orders.yml"
+    And I get to the question id "final screen" with this data:
+    | var                           | value         | trigger |
+    | user_need                     | po respondent |         |
+    | respondent_intro              | True          |         |
+    | term                          | hearing       |         |
+    | respondent_choices['child']   | True          |         |
+    | custody_order                 | False          |         |
+    | po_case_type                  | 1 person      |         |
+    | have_petition                 | True          |         |
+    | other_party_exempt            | yes           |         |
+    | other_party_enter_email       | True          |         |
+    And I should see the phrase "Your Protective Order Action Plan in 6 steps"
+    And I should see the phrase "Step 1: Tips and resources for when someone has a Domestic Violence Protective Order against you"
+    And I should see the phrase "Step 2: Think about parenting issues"
+    And I should see the phrase "Step 3: Fill out the form to ask the court to dismiss the petition"
+    And I should see the phrase "Step 4: Prepare for your Protective Order hearing"
+    And I should see the phrase "Step 5: File and serve electronically"
+    And I should see the phrase "Step 6: Start a case to end your marriage"
+    And I take a screenshot
+    And I download "protective_order_action_plan.pdf"
+    And I download "protective_order_action_plan.docx"
+
+@row341
+Scenario: Row #341
+  Given I start the interview at "protective_orders.yml"
+    And I get to the question id "final screen" with this data:
+    | var                           | value            | trigger |
+    | user_need                     | po respondent    |         |
+    | respondent_intro              | True             |         |
+    | term                          | hearing          |         |
+    | respondent_choices['child'] | True             |         |
+    | custody_order                 | False          |         |
+    | respondent_choices['dismiss'] | True             |         |
+    | po_case_type                  | more than 1      |         |
+    | have_petition                 | True             |         |
+    | other_party_exempt            | none             |         |
+    And I should see the phrase "Your Protective Order Action Plan in 6 steps"
+    And I should see the phrase "Step 1: Tips and resources for when someone has a Domestic Violence Protective Order against you"
+    And I should see the phrase "Step 2: Think about parenting issues"
+    And I should see the phrase "Step 3: Fill out the forms you need"
+    And I should see the phrase "Step 4: Prepare for your Protective Order hearing"
+    And I should see the phrase "Step 5: File and serve electronically"
+    And I should see the phrase "Step 6: Start a case for a Parenting Plan (also known as a "Custody Order")"
+    And I take a screenshot
+    And I download "protective_order_action_plan.pdf"
+    And I download "protective_order_action_plan.docx"
+
+@row342
+Scenario: Row #342
+  Given I start the interview at "protective_orders.yml"
+    And I get to the question id "final screen" with this data:
+    | var                           | value            | trigger |
+    | user_need                     | po respondent    |         |
+    | respondent_intro              | True             |         |
+    | term                          | hearing          |         |
+    | respondent_choices['married'] | True             |         |
+    | po_case_type                  |  1 person      |         |
+    | have_petition                 | True             |         |
+    | other_party_exempt            | none             |         |
+    And I should see the phrase "Your Protective Order Action Plan in 6 steps"
+    And I should see the phrase "Step 1: Tips and resources for when someone has a Domestic Violence Protective Order against you"
+    And I should see the phrase "Step 2: Think about parenting issues"
+    And I should see the phrase "Step 3: Fill out the forms you need"
+    And I should see the phrase "Step 4: Prepare for your Protective Order hearing"
+    And I should see the phrase "Step 5: File and serve electronically"
+    And I should see the phrase "Step 6: Start a case for a Parenting Plan (also known as a "Custody Order")"
+    And I take a screenshot
+    And I download "protective_order_action_plan.pdf"
+    And I download "protective_order_action_plan.docx"
+
+
+
+
+
+
+
+@row343
+Scenario: Row #343
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                           | value         | trigger |
@@ -39,17 +200,17 @@ Scenario: Row #337
     | other_party_enter_email       | True          |         |
     And I should see the phrase "Your Protective Order Action Plan in 6 steps"
     And I should see the phrase "Step 1: Tips and resources for when someone has a Domestic Violence Protective Order against you"
-    And I should see the phrase "Step 2: Prepare for your Protective Order hearing"
-    And I should see the phrase "Step 3: Think about parenting issues"
-    And I should see the phrase "Step 4: Fill out the form to ask the court to dismiss the petition"
+    And I should see the phrase "Step 2: Think about parenting issues"
+    And I should see the phrase "Step 3: Fill out the form to ask the court to dismiss the petition"
+    And I should see the phrase "Step 4: Prepare for your Protective Order hearing"
     And I should see the phrase "Step 5: File and serve electronically"
     And I should see the phrase "Step 6: Start a case to end your marriage"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
 
-@row338
-Scenario: Row #338
+@row344
+Scenario: Row #344
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                          | value         | trigger |
@@ -71,8 +232,8 @@ Scenario: Row #338
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
 
-@row339
-Scenario: Row #339
+@row345
+Scenario: Row #345
 ## ask Jeannie about this one, should we think about not including end as an option in these circumstance for respondent?
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
@@ -90,16 +251,16 @@ Scenario: Row #339
     | other_party_exempt            | no            |         |
     And I should see the phrase "Your Protective Order Action Plan in 5 steps"
     And I should see the phrase "Step 1: Tips and resources for when someone has a Stalking Protective Order against you"
-    And I should see the phrase "Step 2: Prepare for your Protective Order hearing"
-    And I should see the phrase "Step 3: Think about parenting issues"
-    And I should see the phrase "Step 4: Fill out the forms you need"
+    And I should see the phrase "Step 2: Think about parenting issues"
+    And I should see the phrase "Step 3: Fill out the forms you need"
+    And I should see the phrase "Step 4: Prepare for your Protective Order hearing"
     And I should see the phrase "Step 5: File and serve electronically"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
 
-@row340
-Scenario: Row #340
+@row346
+Scenario: Row #346
 ## Respondent never should have received motion to extend nor do they need to dismiss long term petition if petitioner didn't ask for a long term order
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
@@ -123,8 +284,8 @@ Scenario: Row #340
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
 
-@row341
-Scenario: Row #341
+@row347
+Scenario: Row #347
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                           | value            | trigger |
@@ -141,17 +302,17 @@ Scenario: Row #341
     | other_party_exempt            | none             |         |
     And I should see the phrase "Your Protective Order Action Plan in 6 steps"
     And I should see the phrase "Step 1: Tips and resources for when someone has a Domestic Violence Protective Order against you"
-    And I should see the phrase "Step 2: Prepare for your Protective Order hearing"
-    And I should see the phrase "Step 3: Think about parenting issues"
-    And I should see the phrase "Step 4: Fill out the forms you need"
+    And I should see the phrase "Step 2: Think about parenting issues"
+    And I should see the phrase "Step 3: Fill out the forms you need"
+    And I should see the phrase "Step 4: Prepare for your Protective Order hearing"
     And I should see the phrase "Step 5: File and serve electronically"
     And I should see the phrase "Step 6: Start a case for a Parenting Plan (also known as a "Custody Order")"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
 
-@row342
-Scenario: Row #342
+@row348
+Scenario: Row #348
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                           | value         | trigger |
@@ -173,8 +334,8 @@ Scenario: Row #342
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
 
-@row343
-Scenario: Row #343
+@row349
+Scenario: Row #349
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                       | value         | trigger |
@@ -198,8 +359,8 @@ Scenario: Row #343
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
 
-@row344
-Scenario: Row #344
+@row350
+Scenario: Row #350
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                          | value          | trigger |
@@ -220,8 +381,8 @@ Scenario: Row #344
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
 
-@row345
-Scenario: Row #345
+@row351
+Scenario: Row #351
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                           | value            | trigger |
@@ -245,8 +406,8 @@ Scenario: Row #345
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
 
-@row346
-Scenario: Row #346
+@row352
+Scenario: Row #352
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                                     | value          | trigger |
@@ -268,8 +429,8 @@ Scenario: Row #346
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
 
-@row347
-Scenario: Row #347
+@row353
+Scenario: Row #353
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                       | value         | trigger |
@@ -291,8 +452,8 @@ Scenario: Row #347
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
 
-@row348
-Scenario: Row #348
+@row354
+Scenario: Row #354
   Given I start the interview at "protective_orders.yml"
     And I get to the question id "final screen" with this data:
     | var                                     | value         | trigger |

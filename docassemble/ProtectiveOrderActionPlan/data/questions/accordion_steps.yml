@@ -1,5 +1,5 @@
 comment: |
-    last updated: 2026-01-06
+    last updated: 2026-01-07
     fixing have po and po respondent respond change extend end template and interview order - w modified po respondent with only long term hearing
 ---
 generic object: ALDocumentBundle
@@ -1281,13 +1281,13 @@ subject: |
   ${ [ text for text in [ "ask the court to change the order" if petitioner_choices['options'] and not petitioner_choices['change'] and also_change else None, f"ask the court to { petitioner_selected_actions[0] } the order" if petitioner_choices.any_true('change', 'end') or (term == 'long' and petitioner_choices['extend']) else None, "respond if the other side asks to change or end the order" if petitioner_choices['respond'] else None, "ask the court to dismiss the petition" if ((term == 'short' and request_long) or term == 'hearing') and petitioner_choices['dismiss'] else None ] if text ][0] }
   % endif
   % elif user_need == 'po respondent':
-  % if term in('short', 'long') and len(petitioner_choices.true_values() > 1):
+  % if term in('short', 'long') and len(respondent_choices.true_values()) > 1:
   Fill out the forms you need
-  % elif term == 'hearing' and petitioner_choices['dismiss']:
+  % elif term == 'hearing' and respondent_choices['dismiss']:
   Fill out the form to ask the court to dismiss the petition
   % else:
   Fill out the form to
-  ${ [ text for text in [f"ask the court to { respondent_selected_actions[0] } the order" if respondent_choices.any_true('change', 'end') else None,  "respond if the other side asks to change or end the order" if respondent_choices['respond'] else None, "respond if the other side asks to exend the order" if respondent_choices['respond to extend'] else None, "ask the court to dismiss the petition" if ((term == 'short' and request_long) or term == 'hearing') and respondent_choices['dismiss'] else None ] if text ][0] }]
+  ${ [ text for text in [f"ask the court to { respondent_selected_actions[0] } the order" if respondent_choices.any_true('change', 'end') else None,  "respond if the other side asks to change or end the order" if respondent_choices['respond'] else None, "respond if the other side asks to extend the order" if respondent_choices['respond to extend'] else None, "ask the court to dismiss the petition" if ((term == 'short' and request_long) or term == 'hearing') and respondent_choices['dismiss'] else None ] if text ][0] }
   % endif
   % endif
 content: |
@@ -1437,14 +1437,14 @@ content: |
   % elif user_need == 'have po'and not has_expired:
   Prepare for your long term
   % endif
-  hearing by reading **How to Represent Yourself in Alaska's Domestic Violence Protective Order Process, [PUB-22](https://public.courts.alaska.gov/web/forms/docs/pub-22.pdf)**.
+  hearing by reading **How to Represent Yourself in Alaska's Domestic Violence Protective Order Process**, [PUB-22](https://public.courts.alaska.gov/web/forms/docs/pub-22.pdf).
   % if ((user_need == 'want po' or has_expired) and (protective_order_for_one or protective_order_for_more)) or ((user_need == 'have po' and not has_expired) and po_case_type in('1 person','more than 1')):
   The sections on Short-Term Order Process, Long-Term Order Process, and Evidence have helpful information.
   % else:
   Most of the information in the sections on Short-Term Order Process, Long-Term Order Process, and Evidence are the same as the stalking or sexual assault protective order process.
   % endif
   % elif user_need == 'po respondent':
-  Prepare for your long-term hearing by reading **What to Do When Someone Files a Domestic Violence Protective Order Against You,** [PUB-23](https://public.courts.alaska.gov/web/forms/docs/pub-23.pdf)**.
+  Prepare for your long-term hearing by reading **What to Do When Someone Files a Domestic Violence Protective Order Against You,** [PUB-23](https://public.courts.alaska.gov/web/forms/docs/pub-23.pdf).
   % if po_case_type in('1 person', 'more than 1'):
   There is a section on the Long-Term Protective Order Hearing.
   % else:
