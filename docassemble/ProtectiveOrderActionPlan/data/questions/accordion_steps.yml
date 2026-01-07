@@ -1262,7 +1262,7 @@ subject: |
   % if user_need == 'have po':
   % if petitioner_choices['options'] and not petitioner_choices['change'] and also_change and len(petitioner_choices.true_values()) > 1:
   Fill out the forms you need
-  % elif petitioner_choices['options'] and not petitioner_choices['change'] and not also_change and len(petitioner_choices.true_values()) > 1:
+  % elif petitioner_choices['options'] and not petitioner_choices['change'] and not also_change and len(petitioner_choices.true_values()) > 2:
   Fill out the forms you need
   % elif not petitioner_choices['options'] and len(petitioner_choices.true_values()) > 1:
   Fill out the forms you need
