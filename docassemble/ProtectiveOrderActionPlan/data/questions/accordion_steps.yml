@@ -1271,18 +1271,13 @@ subject: |
   ${ [ text for text in [ "ask the court to change the order" if petitioner_choices['options'] and not petitioner_choices['change'] and also_change else None, f"ask the court to { petitioner_selected_actions[0] } the order" if petitioner_choices.any_true('change', 'end') or (term == 'long' and petitioner_choices['extend']) else None, "respond if the other side asks to change or end the order" if petitioner_choices['respond'] else None, "ask the court to dismiss the petition" if ((term == 'short' and request_long) or term == 'hearing') and petitioner_choices['dismiss'] else None ] if text ][0] }
   % endif
   % elif user_need == 'po respondent':
-  % if respondent_choices.any_true('change', 'end'):
-  ask the court to ${ comma_and_list([ k for k in petition_action_keys if respondent_choices.get(k, False) ], and_string = 'or') }
-  the order${ ', or' if len(respondent_choices.true_values()) > 1 and respondent_choices['respond'] else '' }${ ', or' if len(respondent_choices.true_values()) > 1 and respondent_choices['respond to extend'] else '' }${ ', or' if len(respondent_choices.true_values()) > 1 and  term == 'short' and request_long and respondent_choices['dismiss'] else '' }
-  % endif
-  % if respondent_choices['respond']:
-  respond if the other side asks to change or end the order${ ', or' if len(respondent_choices.true_values()) > 1 and respondent_choices['respond to extend'] else '' }${ ', or' if len(respondent_choices.true_values()) > 1 and  term == 'short' and request_long and respondent_choices['dismiss'] else '' }
-  % endif
-  % if respondent_choices['respond to extend']:
-  respond if the other side asks to extend the order${ ', or' if len(respondent_choices.true_values()) > 1 and  term == 'short' and request_long and respondent_choices['dismiss'] else '' }
-  % endif
-  % if term == 'short' and request_long and respondent_choices['dismiss']:
-  ask the court to dismiss the petition
+  % if term in('short', 'long') and len(petitioner_choices.true_values() > 1):
+  Fill out the forms you need
+  % elif term == 'hearing' and petitioner_choices['dismiss']:
+  Fill out the form to ask the court to dismiss the petition
+  % else:
+  Fill out the form to
+  ${ [ text for text in [f"ask the court to { respondent_selected_actions[0] } the order" if respondent_choices.any_true('change', 'end') else None,  "respond if the other side asks to change or end the order" if respondent_choices['respond'] else None, "respond if the other side asks to exend the order" if respondent_choices['respond to extend'] else None, "ask the court to dismiss the petition" if ((term == 'short' and request_long) or term == 'hearing') and respondent_choices['dismiss'] else None ] if text ][0] }]
   % endif
   % endif
 content: |
