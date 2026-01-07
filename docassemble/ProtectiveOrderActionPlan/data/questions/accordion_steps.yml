@@ -32,7 +32,7 @@ question: |
   % if term in('short', 'long'):
   has a ${ po_order_name } Protective Order
   % else:
-  asks for a Protective Order
+  asks for a ${ po_order_name } Protective Order
   % endif 
   against you
   % endif
@@ -1048,6 +1048,8 @@ content: |
   * Contact [the Family Law Self-Help Center](https://courts.alaska.gov/shc/family/shcabout.htm)
   <br>Call **(907) 264-0851** or **(866) 279-0851**
 ---
+comment: |
+    updated 2026-01-07
 template: po_against_you_resources_step
 subject: |
   Step ${ po_against_you_resources_idx }:
@@ -1055,7 +1057,7 @@ subject: |
   % if term in('short', 'long'):
   has a ${ po_order_name } Protective Order
   % else:
-  asks for a Protective Order
+  asks for a ${ po_order_name } Protective Order
   % endif 
   against you
 content: |
@@ -1101,6 +1103,8 @@ content: |
   * Learn about [resources for those who commit violence](https://dps.alaska.gov/CDVSA/Services/ForThoseWhoCommitDV)
 
 ---
+comment: |
+  updated: 
 template: child_w_other_side_step
 subject: |
   Step ${child_w_other_side_idx}:

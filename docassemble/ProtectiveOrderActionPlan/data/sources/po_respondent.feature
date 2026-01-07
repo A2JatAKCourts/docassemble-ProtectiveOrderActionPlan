@@ -17,7 +17,7 @@ Scenario: Row #336
     | respondent_choices['None'] | True           |         | 
     | po_case_type               | sexual assault |         | 
     And I should see the phrase "Your Protective Order Action Plan in 2 steps"
-    And I should see the phrase "Step 1: Tips and resources for when someone asks for a Protective Order against you"
+    And I should see the phrase "Step 1: Tips and resources for when someone asks for a Sexual Assault Protective Order against you"
     And I should see the phrase "Step 2: Prepare for your Protective Order hearing"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
@@ -39,7 +39,7 @@ Scenario: Row #337
     | other_party_exempt            | yes           |         | 
     | other_party_enter_email       | True          |         | 
     And I should see the phrase "Your Protective Order Action Plan in 6 steps"
-    And I should see the phrase "Step 1: Tips and resources for when someone asks for a Protective Order against you"
+    And I should see the phrase "Step 1: Tips and resources for when someone asks for a Domestic Violence Protective Order against you"
     And I should see the phrase "Step 2: Think about parenting issues"
     And I should see the phrase "Step 3: Fill out the form to ask the court to dismiss the petition"
     And I should see the phrase "Step 4: File and serve electronically"
@@ -65,7 +65,7 @@ Scenario: Row #338
     | other_party_exempt             | yes           |         | 
     | other_party_enter_email        | True          |         | 
     And I should see the phrase "Your Protective Order Action Plan in 5 steps"
-    And I should see the phrase "Step 1: Tips and resources for when someone asks for a Protective Order against you"
+    And I should see the phrase "Step 1: Tips and resources for when someone asks for a StalkingProtective Order against you"
     And I should see the phrase "Step 2: Think about parenting issues"
     And I should see the phrase "Step 3: Fill out the form to ask the court to dismiss the petition"
     And I should see the phrase "Step 4: Prepare for your Protective Order hearing"
@@ -86,7 +86,7 @@ Scenario: Row #339
     | custody_order               | yes            |         | 
     | po_case_type                | sexual assault |         | 
     And I should see the phrase "Your Protective Order Action Plan in 3 steps"
-    And I should see the phrase "Step 1: Tips and resources for when someone asks for a Protective Order against you"
+    And I should see the phrase "Step 1: Tips and resources for when someone asks for a Sexual Assault Protective Order against you"
     And I should see the phrase "Step 2: Think about parenting issues"
     And I should see the phrase "Step 3: Prepare for your Protective Order hearing"
     And I take a screenshot
