@@ -900,7 +900,7 @@ code: |
 
 ---
 comment: |
-  2025-12-30
+  last updated: 2025-12-30
 template: stay_safe_step
 subject: |
   % if len(step_list) > 1:
@@ -951,7 +951,7 @@ content: |
   * Read the Alaska Court System’s webpage [Domestic Violence, Stalking or Sexual Assault](https://courts.alaska.gov/shc/dv/index.htm).
 ---
 comment: |
-    2025-12-30
+    last updated: 2025-12-30
 template: register_foreign_po_step
 subject: |
   Step ${ register_foreign_po_idx }: Register a Protective Order from another state or tribal court
@@ -978,6 +978,8 @@ content: |
   2. Start Over at the bottom of this screen, but this time choose "I want a protective order to protect myself or my child from another person." 
   If you "Start Over" before you download your Action Plan for registering your order, you will lose all the steps in the Action Plan for registering. 
 ---
+comment: |
+  last updated: 2025-11-14
 template: military_po_info_step
 subject: |
   Step ${military_po_info_idx}:
@@ -991,8 +993,9 @@ content: |
   * [Family Advocacy Program](https://www.militaryonesource.mil/family-relationships/family-life/preventing-abuse-neglect/the-family-advocacy-program) has resources for military family members experience domestic violence or abuse.
   * [Military OneSource](https://www.militaryonesource.mil) has resources for military members and their families on [safety from violence and abuse](https://www.militaryonesource.mil/relationships/prevent-violence-abuse).
   * Women’s Law.org has legal information about [domestic violence in the military](https://www.womenslaw.org/laws/federal/domestic-violence-military/military-protective-orders/basic-info-about-military-1).
-
 ---
+comment: |
+  last updated: 2025-11-14
 template: tribal_po_info_step
 subject: |
   Step ${tribal_po_info_idx}:
@@ -1007,7 +1010,8 @@ content: |
   * [Tribal health organizations](https://www.ihs.gov/alaska/healthcare/facilities) that operate Alaska’s tribal healthcare facilities
 
 ---
-comment: updated 2025-01-05
+comment: |
+  last updated:  2025-01-05
 template: ak_court_po_info_step
 subject: |
   Step ${ak_court_po_info_idx}:
@@ -1049,17 +1053,17 @@ content: |
   <br>Call **(907) 264-0851** or **(866) 279-0851**
 ---
 comment: |
-    updated 2026-01-07
+  last updated 2026-01-07
 template: po_against_you_resources_step
 subject: |
   Step ${ po_against_you_resources_idx }:
   Tips and resources for when someone
   % if term in('short', 'long'):
-  has a ${ po_order_name } Protective Order
+  has 
   % else:
-  asks for a ${ po_order_name } Protective Order
+  asks for 
   % endif 
-  against you
+  a ${ po_order_name } Protective Order against you
 content: |
   <div class="step-subheading">Follow all court orders</div>
   The same event can have several different court cases and several different orders not to contact the other person.
@@ -1104,7 +1108,7 @@ content: |
 
 ---
 comment: |
-  updated: 
+  last updated: 2025-11-14
 template: child_w_other_side_step
 subject: |
   Step ${child_w_other_side_idx}:
@@ -1138,7 +1142,7 @@ content: |
   % endif
 ---
 comment: |
-  2025-12-31
+  last updated: 2025-12-31
 template: protective_order_step
 subject: |
   Step ${ protective_order_idx }: Fill out the forms to ask the court for a
@@ -1209,7 +1213,7 @@ content: |
   The form tells law enforcement where they might find the respondent, what the respondent looks like, and if the officer needs to know any more to stay safe themself.
 ---
 comment: |
-  2025-11-25
+  last updated: 2025-11-25
 template: other_side_violated_order_step
 subject: |
   Step ${ other_side_violated_order_idx }:
