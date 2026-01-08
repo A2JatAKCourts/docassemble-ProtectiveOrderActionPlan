@@ -1,5 +1,5 @@
 @have_po
-# 2025-12-30
+# 2026-01-06
 
 Feature: User paths
 
@@ -100,7 +100,7 @@ Scenario: Row #306 - ## cannot have all 3 of these in 1 test
     And I should see the phrase "Step 1: Stay safe"
     And I should see the phrase "Step 2: Review resources to help with the court process"
     And I should see the phrase "Step 3: Prepare for your Protective Order hearing"
-    And I should see the phrase "Step 4: Fill out the form to ask the court to end the order, or ask the court to dismiss the petition"
+    And I should see the phrase "Step 4: Fill out the forms you need"
     And I should see the phrase "Step 5: File and serve electronically"
     And I should see the phrase "Step 6: Start a case for a Parenting Plan (also known as a "Custody Order")"
     And I take a screenshot
@@ -401,7 +401,7 @@ Scenario: Row #320
     And I should see the phrase "Your Protective Order Action Plan in 5 steps"
     And I should see the phrase "Step 1: Stay safe"
     And I should see the phrase "Step 2: Review resources to help with the court process"
-    And I should see the phrase "Step 3: Fill out the form to ask the court to change the order, or respond if the other side asks to change or end the order"
+    And I should see the phrase "Step 3: Fill out the forms you need"
     And I should see the phrase "Step 4: File and serve electronically"
     And I should see the phrase "Step 5: Start a case to end your marriage"
     And I take a screenshot
@@ -596,7 +596,7 @@ Scenario: Row #328
     And I should see the phrase "Your Protective Order Action Plan in 4 steps"
     And I should see the phrase "Step 1: Stay safe"
     And I should see the phrase "Step 2: Review resources to help with the court process"
-    And I should see the phrase "Step 3: Fill out the form to ask the court to change or end the order"
+    And I should see the phrase "Step 3: Fill out the forms you need"
     And I should see the phrase "Step 4: File and serve electronically"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
@@ -622,7 +622,7 @@ Scenario: Row #329
     And I should see the phrase "Step 1: Stay safe"
     And I should see the phrase "Step 2: Review resources to help with the court process"
     And I should see the phrase "Step 3: Review options if the respondent violates the Protective Order"
-    And I should see the phrase "Step 4: Fill out the form to ask the court to change the order, or respond if the other side asks to change or end the order"
+    And I should see the phrase "Step 4: Fill out the forms you need"
     And I should see the phrase "Step 5: File electronically and serve the other person"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
