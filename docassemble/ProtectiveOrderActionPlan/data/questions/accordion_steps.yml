@@ -1,6 +1,7 @@
 comment: |
-    last updated: 2026-01-07
-    fixing po respondent respond change extend end template and interview order - w modified po respondent with only long term hearing
+    last updated: 2026-01-30
+    delete truefiling exemption questions- only ask those in answering custody and ending marriage interviews and replace answer_truefiling_step with po_file_step. Delete this step after filing request to register foreign order because it's a completely different type of filing.  
+    
 ---
 generic object: ALDocumentBundle
 template: x.get_email_copy
@@ -149,15 +150,14 @@ code: |
     if petitioner_choices.any_true('change', 'end', 'respond') or (term == 'short' and request_long and petitioner_choices['dismiss']) or (petitioner_choices['options'] and not petitioner_choices['change'] and also_change) or (term == 'long' and petitioner_choices ['extend'] and (not expired or (expired and expired_days_ago == 'less than 60 days'))):
       po_case_type
       add_unique_step((respond_change_end_extend_dismiss_petition_step, "respond_change_end_extend_dismiss_petition_idx"), step_list)
-      if have_petition:
-        other_party_exempt
-      add_unique_step((truefile_answer_file_and_serve_step, "truefile_answer_file_and_serve_idx"), step_list)
+      add_unique_step((truefiling_step, "truefiling_po_idx"), step_list)
+      add_unique_step((truefiling_service_step, "truefiling_service_idx"), step_list)
 
 
   if user_need == 'register po':
     add_unique_step((stay_safe_step, "stay_safe_idx"), step_list)
     add_unique_step((register_foreign_po_step, "register_foreign_po_idx"), step_list)
-    add_unique_step((file_po_step, "file_po_idx"), step_list)
+    
 
 
   #### Interview order for users who want a protective order ####
@@ -401,12 +401,15 @@ code: |
           protective_order_for_one = True
           add_unique_step((protective_order_step, "protective_order_idx"), step_list)
           add_unique_step((file_po_step, "file_po_idx"), step_list)
+          add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
+  
           add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
       else:
         no_qualifying_relationship = True
         if other_po in('stalked', 'sexual contact'):
           add_unique_step((protective_order_step, "protective_order_idx"), step_list)
           add_unique_step((file_po_step, "file_po_idx"), step_list)
+          add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
           add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
 
 
@@ -420,12 +423,14 @@ code: |
             protective_order_for_one = True
             add_unique_step((protective_order_step, "protective_order_idx"), step_list)
             add_unique_step((file_po_step, "file_po_idx"), step_list)
+            add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
             add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
         else:
           no_qualifying_relationship = True
           if other_po in('stalked', 'sexual contact'):
             add_unique_step((protective_order_step, "protective_order_idx"), step_list)
             add_unique_step((file_po_step, "file_po_idx"), step_list)
+            add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
             add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
 
       elif petitioner_related_to_child in('guardian', 'representative'):
@@ -437,12 +442,14 @@ code: |
             protective_order_for_one = True
             add_unique_step((protective_order_step, "protective_order_idx"), step_list)
             add_unique_step((file_po_step, "file_po_idx"), step_list)
+            add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
             add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
         else:
           no_qualifying_relationship = True
           if other_po in('stalked', 'sexual contact'):
             add_unique_step((protective_order_step, "protective_order_idx"), step_list)
             add_unique_step((file_po_step, "file_po_idx"), step_list)
+            add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
             add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
 
     if who_needs_the_order == 'self and child':
@@ -457,6 +464,7 @@ code: |
               protective_order_for_more = True
             add_unique_step((protective_order_step, "protective_order_idx"), step_list)
             add_unique_step((file_po_step, "file_po_idx"), step_list)
+            add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
             add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
         else:
           if self_related_to_abuser['have child']:
@@ -470,6 +478,7 @@ code: |
                 protective_order_for_more = True
               add_unique_step((protective_order_step, "protective_order_idx"), step_list)
               add_unique_step((file_po_step, "file_po_idx"), step_list)
+              add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
               add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
 
           else: # parent related to abuser.all_false()
@@ -478,6 +487,7 @@ code: |
               if other_po in('stalked', 'sexual contact'):
                 add_unique_step((protective_order_step, "protective_order_idx"), step_list)
                 add_unique_step((file_po_step, "file_po_idx"), step_list)
+                add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
                 add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
 
 
@@ -490,12 +500,14 @@ code: |
                   protective_order_for_one = True
                   add_unique_step((protective_order_step, "protective_order_idx"), step_list)
                   add_unique_step((file_po_step, "file_po_idx"), step_list)
+                  add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
                   add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
               else:
                 no_qualifying_relationship = True
                 if other_po in('stalked', 'sexual contact'):
                   add_unique_step((protective_order_step, "protective_order_idx"), step_list)
                   add_unique_step((file_po_step, "file_po_idx"), step_list)
+                  add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
                   add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
 
       if petitioner_related_to_child in('guardian', 'representative'):
@@ -510,11 +522,13 @@ code: |
               protective_order_for_more = True
               add_unique_step((protective_order_step, "protective_order_idx"), step_list)
               add_unique_step((file_po_step, "file_po_idx"), step_list)
+              add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
               add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
             if dv_crime == 'yes one':
               protective_order_for_one = True
               add_unique_step((protective_order_step, "protective_order_idx"), step_list)
               add_unique_step((file_po_step, "file_po_idx"), step_list)
+              add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
               add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
           else: ## guardian_and_child_child_related_to_abuser.all_false
             if what_next == 'stop for child':
@@ -523,6 +537,7 @@ code: |
                 protective_order_for_one = True
                 add_unique_step((protective_order_step, "protective_order_idx"), step_list)
                 add_unique_step((file_po_step, "file_po_idx"), step_list)
+                add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
                 add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
             elif what_next == 'continue for both':
               relationship_qualifies = True
@@ -530,17 +545,20 @@ code: |
                 protective_order_for_more = True
                 add_unique_step((protective_order_step, "protective_order_idx"), step_list)
                 add_unique_step((file_po_step, "file_po_idx"), step_list)
+                add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
                 add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
               if dv_crime == 'yes one':
                 protective_order_for_one = True
                 add_unique_step((protective_order_step, "protective_order_idx"), step_list)
                 add_unique_step((file_po_step, "file_po_idx"), step_list)
+                add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
                 add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
             else: ## what_next == 'stop for me'
               no_qualifying_relationship = True
               if other_po in('stalked', 'sexual contact'):
                 add_unique_step((protective_order_step, "protective_order_idx"), step_list)
                 add_unique_step((file_po_step, "file_po_idx"), step_list)
+                add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
                 add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
         if self_related_to_abuser.all_false():
           if what_next == 'stop for me':
@@ -554,17 +572,20 @@ code: |
                 protective_order_for_one = True
                 add_unique_step((protective_order_step, "protective_order_idx"), step_list)
                 add_unique_step((file_po_step, "file_po_idx"), step_list)
+                add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
                 add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
             else: # guardian_for_child_related_to_abuser.all_false()/['None']
               if other_po in('stalked', 'sexual contact'):
                 add_unique_step((protective_order_step, "protective_order_idx"), step_list)
                 add_unique_step((file_po_step, "file_po_idx"), step_list)
+                add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
                 add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
           if what_next == 'other po for me':
               no_qualifying_relationship = True
               if other_po in('stalked', 'sexual contact'):
                 add_unique_step((protective_order_step, "protective_order_idx"), step_list)
                 add_unique_step((file_po_step, "file_po_idx"), step_list)
+                add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
                 add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
 
     if who_needs_the_order == 'children':
@@ -574,11 +595,13 @@ code: |
             protective_order_for_more = True
             add_unique_step((protective_order_step, "protective_order_idx"), step_list)
             add_unique_step((file_po_step, "file_po_idx"), step_list)
+            add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
             add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
           if dv_crime == 'yes one':
             protective_order_for_one = True
             add_unique_step((protective_order_step, "protective_order_idx"), step_list)
             add_unique_step((file_po_step, "file_po_idx"), step_list)
+            add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
             add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
         elif children_related_to_abuser in('one', 'some'):
           if what_next_for_children == 'order for one':
@@ -586,17 +609,20 @@ code: |
               protective_order_for_one = True
               add_unique_step((protective_order_step, "protective_order_idx"), step_list)
               add_unique_step((file_po_step, "file_po_idx"), step_list)
+              add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
               add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
           if what_next_for_children == 'order for more':
             if dv_crime == 'yes more':
               protective_order_for_more = True
               add_unique_step((protective_order_step, "protective_order_idx"), step_list)
               add_unique_step((file_po_step, "file_po_idx"), step_list)
+              add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
               add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
             elif dv_crime == 'yes one':
               protective_order_for_one = True
               add_unique_step((protective_order_step, "protective_order_idx"), step_list)
               add_unique_step((file_po_step, "file_po_idx"), step_list)
+              add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
               add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
           if what_next_for_children == 'stop':
             no_qualifying_relationship = True
@@ -604,12 +630,14 @@ code: |
             if other_po in('stalked', 'sexual contact'):
               add_unique_step((protective_order_step, "protective_order_idx"), step_list)
               add_unique_step((file_po_step, "file_po_idx"), step_list)
+              add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
               add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
         else:
           no_qualifying_relationship = True
           if other_po in('stalked', 'sexual contact'):
             add_unique_step((protective_order_step, "protective_order_idx"), step_list)
             add_unique_step((file_po_step, "file_po_idx"), step_list)
+            add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
             add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
 
     if who_needs_the_order == 'self and children':
@@ -620,11 +648,13 @@ code: |
             protective_order_for_one = True
             add_unique_step((protective_order_step, "protective_order_idx"), step_list)
             add_unique_step((file_po_step, "file_po_idx"), step_list)
+            add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
             add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
           elif dv_crime in('yes all', 'yes some'):
             protective_order_for_more = True
             add_unique_step((protective_order_step, "protective_order_idx"), step_list)
             add_unique_step((file_po_step, "file_po_idx"), step_list)
+            add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
             add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
         else: ## not po_against_other_parent
           if self_related_to_abuser['have child']:
@@ -634,11 +664,13 @@ code: |
               protective_order_for_more = True
               add_unique_step((protective_order_step, "protective_order_idx"), step_list)
               add_unique_step((file_po_step, "file_po_idx"), step_list)
+              add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
               add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
             if dv_crime == 'yes one':
               protective_order_for_one = True
               add_unique_step((protective_order_step, "protective_order_idx"), step_list)
               add_unique_step((file_po_step, "file_po_idx"), step_list)
+              add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
               add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
 
           else: ## self_related_to_abuser.all_false()
@@ -647,6 +679,7 @@ code: |
               if other_po in('stalked', 'sexual contact'):
                 add_unique_step((protective_order_step, "protective_order_idx"), step_list)
                 add_unique_step((file_po_step, "file_po_idx"), step_list)
+                add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
                 add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
 
             elif what_next == 'stop for me':
@@ -657,11 +690,13 @@ code: |
                   protective_order_for_more = True
                   add_unique_step((protective_order_step, "protective_order_idx"), step_list)
                   add_unique_step((file_po_step, "file_po_idx"), step_list)
+                  add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
                   add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
                 elif dv_crime == 'yes one':
                   protective_order_for_one = True
                   add_unique_step((protective_order_step, "protective_order_idx"), step_list)
                   add_unique_step((file_po_step, "file_po_idx"), step_list)
+                  add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
                   add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
               elif children_related_to_abuser == 'one':
                 if what_next_for_children == 'order for one':
@@ -670,6 +705,7 @@ code: |
                     protective_order_for_one = True
                     add_unique_step((protective_order_step, "protective_order_idx"), step_list)
                     add_unique_step((file_po_step, "file_po_idx"), step_list)
+                    add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
                     add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
                 elif what_next_for_children == 'order for more':
                   relationship_qualifies = True
@@ -677,11 +713,13 @@ code: |
                     protective_order_for_more = True
                     add_unique_step((protective_order_step, "protective_order_idx"), step_list)
                     add_unique_step((file_po_step, "file_po_idx"), step_list)
+                    add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
                     add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
                   elif dv_crime == 'yes one':
                     protective_order_for_one = True
                     add_unique_step((protective_order_step, "protective_order_idx"), step_list)
                     add_unique_step((file_po_step, "file_po_idx"), step_list)
+                    add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
                     add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
                 elif what_next_for_children == 'stop':
                   no_qualifying_relationship = True
@@ -689,6 +727,7 @@ code: |
                   if other_po in('stalked', 'sexual contact'):
                     add_unique_step((protective_order_step, "protective_order_idx"), step_list)
                     add_unique_step((file_po_step, "file_po_idx"), step_list)
+                    add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
                     add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
 
               elif children_related_to_abuser == 'none':
@@ -709,11 +748,13 @@ code: |
               protective_order_for_more = True
               add_unique_step((protective_order_step, "protective_order_idx"), step_list)
               add_unique_step((file_po_step, "file_po_idx"), step_list)
+              add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
               add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
             elif dv_crime == 'yes one':
               protective_order_for_one = True
               add_unique_step((protective_order_step, "protective_order_idx"), step_list)
               add_unique_step((file_po_step, "file_po_idx"), step_list)
+              add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
               add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
           elif children_related_to_abuser == 'none':
             if what_next == 'stop for child':
@@ -721,23 +762,27 @@ code: |
                 protective_order_for_one = True
                 add_unique_step((protective_order_step, "protective_order_idx"), step_list)
                 add_unique_step((file_po_step, "file_po_idx"), step_list)
+                add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
                 add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
             if what_next == 'continue for both':
               if dv_crime in('yes all', 'yes some'):
                 protective_order_for_more = True
                 add_unique_step((protective_order_step, "protective_order_idx"), step_list)
                 add_unique_step((file_po_step, "file_po_idx"), step_list)
+                add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
                 add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
               if dv_crime == 'yes one':
                 protective_order_for_one = True
                 add_unique_step((protective_order_step, "protective_order_idx"), step_list)
                 add_unique_step((file_po_step, "file_po_idx"), step_list)
+                add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
                 add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
             if what_next == 'stop for me':
               no_qualifying_relationship = True
               if other_po in('stalked', 'sexual contact'):
                 add_unique_step((protective_order_step, "protective_order_idx"), step_list)
                 add_unique_step((file_po_step, "file_po_idx"), step_list)
+                add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
                 add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
 
 
@@ -747,6 +792,7 @@ code: |
             if other_po in('stalked', 'sexual contact'):
               add_unique_step((protective_order_step, "protective_order_idx"), step_list)
               add_unique_step((file_po_step, "file_po_idx"), step_list)
+              add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
               add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
 
           elif what_next == 'stop for me':
@@ -756,11 +802,13 @@ code: |
                 protective_order_for_more = True
                 add_unique_step((protective_order_step, "protective_order_idx"), step_list)
                 add_unique_step((file_po_step, "file_po_idx"), step_list)
+                add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
                 add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
               elif dv_crime == 'yes one':
                 protective_order_for_one = True
                 add_unique_step((protective_order_step, "protective_order_idx"), step_list)
                 add_unique_step((file_po_step, "file_po_idx"), step_list)
+                add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
                 add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list) 
 
             elif children_related_to_abuser == 'none':
@@ -768,6 +816,7 @@ code: |
               if other_po in('stalked', 'sexual contact'):
                 add_unique_step((protective_order_step, "protective_order_idx"), step_list)
                 add_unique_step((file_po_step, "file_po_idx"), step_list)
+                add_unique_step((serve_respondent_po_step, "serve_respondent_po_idx"), step_list)
                 add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
 
   #### Adding starting divorce and custody case steps ####
@@ -832,9 +881,7 @@ code: |
     if (term in('short', 'long') and respondent_choices.any_true()) or (term == 'hearing' and respondent_choices['dismiss']):
       add_unique_step((respond_change_end_extend_dismiss_petition_step, "respond_change_end_extend_dismiss_petition_idx"), step_list)
     if (term in('short', 'long') and respondent_choices.any_true()) or (term == 'hearing' and respondent_choices['dismiss']):
-      if have_petition:
-        other_party_exempt
-      add_unique_step((truefile_answer_file_and_serve_step, "truefile_answer_file_and_serve_idx"), step_list)
+      add_unique_step((truefiling_step, "truefiling_idx"), step_list)
     if (term == 'short' and request_long) or term == 'hearing':
       add_unique_step((prepare_for_po_hearing_step, "prepare_for_po_hearing_idx"), step_list)
 
@@ -855,20 +902,14 @@ code: |
     if respondent_choices['child'] and respondent_choices.all_false('married', 'divorced') and custody_order == 'no':
       add_unique_step((po_custody_info_step, "po_custody_info_idx"), step_list)
   
-
-
-
-
   #  add_unique_image({'image': service_cert_image, 'text': "Certificate of Service"}, images_list)
   #  add_unique_step((cert_of_service_step, "cert_of_service_idx"), step_list)
   #  add_unique_step((answer_file_and_serve_step, "answer_file_and_serve_idx"), step_list)
-
 
    # add_unique_step((expect_after_answer_step, "expect_after_answer_idx"), step_list)
 
    #if :
    #  add_unique_step((learn_more_about_process_step, "learn_more_about_process_idx"), step_list)
-
 
   # add_unique_step((get_help, "get_help_idx"), step_list)
 
@@ -1439,7 +1480,6 @@ code: |
 template: file_po_step
 subject: |
   Step ${ file_po_idx }: File your documents
-  
 content: |
   <div class="step-subheading">Using TrueFiling</div>
   The court has a system called **TrueFiling** that you need to use unless you are exempt. You are exempt if one of these applies:
@@ -1465,6 +1505,18 @@ content: |
   <div class="step-subheading">If you are not exempt</div>
   Create a **TrueFiling account** and file your documents at:  
   [https://truefiling.com](https://truefiling.com)
+---
+template: serve_respondent_po_step
+subject: |
+  Step ${ serve_po_respondent_idx }: Serving the respondent 
+content: |
+  If the judge grants your petition for a 20-day protective order, a police officer, state trooper, or VPSO is responsible for serving the respondent with the protective order. If you want to know if the order was served, call the non-emergency number for law enforcement or check [CourtView](https://records.courts.alaska.gov/eaccess/home.page.2). It may take up to 72 hours for this information to be updated. 
+
+  **Do not serve the respondent with the order yourself**. This can be dangerous for you. And Law enforcement can only enforce a protective order that was served legally. A protective order is legal **only** if a law enforcement officer serves it.
+
+  If you ask for a hearing for a long-term protective order and the judge agrees, a law enforcement officer will serve the respondent with a notice of the date and time of the hearing. The hearing will be at least 10 days after the date the officer served the respondent.
+
+  The law enforcement officers who serve the respondent use the information in the **Confidential Law Enforcement Information Sheet DV-127** to help them find and identify the respondent safely. The respondent does not get a copy of form DV-127.
 ---
 template: po_divorce_info_step
 subject: |
@@ -1494,6 +1546,11 @@ content: |
 
   Answer questions for an action plan with steps for starting a custody case.
 ---
+comment: |
+  2026-01-29
+  earlier - no date, Jeannie said this bit was ok to remove: % if relationship_qualifies and not dv_crime in('yes', 'yes one', 'yes both', 'yes more', 'yes some', 'yes all'):
+  If something changes, there is a new incident, or you decide to ask the court now for a protective order, use the Court Guide again [use standard language to link to this interview]
+  % endif
 template: dont_qualify_placeholder_language
 content: |
   % if user_need == 'want po' and who_needs_the_order != 'self' and petitioner_related_to_child == 'other':
@@ -1514,9 +1571,9 @@ content: |
     % endif
   may not qualify for a 
   % if no_qualifying_relationship or (relationship_qualifies and not dv_crime in('yes', 'yes one', 'yes both', 'yes more', 'yes some', 'yes all')):
-  Domestic Violence
+  **Domestic Violence
   % endif  
-  Protective Order if there
+  Protective Order** if there
   % if relationship_qualifies and not dv_crime in('yes', 'yes one', 'yes both', 'yes more', 'yes some', 'yes all'):
   was no domestic violence crime. 
     % if who_needs_the_order == 'self':
@@ -1586,7 +1643,4 @@ content: |
   % endif  
   qualify for a protective order, take steps to ${ 'keep them' if who_needs_the_order in ('child', 'children') else 'stay' } safe.
   
-  % if relationship_qualifies and not dv_crime in('yes', 'yes one', 'yes both', 'yes more', 'yes some', 'yes all'):
-  If something changes, there is a new incident, or you decide to ask the court now for a protective order, use the Court Guide again [use standard language to link to this interview]
-  % endif
   % endif

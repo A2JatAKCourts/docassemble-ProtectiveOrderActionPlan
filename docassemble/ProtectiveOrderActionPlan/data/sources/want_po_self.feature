@@ -1,5 +1,5 @@
 @want_po_self
-# 2026-01-01
+# 2026-01-30
 
 Feature: User paths
 
@@ -18,14 +18,15 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False   |         |
       | child_w_abuser                       | True    |         |
       | dv_crime                             | yes     |         |
-    And I should see the phrase "Your Protective Order Action Plan in 7 steps"
+    And I should see the phrase "Your Protective Order Action Plan in 8 steps"
     And I should see the phrase "Step 1: Stay safe"
     And I should see the phrase "Step 2: Review resources to help with the court process"
     And I should see the phrase "Step 3: Think about parenting issues"
     And I should see the phrase "Step 4: Fill out the forms to ask the court for a Domestic Violence Protective Order for One Person"
     And I should see the phrase "Step 5: File your documents"
-    And I should see the phrase "Step 6: Prepare for your Protective Order hearing"
-    And I should see the phrase "Step 7: Start a case to end your marriage"
+    And I should see the phrase "Step 6: Serving the respondent"
+    And I should see the phrase "Step 7: Prepare for your Protective Order hearing"
+    And I should see the phrase "Step 8: Start a case to end your marriage"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
@@ -63,13 +64,14 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False   |         |
       | child_w_abuser                       | False   |         |
       | dv_crime                             | yes     |         |
-    And I should see the phrase "Your Protective Order Action Plan in 6 steps"
+    And I should see the phrase "Your Protective Order Action Plan in 7 steps"
     And I should see the phrase "Step 1: Stay safe"
     And I should see the phrase "Step 2: Review resources to help with the court process"
     And I should see the phrase "Step 3: Fill out the forms to ask the court for a Domestic Violence Protective Order for One Person"
     And I should see the phrase "Step 4: File your documents"
-    And I should see the phrase "Step 5: Prepare for your Protective Order hearing"
-    And I should see the phrase "Step 6: Start a case to end your marriage"
+    And I should see the phrase "Step 5: Serving the respondent"
+    And I should see the phrase "Step 6: Prepare for your Protective Order hearing"
+    And I should see the phrase "Step 7: Start a case to end your marriage"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
@@ -106,13 +108,14 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False   |         |
       | child_w_abuser                       | True    |         |
       | dv_crime                             | yes     |         |
-    And I should see the phrase "Your Protective Order Action Plan in 6 steps"
+    And I should see the phrase "Your Protective Order Action Plan in 7 steps"
     And I should see the phrase "Step 1: Stay safe"
     And I should see the phrase "Step 2: Review resources to help with the court process"
     And I should see the phrase "Step 3: Think about parenting issues"
     And I should see the phrase "Step 4: Fill out the forms to ask the court for a Domestic Violence Protective Order for One Person"
     And I should see the phrase "Step 5: File your documents"
-    And I should see the phrase "Step 6: Prepare for your Protective Order hearing"
+    And I should see the phrase "Step 6: Serving the respondent"
+    And I should see the phrase "Step 7: Prepare for your Protective Order hearing"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
@@ -149,12 +152,13 @@ Feature: User paths
       | self_related_to_abuser['have child'] | False   |         |
       | child_w_abuser                       | False   |         |
       | dv_crime                             | yes     |         |
-    And I should see the phrase "Your Protective Order Action Plan in 5 steps"
+    And I should see the phrase "Your Protective Order Action Plan in 6 steps"
     And I should see the phrase "Step 1: Stay safe"
     And I should see the phrase "Step 2: Review resources to help with the court process"
     And I should see the phrase "Step 3: Fill out the forms to ask the court for a Domestic Violence Protective Order for One Person"
     And I should see the phrase "Step 4: File your documents"
-    And I should see the phrase "Step 5: Prepare for your Protective Order hearing"
+    And I should see the phrase "Step 5: Serving the respondent"
+    And I should see the phrase "Step 6: Prepare for your Protective Order hearing"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
@@ -188,14 +192,15 @@ Feature: User paths
       | who_needs_the_order                  | self    |         |
       | self_related_to_abuser['have child'] | True    |         |
       | dv_crime                             | yes     |         |
-    And I should see the phrase "Your Protective Order Action Plan in 7 steps"
+    And I should see the phrase "Your Protective Order Action Plan in 8 steps"
     And I should see the phrase "Step 1: Stay safe"
     And I should see the phrase "Step 2: Review resources to help with the court process"
     And I should see the phrase "Step 3: Think about parenting issues"
     And I should see the phrase "Step 4: Fill out the forms to ask the court for a Domestic Violence Protective Order for One Person"
     And I should see the phrase "Step 5: File your documents"
-    And I should see the phrase "Step 6: Prepare for your Protective Order hearing"
-    And I should see the phrase "Step 7: Start a case for a Parenting Plan (also known as a "Custody Order")"
+    And I should see the phrase "Step 6: Serving the respondent"
+    And I should see the phrase "Step 7: Prepare for your Protective Order hearing"
+    And I should see the phrase "Step 8: Start a case for a Parenting Plan (also known as a "Custody Order")"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
@@ -230,14 +235,15 @@ Feature: User paths
       | self_related_to_abuser['dated']      | True    |         |
       | self_related_to_abuser['have child'] | True    |         |
       | dv_crime                             | yes     |         |
-    And I should see the phrase "Your Protective Order Action Plan in 7 steps"
+    And I should see the phrase "Your Protective Order Action Plan in 8 steps"
     And I should see the phrase "Step 1: Stay safe"
     And I should see the phrase "Step 2: Review resources to help with the court process"
     And I should see the phrase "Step 3: Think about parenting issues"
     And I should see the phrase "Step 4: Fill out the forms to ask the court for a Domestic Violence Protective Order for One Person"
     And I should see the phrase "Step 5: File your documents"
-    And I should see the phrase "Step 6: Prepare for your Protective Order hearing"
-    And I should see the phrase "Step 7: Start a case for a Parenting Plan (also known as a "Custody Order")"
+    And I should see the phrase "Step 6: Serving the respondent"
+    And I should see the phrase "Step 7: Prepare for your Protective Order hearing"
+    And I should see the phrase "Step 8: Start a case for a Parenting Plan (also known as a "Custody Order")"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
@@ -270,12 +276,13 @@ Feature: User paths
       | self_related_to_abuser['dated']      | True    |         |
       | self_related_to_abuser['cohabited']  | True    |         |
       | dv_crime                             | yes     |         |
-    And I should see the phrase "Your Protective Order Action Plan in 5 steps"
+    And I should see the phrase "Your Protective Order Action Plan in 6 steps"
     And I should see the phrase "Step 1: Stay safe"
     And I should see the phrase "Step 2: Review resources to help with the court process"
     And I should see the phrase "Step 3: Fill out the forms to ask the court for a Domestic Violence Protective Order for One Person"
     And I should see the phrase "Step 4: File your documents"
-    And I should see the phrase "Step 5: Prepare for your Protective Order hearing"
+    And I should see the phrase "Step 5: Serving the respondent"
+    And I should see the phrase "Step 6: Prepare for your Protective Order hearing"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
@@ -310,14 +317,15 @@ Feature: User paths
       | self_related_to_abuser['cohabited']  | True    |         |
       | self_related_to_abuser['have child'] | True    |         |
       | dv_crime                             | yes     |         |
-    And I should see the phrase "Your Protective Order Action Plan in 7 steps"
+    And I should see the phrase "Your Protective Order Action Plan in 8 steps"
     And I should see the phrase "Step 1: Stay safe"
     And I should see the phrase "Step 2: Review resources to help with the court process"
     And I should see the phrase "Step 3: Think about parenting issues"
     And I should see the phrase "Step 4: Fill out the forms to ask the court for a Domestic Violence Protective Order for One Person"
     And I should see the phrase "Step 5: File your documents"
-    And I should see the phrase "Step 6: Prepare for your Protective Order hearing"
-    And I should see the phrase "Step 7: Start a case for a Parenting Plan (also known as a "Custody Order")"
+    And I should see the phrase "Step 6: Serving the respondent"
+    And I should see the phrase "Step 7: Prepare for your Protective Order hearing"
+    And I should see the phrase "Step 8: Start a case for a Parenting Plan (also known as a "Custody Order")"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
@@ -393,12 +401,13 @@ Feature: User paths
       | self_related_to_abuser['marriage related'] | True    |         |
       | self_related_to_abuser['cohabited']        | True    |         |
       | dv_crime                                   | yes     |         |
-    And I should see the phrase "Your Protective Order Action Plan in 5 steps"
+    And I should see the phrase "Your Protective Order Action Plan in 6 steps"
     And I should see the phrase "Step 1: Stay safe"
     And I should see the phrase "Step 2: Review resources to help with the court process"
     And I should see the phrase "Step 3: Fill out the forms to ask the court for a Domestic Violence Protective Order for One Person"
     And I should see the phrase "Step 4: File your documents"
-    And I should see the phrase "Step 5: Prepare for your Protective Order hearing"
+    And I should see the phrase "Step 5: Serving the respondent"
+    And I should see the phrase "Step 6: Prepare for your Protective Order hearing"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
@@ -511,12 +520,13 @@ Feature: User paths
       | who_needs_the_order                  | self    |         |
       | self_related_to_abuser['blood']      | True    |         |
       | dv_crime                             | yes     |         |
-    And I should see the phrase "Your Protective Order Action Plan in 5 steps"
+    And I should see the phrase "Your Protective Order Action Plan in 6 steps"
     And I should see the phrase "Step 1: Stay safe"
     And I should see the phrase "Step 2: Review resources to help with the court process"
     And I should see the phrase "Step 3: Fill out the forms to ask the court for a Domestic Violence Protective Order for One Person"
     And I should see the phrase "Step 4: File your documents"
-    And I should see the phrase "Step 5: Prepare for your Protective Order hearing"
+    And I should see the phrase "Step 5: Serving the respondent"
+    And I should see the phrase "Step 6: Prepare for your Protective Order hearing"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
@@ -629,12 +639,13 @@ Feature: User paths
       | who_needs_the_order            | self    |         |
       | self_related_to_abuser['None'] | True    |         |
       | other_po                       | stalked |         |
-    And I should see the phrase "Your Protective Order Action Plan in 5 steps"
+    And I should see the phrase "Your Protective Order Action Plan in 6 steps"
     And I should see the phrase "Step 1: Stay safe"
     And I should see the phrase "Step 2: Review resources to help with the court process"
     And I should see the phrase "Step 3: Fill out the forms to ask the court for a Stalking Protective Order"
     And I should see the phrase "Step 4: File your documents"
-    And I should see the phrase "Step 5: Prepare for your Protective Order hearing"
+    And I should see the phrase "Step 5: Serving the respondent"
+    And I should see the phrase "Step 6: Prepare for your Protective Order hearing"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"
@@ -649,12 +660,13 @@ Feature: User paths
       | who_needs_the_order            | self           |         |
       | self_related_to_abuser['None'] | True           |         |
       | other_po                       | sexual contact |         |
-    And I should see the phrase "Your Protective Order Action Plan in 5 steps"
+    And I should see the phrase "Your Protective Order Action Plan in 6 steps"
     And I should see the phrase "Step 1: Stay safe"
     And I should see the phrase "Step 2: Review resources to help with the court process"
     And I should see the phrase "Step 3: Fill out the forms to ask the court for a Sexual Assault Protective Order"
     And I should see the phrase "Step 4: File your documents"
-    And I should see the phrase "Step 5: Prepare for your Protective Order hearing"
+    And I should see the phrase "Step 5: Serving the respondent"
+    And I should see the phrase "Step 6: Prepare for your Protective Order hearing"
     And I take a screenshot
     And I download "protective_order_action_plan.pdf"
     And I download "protective_order_action_plan.docx"

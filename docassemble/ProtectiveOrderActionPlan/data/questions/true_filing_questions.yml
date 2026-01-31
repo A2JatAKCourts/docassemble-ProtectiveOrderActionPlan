@@ -1,4 +1,5 @@
 comment: |
+  updated 2026-01-30 with truefiling file and true filing service steps
   last updated 2025-12-26 adapted from RespondingChildCustody file 2025-11-17
 ---
 comment: |
@@ -150,6 +151,8 @@ content: |
   % endif
 
 ---
+comment: |
+  1st draft 2026-01-30
 template: truefiling_step
 subject: File your documents
 content: |  
@@ -161,14 +164,48 @@ content: |
     * You cannot get the help you need to use TrueFiling.
     * You have a language barrier or are Limited English Proficient.
   
-  **If you are exempt and choose not to use TrueFiling:**
+  <div class="step-subheading">If you are exempt and choose not to use TrueFiling</div>
   
     * Mark it on your form, or
     * Fill out **[TF-820 Notice of Change to Use of Email or TrueFiling](https://public.courts.alaska.gov/web/forms/docs/tf-820.pdf)**.
     * File the form with your other documents.
     * Read [If I am not using TrueFiling, how do I serve the other side?](https://courts.alaska.gov/shc/family/serve.htm)
   
-  If you are not exempt, use TrueFiling:
+  <div class="step-subheading">If you are not exempt, use TrueFiling</div>
   
     * Read about [TrueFiling](https://courts.alaska.gov/efile/index.htm)
     * [Create an account](https://akfile.truefiling.com/register) and file your documents.  
+---
+comment: |
+  1st draft 2026-01-30
+template: truefiling_service_step
+subject: |
+  Step ${ truefiling_service_idx }: Serve ${ other_party_in_case }
+content: |
+  <div class="step-subheading">Use TrueFiling to serve ${ other_party_in_case }</div>  
+  Read [If I am using TrueFiling, how do I serve the other side?](https://courts.alaska.gov/shc/family/serve.htm)
+  <div class="step-subheading">If you are not using TrueFiling</div>
+  Read [If I am not using TrueFiling, how do I serve the other side?](https://courts.alaska.gov/shc/family/serve.htm#not-truefiling-serve) 
+  <div class="step-subheading">If the ${ other_party_in_case } is not using TrueFiling and did not give an email, you cannot serve them through TrueFiling.</div>
+  1. Wait to file your document with the court until after you fill out the **Certificate of Service** and serve ${other_party_in_case }.
+  2. To serve ${ other_party_in_case }, send them a copy of all your documents by regular, 1st class mail, or hand-deliver it.
+  3. Decide the date you will serve ${ other_party_in_case }.
+  <br>Try to serve ${ other_party_in_case } the same day you file your documents with the court.
+  4. Fill out the **Certificate of Service** at the end of your court forms. The "certificate" tells the court how you are giving a copy of all the documents you file with the court to ${ other_party_in_case }.
+  <br>If the form does not have a **Certificate of Service**, use **Certificate of Service, TF-700** [[Fill-In PDF](https://public.courts.alaska.gov/web/forms/docs/tf-700.pdf)].
+  5. File your documents with the court using TrueFiling. Include a copy of the **Certificate of Service**. [Read aboutTrueFiling](https://courts.alaska.gov/efile/faq.htm).
+  <div class = "example">
+  <p class = "heading">Note</p>
+  <p>If you do not fill out the <strong>Certificate of Service</strong>:</p>
+  <ul>
+  % if user_need in('answer custody', 'answer divorce', 'respond to motion in custody', 'respond to motion in divorce'):
+  <li>The court will send you a <strong>Deficiency Notice</strong>, and</li>
+  <li>The judge may not get your paperwork.</li>
+   % else:
+  <li>The court may not accept your motion or may send you a **Deficiency Notice**, and</li>
+  <li>The judge may not see your motion or make a decision.</li>
+   % endif
+  </ul>
+  </div>
+---
+  

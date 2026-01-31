@@ -1,5 +1,5 @@
 Comment: |
-  2026-01-02 changed question for user po_case_type if respondent and term == 'hearing' because prepare for hearing step needs po_case_type
+  2026-01-07 changed question for respondent_choices and fixed javascript for respondent when term == 'hearing'
 ---
 include:
   - docassemble.AssemblyLine:assembly_line.yml
