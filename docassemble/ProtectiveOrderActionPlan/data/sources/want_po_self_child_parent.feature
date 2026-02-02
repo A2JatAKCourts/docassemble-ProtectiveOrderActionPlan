@@ -1,5 +1,5 @@
 @want_po_self_child_parent
-# 2026-01-30
+# 2026-02-02
 
 Feature: User paths
 
@@ -81,7 +81,7 @@ Scenario: Row #84
     | po_against_other_parent     | True                 |         |
     | parent_married_parent       | no                   |         |
     | dv_crime                    | yes one              |         |
-  And I should see the phrase "Your Protective Order Action Plan in 7 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 8 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Think about parenting issues"
@@ -268,7 +268,7 @@ Scenario: Row #92
     | self_related_to_abuser['divorced'] | True           |         |
     | self_related_to_abuser['dated']    | True           |         |
     | dv_crime                           | yes both       |         |
-  And I should see the phrase "Your Protective Order Action Plan in 7 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 6 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Domestic Violence Protective Order for More Than One Person"
@@ -383,7 +383,7 @@ Scenario: Row #98
     | po_against_other_parent         | False          |         |
     | self_related_to_abuser['dated'] | True           |         |
     | dv_crime                        | yes both       |         |
-  And I should see the phrase "Your Protective Order Action Plan in 5 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 6 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Domestic Violence Protective Order for More Than One Person"
@@ -475,7 +475,7 @@ Scenario: Row #102
     | po_against_other_parent             | False          |         |
     | self_related_to_abuser['cohabited'] | True           |         |
     | dv_crime                            | yes both       |         |
-  And I should see the phrase "Your Protective Order Action Plan in 5 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 6 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Domestic Violence Protective Order for More Than One Person"
@@ -1015,7 +1015,7 @@ Scenario: Row #125
     | child_related_to_abuser['None']                                       | True           |         |
     | filing_parent_does_not_qualify_other_parent_related_to_abuser['None'] | True           |         |
     | other_po                                                              | sexual contact |         |
-  And I should see the phrase "Your Protective Order Action Plan in 5 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 6 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Sexual Assault Protective Order"
@@ -1041,7 +1041,7 @@ Scenario: Row #126
     | child_related_to_abuser['None']                                       | True           |         |
     | filing_parent_does_not_qualify_other_parent_related_to_abuser['None'] | True           |         |
     | other_po                                                              | stalked        |         |
-  And I should see the phrase "Your Protective Order Action Plan in 5 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 6 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Stalking Protective Order"

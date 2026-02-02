@@ -132,7 +132,7 @@ Scenario: Row #133
     | self_related_to_abuser['marriage related']                     | True               |         |
     | guardian_and_child_child_related_to_abuser['marriage related'] | True               |         |
     | dv_crime                                                       | yes one            |         |
-  And I should see the phrase "Your Protective Order Action Plan in 7 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 6 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Domestic Violence Protective Order for One Person"
@@ -155,7 +155,7 @@ Scenario: Row #134
     | self_related_to_abuser['blood']                       | True                 |         |
     | guardian_and_child_child_related_to_abuser['married'] | True                 |         |
     | dv_crime                                              | yes one              |         |
-  And I should see the phrase "Your Protective Order Action Plan in 7 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 6 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Domestic Violence Protective Order for One Person"
@@ -253,7 +253,7 @@ Scenario: Row #138
     | guardian_and_child_child_related_to_abuser['None'] | True                 |         |
     | what_next                                          | continue for both    |         |
     | dv_crime                                           | yes one              |         |
-  And I should see the phrase "Your Protective Order Action Plan in 7 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 6 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Domestic Violence Protective Order for One Person"
@@ -347,7 +347,7 @@ Scenario: Row #142
     | what_next                                          | stop for me    |         |
     | guardian_for_child_related_to_abuser['None']       | True           |         |
     | other_po                                           | stalked        |         |
-  And I should see the phrase "Your Protective Order Action Plan in 6 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 7 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Stalking Protective Order"
@@ -484,7 +484,7 @@ Scenario: Row #148
     | what_next                                       | stop for me    |         |
     | guardian_for_child_related_to_abuser['married'] | True           |         |
     | dv_crime                                        | yes            |         |
-  And I should see the phrase "Your Protective Order Action Plan in 7 steps"
+  And I should see the phrase "Your Protective Order Action Plan in 6 steps"
   And I should see the phrase "Step 1: Stay safe"
   And I should see the phrase "Step 2: Review resources to help with the court process"
   And I should see the phrase "Step 3: Fill out the forms to ask the court for a Domestic Violence Protective Order for One Person"
