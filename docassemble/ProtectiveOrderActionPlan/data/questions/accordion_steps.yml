@@ -1508,7 +1508,7 @@ content: |
 ---
 template: serve_respondent_po_step
 subject: |
-  Step ${ serve_po_respondent_idx }: Serving the respondent 
+  Step ${ serve_respondent_po_idx }: Serving the respondent 
 content: |
   If the judge grants your petition for a 20-day protective order, a police officer, state trooper, or VPSO is responsible for serving the respondent with the protective order. If you want to know if the order was served, call the non-emergency number for law enforcement or check [CourtView](https://records.courts.alaska.gov/eaccess/home.page.2). It may take up to 72 hours for this information to be updated. 
 
