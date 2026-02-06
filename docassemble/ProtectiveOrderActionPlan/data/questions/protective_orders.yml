@@ -1421,9 +1421,9 @@ attachment:
   update references: True
   variable name: protective_order_action_plan_attachment[i]
   skip undefined: True
-  docx template file: dummy.docx
+  # docx template file: dummy.docx
   # docx template file: protective_order_action_plan.docx
-  # docx template file: dummy_minus_file_and_serve.docx
+  docx template file: dummy_minus_file_and_serve.docx
   tagged pdf: True
 ---
 attachment:
@@ -1432,7 +1432,7 @@ attachment:
   update references: True
   variable name: docx_protective_order_action_plan_attachment
   skip undefined: True
-  docx template file: dummy.docx
+  # docx template file: dummy.docx
   # docx template file: protective_order_action_plan.docx
-  # docx template file: dummy_minus_file_and_serve.docx
+  docx template file: dummy_minus_file_and_serve.docx
   tagged pdf: True

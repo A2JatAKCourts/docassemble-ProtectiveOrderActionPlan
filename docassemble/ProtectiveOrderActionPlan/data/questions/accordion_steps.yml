@@ -169,7 +169,7 @@ code: |
     if who_needs_the_order == 'self':
       if self_related_to_abuser.any_true('married', 'divorced') and not self_related_to_abuser['have child']:
         child_w_abuser
-      if self_related_to_abuser.any_true():
+      if self_related_to_abuser.any_true(): 
         relationship_qualifies = True
         if dv_crime == 'yes':
           protective_order_for_one = True
